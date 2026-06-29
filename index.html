@@ -51,6 +51,7 @@
   .step-content p { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
   .video-wrap { position: relative; width: 100%; padding-top: 56.25%; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
   .video-wrap video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; background: #000; }
+  .video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
   .pdf-wrap { width: 100%; height: 85vh; min-height: 600px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.12); border: 2px solid var(--border); }
   .pdf-wrap iframe { width: 100%; height: 100%; border: none; }
   .prog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
@@ -157,12 +158,36 @@
     <h2 class="section-title" style="color:#fff; border-bottom-color:#f59e0b;">
       <span class="icon">📹</span><span style="color:#f59e0b;" data-i18n="sec_video">프로그램 소개 영상</span>
     </h2>
-    <div class="video-wrap">
-      <video controls preload="metadata">
-        <source src="https://storm9259900.mycafe24.com/edu1top.mp4" type="video/mp4">
-        <span data-i18n="video_fallback">이 브라우저는 동영상 재생을 지원하지 않습니다.</span>
+    <div class="video-wrap" id="videoWrap">
+      <video id="mainVideo" controls preload="metadata"
+        onerror="switchToYoutube()">
+        <source src="https://storm9259900.mycafe24.com/edu1top.mp4" type="video/mp4"
+          onerror="switchToYoutube()">
       </video>
     </div>
+    <script>
+    function switchToYoutube() {
+      var wrap = document.getElementById('videoWrap');
+      if (wrap.querySelector('iframe')) return;
+      wrap.innerHTML = '<iframe src="https://www.youtube.com/embed/OkM3PEVyUvk?rel=0&modestbranding=1&autoplay=0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>';
+    }
+    // 자체 서버 응답 확인: 5초 내 재생 불가 시 YouTube로 전환
+    window.addEventListener('DOMContentLoaded', function() {
+      var v = document.getElementById('mainVideo');
+      if (!v) return;
+      var switched = false;
+      var timer = setTimeout(function() {
+        if (!switched && v.readyState === 0) {
+          switched = true;
+          switchToYoutube();
+        }
+      }, 5000);
+      v.addEventListener('canplay', function() {
+        switched = true;
+        clearTimeout(timer);
+      });
+    });
+    </script>
   </div>
 </section>
 
