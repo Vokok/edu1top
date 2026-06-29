@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>관리자 대시보드 | 꿈담길 × 에듀원탑AI × 배틀학습</title>
+<link rel="stylesheet" href="quiz.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; background: var(--qz-bg); color: var(--qz-text); min-height: 100vh; }
+
+  /* 도넛 */
+  .donut-ring { transition: stroke-dashoffset 1s cubic-bezier(.4,0,.2,1); }
+
+  /* 순위 배지 */
+  .rank-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px; border-radius: 50%;
+    font-size: 0.78rem; font-weight: 800;
+  }
+  .rank-1 { background: #fbbf24; color: #7c2d12; }
+  .rank-2 { background: #94a3b8; color: #fff; }
+  .rank-3 { background: #b45309; color: #fff; }
+  .rank-n { background: #f1f5f9; color: var(--qz-muted); }
+
+  /* 테이블 정렬 아이콘 */
+  th[data-sort] { cursor: pointer; user-select: none; }
+  th[data-sort]:hover { background: #1e3a8a; }
+  th[data-sort]::after { content: ' ⇅'; opacity: .5; font-size: .7em; }
+  th[data-sort].asc::after  { content: ' ↑'; opacity: 1; }
+  th[data-sort].desc::after { content: ' ↓'; opacity: 1; }
+
+  /* 사용자 상세 드로어 */
+  #userDrawer {
+    position: fixed; top: 0; right: -480px; width: 460px; max-width: 96vw;
+    height: 100vh; background: #fff; box-shadow: -4px 0 32px rgba(0,0,0,.18);
+    z-index: 9999; transition: right .3s cubic-bezier(.4,0,.2,1);
+    display: flex; flex-direction: column;
+  }
+  #userDrawer.open { right: 0; }
+  .drawer-header {
+    padding: 20px 22px; background: linear-gradient(135deg, var(--qz-primary), #3b82f6);
+    color: #fff; display: flex; align-items: center; justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .drawer-header h2 { font-size: 1.1rem; }
+  .drawer-close { background: rgba(255,255,255,.2); border: none; color: #fff; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 1.1rem; }
+  .drawer-body { padding: 20px; overflow-y: auto; flex: 1; }
+  .drawer-kpi  { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 16px; }
+  .drawer-kpi-item { background: #f8fafc; border-radius: 8px; padding: 12px 10px; text-align: center; }
+  .drawer-kpi-item .kv { font-size: 1.2rem; font-weight: 800; color: var(--qz-primary); }
+  .drawer-kpi-item .kl { font-size: 0.72rem; color: var(--qz-muted); margin-top: 2px; }
+
+  .sect-progress { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+  .sp-row { display: flex; align-items: center; gap: 8px; font-size: 0.82rem; }
+  .sp-label { min-width: 54px; color: var(--qz-muted); font-weight: 600; }
+  .sp-track { flex: 1; height: 8px; background: #f1f5f9; border-radius: 4px; overflow: hidden; }
+  .sp-fill  { height: 100%; border-radius: 4px; }
+  .sp-val   { min-width: 36px; font-weight: 700; font-size: 0.8rem; text-align: right; }
+
+  .qa-mini  { display: flex; flex-direction: column; gap: 6px; }
+  .qa-mini-item { background: #f8fafc; border-radius: 6px; padding: 8px 10px; font-size: 0.8rem; line-height: 1.45; }
+  .qa-mini-q    { font-weight: 600; margin-bottom: 3px; }
+  .qa-mini-row  { display: flex; gap: 6px; margin-top: 2px; }
+  .qa-mini-row .label { color: var(--qz-muted); min-width: 44px; }
+
+  /* 드로어 오버레이 */
+  #drawerOverlay {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 9998;
+  }
+  #drawerOverlay.open { display: block; }
+
+  @media(max-width:640px){
+    .stats-dashboard { padding: 12px; }
+    .stats-topbar    { padding: 14px 16px; }
+    #userDrawer      { width: 100%; max-width: 100%; right: -100%; }
+  }
+</style>
+</head>
+<body class="stats-page">
+
+<!-- ══════════════════════════════════════
+     로그인 화면
+     ══════════════════════════════════════ -->
+<div class="stats-login-wrap" id="loginWrap">
+  <div class="stats-login-card">
+    <div class="stats-login-logo">🔐</div>
+    <h2>관리자 로그인</h2>
+    <p>전체 학습 현황을 확인하려면<br>관리자 계정으로 로그인하세요.</p>
+
+    <div class="stats-input-group">
+      <label>아이디</label>
+      <input id="inputId" type="text" placeholder="관리자 아이디" autocomplete="off">
+    </div>
+    <div class="stats-input-group">
+      <label>비밀번호</label>
+      <input id="inputPw" type="password" placeholder="비밀번호">
+    </div>
+    <button class="stats-login-btn" onclick="doLogin()">로그인</button>
+    <div class="stats-login-err" id="loginErr">아이디 또는 비밀번호가 올바르지 않습니다.</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     대시보드
+     ══════════════════════════════════════ -->
+<div id="dashboard" style="display:none">
+
+  <!-- 헤더 -->
+  <div class="stats-topbar">
+    <div>
+      <h1>🛠 관리자 대시보드</h1>
+      <div class="topbar-sub" id="dashSubtitle">전체 학습 현황</div>
+    </div>
+    <div class="topbar-right">
+      <span class="topbar-user">관리자</span>
+      <button class="stats-logout-btn" onclick="doLogout()">로그아웃</button>
+    </div>
+  </div>
+
+  <div class="stats-dashboard">
+
+    <!-- 탭 -->
+    <div class="stats-tabs">
+      <button class="stats-tab active" onclick="switchTab('overview',this)">📊 전체 현황</button>
+      <button class="stats-tab" onclick="switchTab('users',this)">👥 사용자 목록</button>
+      <button class="stats-tab" onclick="switchTab('sections',this)">📚 섹션 분석</button>
+      <button class="stats-tab" onclick="switchTab('questions',this)">❓ 문제 오답률</button>
+    </div>
+
+    <!-- ── 전체 현황 ── -->
+    <div id="tab-overview" class="stats-tab-panel active">
+
+      <div class="stats-kpi-row" id="kpiRow"></div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <!-- 섹션별 평균 정답률 -->
+        <div class="stats-section">
+          <div class="stats-section-header"><h3>섹션별 평균 정답률</h3></div>
+          <div class="stats-section-body">
+            <div class="bar-chart" id="sectBarChart"></div>
+          </div>
+        </div>
+        <!-- 결과 분포 도넛 -->
+        <div class="stats-section">
+          <div class="stats-section-header"><h3>퀴즈 결과 분포</h3></div>
+          <div class="stats-section-body" id="donutWrap" style="display:flex;align-items:center;justify-content:center;min-height:160px"></div>
+        </div>
+      </div>
+
+      <!-- 최근 활동 -->
+      <div class="stats-section" style="margin-top:16px">
+        <div class="stats-section-header">
+          <h3>최근 퀴즈 활동 (20건)</h3>
+          <button class="export-btn" onclick="exportAll()">⬇ 전체 CSV</button>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table" id="recentTable">
+            <thead><tr>
+              <th>이름</th><th>섹션</th><th>정답</th><th>점수</th><th>결과</th><th>일시</th>
+            </tr></thead>
+            <tbody id="recentBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 사용자 목록 ── -->
+    <div id="tab-users" class="stats-tab-panel">
+      <div class="stats-section">
+        <div class="stats-section-header">
+          <h3>사용자별 성취 현황</h3>
+          <div class="filter-row">
+            <input id="filterName" type="text" placeholder="이름 검색" oninput="renderUsersTable()">
+            <select id="sortKey" onchange="renderUsersTable()">
+              <option value="name">이름순</option>
+              <option value="accuracy">정답률순</option>
+              <option value="score">점수순</option>
+              <option value="sessions">참여횟수순</option>
+            </select>
+          </div>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table" id="usersTable">
+            <thead><tr>
+              <th>순위</th>
+              <th data-sort="name">이름</th>
+              <th data-sort="sessions">참여</th>
+              <th data-sort="accuracy">정답률</th>
+              <th data-sort="score">점수</th>
+              <th>완료 섹션</th>
+              <th>마지막 활동</th>
+              <th>상세</th>
+            </tr></thead>
+            <tbody id="usersBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 섹션 분석 ── -->
+    <div id="tab-sections" class="stats-tab-panel">
+      <div class="stats-kpi-row" id="sectKpiRow"></div>
+      <div class="stats-section">
+        <div class="stats-section-header"><h3>섹션별 상세 통계</h3></div>
+        <div class="admin-table-wrap">
+          <table class="admin-table" id="sectTable">
+            <thead><tr>
+              <th>섹션</th><th>참여자 수</th><th>총 시도</th>
+              <th>평균 정답률</th><th>통과율</th><th>재시청율</th><th>평균 점수</th>
+            </tr></thead>
+            <tbody id="sectBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 문제 오답률 ── -->
+    <div id="tab-questions" class="stats-tab-panel">
+      <div class="stats-section">
+        <div class="stats-section-header">
+          <h3>문제별 오답률 (많이 틀린 순)</h3>
+          <select id="sectFilter" onchange="renderQuestionsTable()">
+            <option value="">전체 섹션</option>
+          </select>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table" id="questTable">
+            <thead><tr>
+              <th>#</th><th>섹션</th><th>문제</th>
+              <th>출제 횟수</th><th>오답률</th><th>평균 풀이 시간</th>
+            </tr></thead>
+            <tbody id="questBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /stats-dashboard -->
+</div><!-- /dashboard -->
+
+<!-- 사용자 상세 드로어 -->
+<div id="drawerOverlay" onclick="closeDrawer()"></div>
+<div id="userDrawer">
+  <div class="drawer-header">
+    <h2 id="drawerTitle">사용자 상세</h2>
+    <button class="drawer-close" onclick="closeDrawer()">✕</button>
+  </div>
+  <div class="drawer-body" id="drawerBody"></div>
+</div>
+
+<script src="quiz-data.js"></script>
+<script>
+'use strict';
+
+/* ══════════════════════════════════════
+   1. 인증
+   ══════════════════════════════════════ */
+const ADMIN_ID = 'yyyy';
+const ADMIN_PW = 'sksms9900';
+
+function doLogin() {
+  const id = document.getElementById('inputId').value.trim();
+  const pw = document.getElementById('inputPw').value;
+  if (id === ADMIN_ID && pw === ADMIN_PW) {
+    sessionStorage.setItem('admin_auth', '1');
+    document.getElementById('loginWrap').style.display = 'none';
+    document.getElementById('dashboard').style.display  = 'block';
+    initDashboard();
+  } else {
+    document.getElementById('loginErr').classList.add('active');
+  }
+}
+
+function doLogout() {
+  sessionStorage.removeItem('admin_auth');
+  location.reload();
+}
+
+document.getElementById('inputPw').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
+
+/* 세션 유지 */
+if (sessionStorage.getItem('admin_auth') === '1') {
+  document.getElementById('loginWrap').style.display = 'none';
+  document.getElementById('dashboard').style.display  = 'block';
+  document.addEventListener('DOMContentLoaded', initDashboard);
+}
+
+/* ══════════════════════════════════════
+   2. 데이터 수집: localStorage 전체 스캔
+   ══════════════════════════════════════ */
+function collectAllData() {
+  const allRecords = [];
+  const userMap    = {}; // name → [records]
+
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (!key.startsWith('quiz_results_')) continue;
+    const name = key.replace('quiz_results_', '');
+    if (!name) continue;
+    try {
+      const recs = JSON.parse(localStorage.getItem(key) || '[]');
+      recs.forEach(r => { r.userName = r.userName || name; allRecords.push(r); });
+      if (recs.length) userMap[name] = recs;
+    } catch {}
+  }
+
+  allRecords.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+  return { allRecords, userMap };
+}
+
+/* ══════════════════════════════════════
+   3. 유틸
+   ══════════════════════════════════════ */
+const SECT_COLORS = ['#3b82f6','#f59e0b','#10b981','#8b5cf6','#ec4899','#0ea5e9'];
+const SECT_NAMES  = QUIZ_DATA.sections.map(s => s.ko.replace(/^섹션 \d+: /,''));
+
+function pctColor(p) { return p >= 70 ? '#16a34a' : p >= 40 ? '#d97706' : '#dc2626'; }
+function pctClass(p) { return p >= 70 ? 'success' : p >= 40 ? 'warning' : 'danger'; }
+function fmtDate(iso) {
+  const d = new Date(iso);
+  return `${d.getFullYear()}.${pad(d.getMonth()+1)}.${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+function pad(n) { return String(n).padStart(2,'0'); }
+function fmtTime(ms) { const s = Math.round(ms/1000); return s < 60 ? s+'초' : Math.floor(s/60)+'분 '+(s%60)+'초'; }
+function resultIcon(r) { return r.correct === r.total ? '✅' : r.correct > 0 ? '⚠️' : '❌'; }
+
+function donutSVG(pct, color, label, size=100) {
+  const r = 35, cx = 45, cy = 45, circ = 2*Math.PI*r;
+  const dash = (pct/100)*circ;
+  return `<svg width="${size}" height="${size}" viewBox="0 0 90 90">
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#e2e8f0" stroke-width="10"/>
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${color}" stroke-width="10"
+      stroke-dasharray="${dash} ${circ-dash}" stroke-dashoffset="${circ*0.25}"
+      stroke-linecap="round" class="donut-ring"/>
+    <text x="${cx}" y="${cy-6}" text-anchor="middle" dominant-baseline="central"
+      font-size="13" font-weight="800" fill="${color}">${pct}%</text>
+    <text x="${cx}" y="${cy+9}" text-anchor="middle" dominant-baseline="central"
+      font-size="8" fill="#64748b">${label}</text>
+  </svg>`;
+}
+
+function miniBarHTML(pct, color) {
+  return `<div class="mini-bar-wrap">
+    <div class="mini-bar-track">
+      <div class="mini-bar-fill ${pct>=70?'':'pct<40?\'low\':\'mid\''}" style="width:${pct}%;background:${color}"></div>
+    </div>
+    <span style="font-size:.8rem;font-weight:700;color:${color}">${pct}%</span>
+  </div>`;
+}
+
+/* ══════════════════════════════════════
+   4. 대시보드 초기화
+   ══════════════════════════════════════ */
+let _data = null;
+
+function initDashboard() {
+  _data = collectAllData();
+  const { allRecords, userMap } = _data;
+  const userCount = Object.keys(userMap).length;
+
+  document.getElementById('dashSubtitle').textContent =
+    `참여자 ${userCount}명 · 총 ${allRecords.length}회 퀴즈 기록`;
+
+  renderOverview();
+  renderUsersTable();
+  renderSectionsTab();
+  renderQuestionsTable();
+  populateSectFilter();
+}
+
+/* ══════════════════════════════════════
+   5. 전체 현황 탭
+   ══════════════════════════════════════ */
+function renderOverview() {
+  const { allRecords, userMap } = _data;
+  const userCount  = Object.keys(userMap).length;
+  const totalSess  = allRecords.length;
+  const totalQ     = allRecords.reduce((s,r) => s+r.total,   0);
+  const totalC     = allRecords.reduce((s,r) => s+r.correct, 0);
+  const accuracy   = totalQ ? Math.round((totalC/totalQ)*100) : 0;
+  const passCount  = allRecords.filter(r => r.correct === r.total).length;
+  const passRate   = totalSess ? Math.round((passCount/totalSess)*100) : 0;
+  const totalScore = allRecords.reduce((s,r) => s+r.score, 0);
+  const totalMax   = allRecords.reduce((s,r) => s+r.maxScore, 0);
+
+  /* KPI */
+  document.getElementById('kpiRow').innerHTML = `
+    <div class="stats-kpi-card"><div class="kpi-l">총 참여자</div><div class="kpi-v">${userCount}</div><div class="kpi-u">명</div></div>
+    <div class="stats-kpi-card"><div class="kpi-l">총 퀴즈 참여</div><div class="kpi-v">${totalSess}</div><div class="kpi-u">회</div></div>
+    <div class="stats-kpi-card ${pctClass(accuracy)}"><div class="kpi-l">평균 정답률</div><div class="kpi-v" style="color:${pctColor(accuracy)}">${accuracy}%</div></div>
+    <div class="stats-kpi-card success"><div class="kpi-l">통과율</div><div class="kpi-v" style="color:var(--qz-success)">${passRate}%</div><div class="kpi-u">${passCount}/${totalSess}</div></div>
+    <div class="stats-kpi-card"><div class="kpi-l">총 획득 점수</div><div class="kpi-v" style="color:var(--qz-primary)">${totalScore}</div><div class="kpi-u">/ ${totalMax}점</div></div>
+  `;
+
+  /* 섹션별 막대 */
+  const sectAcc = Array(6).fill(null).map(() => ({c:0,t:0}));
+  allRecords.forEach(r => {
+    const si = r.sectionIdx;
+    if (si >= 0 && si < 6) { sectAcc[si].c += r.correct; sectAcc[si].t += r.total; }
+  });
+  document.getElementById('sectBarChart').innerHTML = sectAcc.map((s,i) => {
+    const pct = s.t ? Math.round((s.c/s.t)*100) : null;
+    return `<div class="bar-row">
+      <span class="bar-label" style="color:${SECT_COLORS[i]};font-weight:700">S${i+1}</span>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:${pct??0}%;background:${pct!==null?pctColor(pct):'#e2e8f0'}"></div>
+      </div>
+      <span class="bar-val">${pct!==null?pct+'%':'–'}</span>
+    </div>`;
+  }).join('');
+
+  /* 결과 분포 도넛 3개 */
+  const retryCount = allRecords.filter(r => r.correct === 0).length;
+  const warnCount  = allRecords.filter(r => r.correct > 0 && r.correct < r.total).length;
+  document.getElementById('donutWrap').innerHTML = `
+    <div style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;align-items:center">
+      ${donutSVG(passRate, '#16a34a', '통과')}
+      ${donutSVG(totalSess?Math.round((warnCount/totalSess)*100):0, '#d97706', '경고')}
+      ${donutSVG(totalSess?Math.round((retryCount/totalSess)*100):0, '#dc2626', '재시청')}
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;font-size:.8rem">
+      <span style="color:#16a34a;font-weight:700">✅ 통과 ${passCount}회</span>
+      <span style="color:#d97706;font-weight:700">⚠️ 경고 ${warnCount}회</span>
+      <span style="color:#dc2626;font-weight:700">❌ 재시청 ${retryCount}회</span>
+    </div>`;
+
+  /* 최근 활동 */
+  const recent = allRecords.slice(0, 20);
+  document.getElementById('recentBody').innerHTML = recent.map(r => `
+    <tr>
+      <td><div class="user-chip"><div class="user-avatar">${r.userName.charAt(0)}</div>${r.userName}</div></td>
+      <td style="white-space:nowrap;font-size:.8rem">${r.sectionName}</td>
+      <td>${r.correct}/${r.total}</td>
+      <td><span class="badge badge-score">${r.score}점</span></td>
+      <td>${resultIcon(r)}</td>
+      <td style="white-space:nowrap;font-size:.78rem;color:var(--qz-muted)">${fmtDate(r.timestamp)}</td>
+    </tr>`).join('');
+}
+
+/* ══════════════════════════════════════
+   6. 사용자 목록 탭
+   ══════════════════════════════════════ */
+function buildUserStats() {
+  const { allRecords, userMap } = _data;
+  return Object.entries(userMap).map(([name, recs]) => {
+    const totalQ    = recs.reduce((s,r) => s+r.total,   0);
+    const totalC    = recs.reduce((s,r) => s+r.correct, 0);
+    const score     = recs.reduce((s,r) => s+r.score,   0);
+    const maxScore  = recs.reduce((s,r) => s+r.maxScore, 0);
+    const accuracy  = totalQ ? Math.round((totalC/totalQ)*100) : 0;
+    const sections  = [...new Set(recs.map(r => r.sectionIdx))].length;
+    const lastTime  = recs.reduce((mx,r) => r.timestamp > mx ? r.timestamp : mx, '');
+    return { name, sessions: recs.length, totalQ, totalC, score, maxScore, accuracy, sections, lastTime };
+  });
+}
+
+let _sortCol = 'accuracy', _sortAsc = false;
+
+function renderUsersTable() {
+  const filter = (document.getElementById('filterName').value || '').toLowerCase();
+  const sortK  = document.getElementById('sortKey').value;
+  let stats    = buildUserStats().filter(u => u.name.toLowerCase().includes(filter));
+
+  stats.sort((a,b) => {
+    if (sortK === 'name')     return a.name.localeCompare(b.name);
+    if (sortK === 'accuracy') return b.accuracy - a.accuracy;
+    if (sortK === 'score')    return b.score - a.score;
+    if (sortK === 'sessions') return b.sessions - a.sessions;
+    return 0;
+  });
+
+  document.getElementById('usersBody').innerHTML = stats.map((u,i) => {
+    const rankCls = i===0?'rank-1':i===1?'rank-2':i===2?'rank-3':'rank-n';
+    const color   = pctColor(u.accuracy);
+    return `
+      <tr>
+        <td><span class="rank-badge ${rankCls}">${i+1}</span></td>
+        <td><div class="user-chip"><div class="user-avatar">${u.name.charAt(0)}</div>${u.name}</div></td>
+        <td>${u.sessions}회</td>
+        <td>
+          <div class="mini-bar-wrap">
+            <div class="mini-bar-track"><div class="mini-bar-fill" style="width:${u.accuracy}%;background:${color}"></div></div>
+            <span style="font-size:.8rem;font-weight:700;color:${color}">${u.accuracy}%</span>
+          </div>
+        </td>
+        <td><span class="badge badge-score">${u.score}점</span></td>
+        <td>
+          <div style="display:flex;gap:3px">
+            ${Array(6).fill(0).map((_,si) => {
+              const hasSect = _data.userMap[u.name].some(r => r.sectionIdx === si);
+              return `<span style="font-size:.9rem">${hasSect?'✅':'⬜'}</span>`;
+            }).join('')}
+          </div>
+        </td>
+        <td style="font-size:.78rem;color:var(--qz-muted);white-space:nowrap">${u.lastTime ? fmtDate(u.lastTime) : '–'}</td>
+        <td><button onclick="openDrawer('${u.name}')" style="padding:5px 10px;background:var(--qz-primary);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:.78rem;font-weight:700">상세</button></td>
+      </tr>`;
+  }).join('') || '<tr><td colspan="8" style="text-align:center;color:var(--qz-muted);padding:24px">검색 결과 없음</td></tr>';
+}
+
+/* ══════════════════════════════════════
+   7. 섹션 분석 탭
+   ══════════════════════════════════════ */
+function renderSectionsTab() {
+  const { allRecords, userMap } = _data;
+  const sectStats = Array(6).fill(null).map(() => ({
+    users: new Set(), sessions:0, correct:0, total:0, score:0, maxScore:0, pass:0, retry:0
+  }));
+
+  allRecords.forEach(r => {
+    const si = r.sectionIdx;
+    if (si < 0 || si >= 6) return;
+    const s = sectStats[si];
+    s.users.add(r.userName);
+    s.sessions++;
+    s.correct  += r.correct;
+    s.total    += r.total;
+    s.score    += r.score;
+    s.maxScore += r.maxScore;
+    if (r.correct === r.total) s.pass++;
+    if (r.correct === 0)       s.retry++;
+  });
+
+  /* KPI */
+  const mostTried = sectStats.reduce((mx,s,i) => s.sessions>sectStats[mx].sessions?i:mx, 0);
+  const hardest   = sectStats.reduce((mx,s,i) => {
+    const pct  = s.total ? (s.correct/s.total) : 1;
+    const mpct = sectStats[mx].total ? (sectStats[mx].correct/sectStats[mx].total) : 1;
+    return pct < mpct ? i : mx;
+  }, 0);
+  const totalParticipants = Object.keys(userMap).length;
+
+  document.getElementById('sectKpiRow').innerHTML = `
+    <div class="stats-kpi-card"><div class="kpi-l">총 섹션 시도</div><div class="kpi-v">${allRecords.length}</div></div>
+    <div class="stats-kpi-card warning"><div class="kpi-l">가장 어려운 섹션</div><div class="kpi-v" style="font-size:1rem">S${hardest+1}</div><div class="kpi-u">${SECT_NAMES[hardest]}</div></div>
+    <div class="stats-kpi-card"><div class="kpi-l">가장 많이 시도</div><div class="kpi-v" style="font-size:1rem">S${mostTried+1}</div><div class="kpi-u">${sectStats[mostTried].sessions}회</div></div>
+  `;
+
+  /* 테이블 */
+  document.getElementById('sectBody').innerHTML = sectStats.map((s,i) => {
+    const avgAcc  = s.total   ? Math.round((s.correct/s.total)*100) : null;
+    const passR   = s.sessions? Math.round((s.pass/s.sessions)*100) : null;
+    const retryR  = s.sessions? Math.round((s.retry/s.sessions)*100): null;
+    const avgScore= s.sessions? Math.round(s.score/s.sessions) : null;
+    const color   = avgAcc !== null ? pctColor(avgAcc) : '#94a3b8';
+    return `
+      <tr>
+        <td><span style="font-weight:700;color:${SECT_COLORS[i]}">S${i+1}</span> ${SECT_NAMES[i]}</td>
+        <td>${s.users.size}명</td>
+        <td>${s.sessions}회</td>
+        <td>
+          <div class="mini-bar-wrap">
+            <div class="mini-bar-track"><div class="mini-bar-fill" style="width:${avgAcc??0}%;background:${color}"></div></div>
+            <span style="font-size:.8rem;font-weight:700;color:${color}">${avgAcc!==null?avgAcc+'%':'–'}</span>
+          </div>
+        </td>
+        <td><span style="font-weight:700;color:#16a34a">${passR!==null?passR+'%':'–'}</span></td>
+        <td><span style="font-weight:700;color:#dc2626">${retryR!==null?retryR+'%':'–'}</span></td>
+        <td>${avgScore!==null?avgScore+'점':'–'}</td>
+      </tr>`;
+  }).join('');
+}
+
+/* ══════════════════════════════════════
+   8. 문제 오답률 탭
+   ══════════════════════════════════════ */
+function populateSectFilter() {
+  const sel = document.getElementById('sectFilter');
+  QUIZ_DATA.sections.forEach((s,i) => {
+    const opt = document.createElement('option');
+    opt.value = i; opt.textContent = `S${i+1}: ${SECT_NAMES[i]}`;
+    sel.appendChild(opt);
+  });
+}
+
+function renderQuestionsTable() {
+  const { allRecords } = _data;
+  const filterSect = document.getElementById('sectFilter').value;
+
+  // 문제별 집계
+  const qMap = {}; // qIdx → { question, sectionIdx, sectionName, total, wrong, totalElapsed }
+  allRecords.forEach(r => {
+    if (filterSect !== '' && r.sectionIdx !== Number(filterSect)) return;
+    r.details.forEach(d => {
+      if (!qMap[d.qIdx]) qMap[d.qIdx] = {
+        question: d.question, sectionIdx: r.sectionIdx, sectionName: r.sectionName,
+        total: 0, wrong: 0, totalElapsed: 0
+      };
+      const q = qMap[d.qIdx];
+      q.total++;
+      if (!d.isCorrect) q.wrong++;
+      q.totalElapsed += (d.elapsed || 0);
+    });
+  });
+
+  const rows = Object.entries(qMap)
+    .map(([qi, q]) => ({ ...q, qIdx: Number(qi), wrongRate: q.total ? Math.round((q.wrong/q.total)*100) : 0 }))
+    .sort((a,b) => b.wrongRate - a.wrongRate);
+
+  document.getElementById('questBody').innerHTML = rows.map((q,i) => {
+    const color = pctColor(100 - q.wrongRate);
+    return `
+      <tr>
+        <td>${i+1}</td>
+        <td style="white-space:nowrap;font-size:.8rem"><span style="color:${SECT_COLORS[q.sectionIdx]};font-weight:700">S${q.sectionIdx+1}</span></td>
+        <td style="max-width:260px;font-size:.82rem;line-height:1.4">${q.question}</td>
+        <td>${q.total}회</td>
+        <td>
+          <div class="mini-bar-wrap">
+            <div class="mini-bar-track"><div class="mini-bar-fill" style="width:${q.wrongRate}%;background:#dc2626"></div></div>
+            <span style="font-size:.8rem;font-weight:700;color:#dc2626">${q.wrongRate}%</span>
+          </div>
+        </td>
+        <td>${fmtTime(q.total ? Math.round(q.totalElapsed/q.total) : 0)}</td>
+      </tr>`;
+  }).join('') || '<tr><td colspan="6" style="text-align:center;color:var(--qz-muted);padding:24px">데이터 없음</td></tr>';
+}
+
+/* ══════════════════════════════════════
+   9. 사용자 상세 드로어
+   ══════════════════════════════════════ */
+function openDrawer(name) {
+  const recs = _data.userMap[name] || [];
+  const totalQ   = recs.reduce((s,r) => s+r.total,   0);
+  const totalC   = recs.reduce((s,r) => s+r.correct, 0);
+  const score    = recs.reduce((s,r) => s+r.score,   0);
+  const maxScore = recs.reduce((s,r) => s+r.maxScore, 0);
+  const accuracy = totalQ ? Math.round((totalC/totalQ)*100) : 0;
+  const passCount= recs.filter(r => r.correct===r.total).length;
+
+  const sectAcc = Array(6).fill(null).map(()=>({c:0,t:0}));
+  recs.forEach(r => {
+    if (r.sectionIdx>=0 && r.sectionIdx<6) {
+      sectAcc[r.sectionIdx].c += r.correct;
+      sectAcc[r.sectionIdx].t += r.total;
+    }
+  });
+
+  document.getElementById('drawerTitle').textContent = `📊 ${name}`;
+  document.getElementById('drawerBody').innerHTML = `
+    <div class="drawer-kpi">
+      <div class="drawer-kpi-item"><div class="kv" style="color:${pctColor(accuracy)}">${accuracy}%</div><div class="kl">정답률</div></div>
+      <div class="drawer-kpi-item"><div class="kv" style="color:var(--qz-primary)">${score}점</div><div class="kl">/ ${maxScore}점</div></div>
+      <div class="drawer-kpi-item"><div class="kv" style="color:var(--qz-success)">${passCount}</div><div class="kl">통과 횟수</div></div>
+    </div>
+
+    <div style="font-size:.85rem;font-weight:700;margin-bottom:8px;color:var(--qz-muted)">섹션별 정답률</div>
+    <div class="sect-progress">
+      ${sectAcc.map((s,i) => {
+        const pct = s.t ? Math.round((s.c/s.t)*100) : null;
+        const col = pct!==null ? pctColor(pct) : '#e2e8f0';
+        return `<div class="sp-row">
+          <span class="sp-label" style="color:${SECT_COLORS[i]}">S${i+1}</span>
+          <div class="sp-track"><div class="sp-fill" style="width:${pct??0}%;background:${col}"></div></div>
+          <span class="sp-val" style="color:${col}">${pct!==null?pct+'%':'–'}</span>
+        </div>`;
+      }).join('')}
+    </div>
+
+    <div style="font-size:.85rem;font-weight:700;margin-bottom:8px;color:var(--qz-muted)">최근 퀴즈 기록</div>
+    <div class="qa-mini">
+      ${[...recs].reverse().slice(0,10).flatMap(r =>
+        r.details.map(d => `
+          <div class="qa-mini-item">
+            <div class="qa-mini-q">${d.isCorrect?'✅':'❌'} ${d.question}</div>
+            <div class="qa-mini-row">
+              <span class="label">내 답</span>
+              <span style="color:${d.isCorrect?'var(--qz-success)':'var(--qz-danger)'};font-weight:700">${d.userAns}</span>
+            </div>
+            ${!d.isCorrect?`<div class="qa-mini-row"><span class="label">정답</span><span>${d.correctAns}</span></div>`:''}
+            <div class="qa-mini-row"><span class="label">풀이</span><span style="color:var(--qz-muted)">${fmtTime(d.elapsed||0)} · ${fmtDate(r.timestamp)}</span></div>
+          </div>`)
+      ).join('')}
+    </div>
+
+    <div style="margin-top:16px">
+      <a href="my-results.html?name=${encodeURIComponent(name)}" target="_blank"
+        style="display:inline-block;padding:10px 18px;background:var(--qz-primary);color:#fff;border-radius:8px;font-weight:700;font-size:.88rem;text-decoration:none">
+        📈 전체 결과 페이지 열기
+      </a>
+    </div>`;
+
+  document.getElementById('userDrawer').classList.add('open');
+  document.getElementById('drawerOverlay').classList.add('open');
+}
+
+function closeDrawer() {
+  document.getElementById('userDrawer').classList.remove('open');
+  document.getElementById('drawerOverlay').classList.remove('open');
+}
+
+/* ══════════════════════════════════════
+   10. 탭 전환
+   ══════════════════════════════════════ */
+function switchTab(id, btn) {
+  document.querySelectorAll('.stats-tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.stats-tab').forEach(b => b.classList.remove('active'));
+  const panel = document.getElementById('tab-' + id);
+  if (panel) panel.classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+
+/* ══════════════════════════════════════
+   11. 전체 CSV 내보내기
+   ══════════════════════════════════════ */
+function exportAll() {
+  const { allRecords } = _data;
+  const rows = [['이름','섹션','문제','내답','정답','정오','점수','선다수','풀이시간(초)','일시']];
+  allRecords.forEach(r =>
+    r.details.forEach(d =>
+      rows.push([r.userName, r.sectionName, d.question, d.userAns, d.correctAns,
+        d.isCorrect?'정답':'오답', d.pts, d.choiceCnt,
+        Math.round((d.elapsed||0)/1000), r.timestamp])
+    )
+  );
+  const csv  = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob(['﻿'+csv], { type: 'text/csv;charset=utf-8' });
+  const a    = Object.assign(document.createElement('a'),
+    { href: URL.createObjectURL(blob), download: `admin_all_results_${new Date().toISOString().slice(0,10)}.csv` });
+  a.click();
+}
+</script>
+</body>
+</html>
