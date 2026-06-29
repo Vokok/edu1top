@@ -859,6 +859,9 @@ function _startLearning() {
   _startIntegrityWatch();
   // 전체 화면 클릭 차단 레이어 활성화
   _showClickBlocker();
+  // 결과 보기 버튼 비활성화
+  const rbw = document.getElementById('resultOpenBtnWrap');
+  if (rbw) rbw.style.display = 'none';
 }
 
 /* 학습 중 메뉴/이탈 차단 */
@@ -1084,6 +1087,8 @@ function deactivateLearningMode() {
   _unlockNav();
   _stopIntegrityWatch();
   _hideClickBlocker();
+  // 결과 보기 버튼 복원
+  renderMyResultPanel();
 }
 
 /* ══════════════════════════════════════════════════════════
