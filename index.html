@@ -1877,15 +1877,109 @@ function toggleLearningMode() {
 </script>
 
 <!-- ══════════════════════════════════════════════
+     학습 인트로 설명 모달
+     ══════════════════════════════════════════════ -->
+<div id="learningIntroModal">
+  <div class="intro-modal-box">
+
+    <!-- 헤더 -->
+    <div class="intro-header">
+      <div class="intro-logo">🎓</div>
+      <h2>에듀원탑 동영상 학습</h2>
+      <span class="intro-sub">샘플 학습 체험 안내</span>
+    </div>
+
+    <div class="intro-body">
+
+      <!-- 흐름 요약 아이콘 -->
+      <div class="intro-flow">
+        <div class="intro-flow-step">
+          <div class="intro-flow-icon">▶️</div>
+          <div class="intro-flow-label">영상<br>시청</div>
+        </div>
+        <div class="intro-flow-arrow">→</div>
+        <div class="intro-flow-step">
+          <div class="intro-flow-icon">⏸️</div>
+          <div class="intro-flow-label">구간<br>정지</div>
+        </div>
+        <div class="intro-flow-arrow">→</div>
+        <div class="intro-flow-step">
+          <div class="intro-flow-icon">❓</div>
+          <div class="intro-flow-label">퀴즈<br>2문제</div>
+        </div>
+        <div class="intro-flow-arrow">→</div>
+        <div class="intro-flow-step">
+          <div class="intro-flow-icon">✅</div>
+          <div class="intro-flow-label">즉시<br>피드백</div>
+        </div>
+        <div class="intro-flow-arrow">→</div>
+        <div class="intro-flow-step">
+          <div class="intro-flow-icon">📊</div>
+          <div class="intro-flow-label">결과<br>저장</div>
+        </div>
+      </div>
+
+      <!-- 단계별 설명 -->
+      <div class="intro-steps">
+        <div class="intro-step">
+          <div class="intro-step-num">1</div>
+          <div class="intro-step-content">
+            <strong>영상 6구간 자동 정지</strong>
+            <p>프로그램 소개 영상이 주요 내용 구간마다 자동으로 일시정지됩니다.</p>
+          </div>
+        </div>
+        <div class="intro-step">
+          <div class="intro-step-num">2</div>
+          <div class="intro-step-content">
+            <strong>구간당 2문제 랜덤 출제</strong>
+            <p>5개 문제 중 2개가 무작위로 선택되며, 보기 수(3~5개)도 매번 바뀝니다.</p>
+          </div>
+        </div>
+        <div class="intro-step">
+          <div class="intro-step-num">3</div>
+          <div class="intro-step-content">
+            <strong>즉시 채점 및 분기</strong>
+            <p>2문제 모두 틀리면 해당 구간 처음으로 · 1개 맞으면 경고 후 계속 · 2개 모두 맞으면 통과!</p>
+          </div>
+        </div>
+        <div class="intro-step">
+          <div class="intro-step-num">4</div>
+          <div class="intro-step-content">
+            <strong>개인별 결과 저장</strong>
+            <p>입력한 이름(별명)으로 학습 기록이 저장되어 <em>내 결과</em> 페이지에서 확인할 수 있습니다.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 점수 안내 -->
+      <div class="intro-score-chips">
+        <span style="font-size:.78rem;font-weight:700;color:#92400e;align-self:center">배점:</span>
+        <span class="intro-score-chip">3지선다 = 3점</span>
+        <span class="intro-score-chip">4지선다 = 4점</span>
+        <span class="intro-score-chip">5지선다 = 5점</span>
+        <span class="intro-score-chip">시간 제한 30초</span>
+      </div>
+
+      <button class="intro-next-btn" onclick="QE.proceedToName()">이름 입력하고 시작하기 →</button>
+      <button class="intro-cancel-btn" onclick="QE.cancelLearningMode()">취소 (일반 시청으로 돌아가기)</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
      퀴즈 HTML — 이름 입력 모달
      ══════════════════════════════════════════════ -->
 <div id="nameModal">
   <div class="name-modal-box">
-    <h2>👤 시청자 이름 입력</h2>
-    <p>영상 퀴즈에 참여하려면 이름을 입력해 주세요.<br>결과가 이름별로 저장됩니다.</p>
+    <h2>👤 참여자 이름 입력</h2>
+    <p>학습 결과 저장에 사용될 이름을 입력하세요.</p>
+    <div style="background:#fef9c3;border:1px solid #fde68a;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:0.82rem;color:#78350f;line-height:1.6;">
+      💡 <strong>별명·닉네임 사용을 권장합니다.</strong><br>
+      실명 대신 별명을 사용하면 결과가 별명으로 저장되어<br>개인 정보를 보호할 수 있습니다.
+    </div>
     <form id="nameForm">
-      <input id="nameInput" type="text" placeholder="이름을 입력하세요" maxlength="20" autocomplete="off">
-      <button type="submit" id="nameSubmitBtn" class="btn-start">퀴즈 시작하기 →</button>
+      <input id="nameInput" type="text" placeholder="예: 별명, 닉네임 등 (최대 20자)" maxlength="20" autocomplete="off">
+      <button type="submit" id="nameSubmitBtn" class="btn-start">학습 시작하기 →</button>
     </form>
   </div>
 </div>

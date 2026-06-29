@@ -645,31 +645,60 @@ function setLang(lang) {
 /* index.html 의 "동영상 학습" 버튼이 호출 */
 function activateLearningMode() {
   QE.learningMode = true;
+  // 항상 인트로 설명 모달을 먼저 표시
+  showIntroModal();
+}
 
+/* 인트로 모달 표시 */
+function showIntroModal() {
+  const m = el('learningIntroModal');
+  if (m) m.classList.add('active');
+}
+
+function hideIntroModal() {
+  const m = el('learningIntroModal');
+  if (m) m.classList.remove('active');
+}
+
+/* 인트로 → "이름 입력" 버튼 클릭 시 */
+function proceedToName() {
+  hideIntroModal();
   if (!QE.userName) {
-    // 이름 미입력 → 모달 표시 후 입력 완료 시 재생
     showNameModal();
   } else {
-    // 이름 있음 → 즉시 시작
-    QE.results = loadResults();
-    // firedSet 초기화: 처음부터 다시 퀴즈 도전 가능
-    QE.session.firedSet = new Set();
-    renderMyResultPanel();
-    renderStatusBar();
-    if (QE.player) {
-      QE.player.seekTo(0, true);
-      QE.player.playVideo();
-    }
+    // 이름 이미 있음 → 재확인 없이 즉시 시작
+    _startLearning();
+  }
+}
+
+/* 인트로 → "취소" 버튼 클릭 시 */
+function cancelLearningMode() {
+  hideIntroModal();
+  QE.learningMode = false;
+  // 버튼 상태 원래대로
+  const btn = document.getElementById('learningModeBtn');
+  if (btn) { btn.classList.remove('active'); btn.textContent = '동영상 학습'; }
+}
+
+/* 실제 학습 시작 (이름 확인 완료 후 공통 호출) */
+function _startLearning() {
+  QE.results = loadResults();
+  QE.session.firedSet = new Set();
+  renderMyResultPanel();
+  renderStatusBar();
+  if (QE.player) {
+    QE.player.seekTo(0, true);
+    QE.player.playVideo();
   }
 }
 
 function deactivateLearningMode() {
   QE.learningMode = false;
-  // 열려있는 퀴즈 팝업 닫기
-  ['quizOverlay','warnModal','retryModal','sectionClearModal','nameModal']
+  // 열려있는 퀴즈·인트로 팝업 모두 닫기
+  ['learningIntroModal','quizOverlay','warnModal','retryModal','sectionClearModal','nameModal']
     .forEach(id => { const m = el(id); if (m) m.classList.remove('active'); });
   clearInterval(_qTimer);
-  // 영상은 일시정지 없이 계속 재생
+  // 영상 일시정지 상태면 재개
   if (QE.player && QE.player.getPlayerState() === 2) {
     QE.player.playVideo();
   }
@@ -717,15 +746,8 @@ function submitName() {
   }
   QE.userName = name;
   localStorage.setItem('quiz_last_user', name);
-  QE.results = loadResults();
-  QE.session.firedSet = new Set(); // 처음부터 퀴즈 도전
   hideNameModal();
-  renderMyResultPanel();
-  renderStatusBar();
-  if (QE.player && typeof QE.player.playVideo === 'function') {
-    QE.player.seekTo(0, true);
-    QE.player.playVideo();
-  }
+  _startLearning();
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -741,4 +763,7 @@ window.QE = Object.assign(QE, {
   submitName,
   activateLearningMode,
   deactivateLearningMode,
+  showIntroModal,
+  proceedToName,
+  cancelLearningMode,
 });
