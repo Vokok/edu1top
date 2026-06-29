@@ -215,8 +215,10 @@ function showQuestion() {
   sess.startTimes[sess.qCursor] = Date.now();
   startQuestionTimer(30);
 
-  // 오버레이 표시
-  el('quizOverlay').classList.add('active');
+  // 오버레이 표시 (항상 최상단부터 보이도록 scrollTop 리셋)
+  const _ov = el('quizOverlay');
+  _ov.scrollTop = 0;
+  _ov.classList.add('active');
 }
 
 let _qTimer = null;
@@ -365,6 +367,7 @@ function finishSession() {
     QE.learningMode = false;
     const blocker = document.getElementById('videoBlocker');
     if (blocker) blocker.style.display = 'none';
+    _unlockNav();
   }
 
   // 분기
@@ -794,6 +797,62 @@ function _startLearning() {
   // 동영상 조작 차단
   const blocker = document.getElementById('videoBlocker');
   if (blocker) blocker.style.display = 'block';
+  // 메뉴 이동 차단 + 페이지 이탈 경고
+  _lockNav();
+}
+
+/* 학습 중 메뉴/이탈 차단 */
+function _lockNav() {
+  document.querySelectorAll('.nav-bar a, .mobile-nav-drawer nav a').forEach(a => {
+    a.dataset.hrefBak = a.getAttribute('href') || '';
+    a.setAttribute('href', 'javascript:void(0)');
+    a.classList.add('nav-locked');
+    a.addEventListener('click', _navLockAlert, true);
+  });
+  const hbtn = document.getElementById('hamburgerBtn');
+  if (hbtn) hbtn.classList.add('nav-locked-btn');
+  window.addEventListener('beforeunload', _beforeUnloadHandler);
+}
+
+function _navLockAlert(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  // 화면 상단에 토스트 경고
+  let toast = document.getElementById('learningLockToast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'learningLockToast';
+    toast.style.cssText = 'position:fixed;top:70px;left:50%;transform:translateX(-50%);' +
+      'background:#dc2626;color:#fff;padding:10px 20px;border-radius:8px;font-weight:700;' +
+      'font-size:0.88rem;z-index:99999;box-shadow:0 4px 16px rgba(0,0,0,0.3);white-space:nowrap;';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = '🔒 학습이 끝난 후 이동할 수 있습니다';
+  toast.style.display = 'block';
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => { toast.style.display = 'none'; }, 2000);
+}
+
+function _beforeUnloadHandler(e) {
+  e.preventDefault();
+  e.returnValue = '학습이 진행 중입니다. 페이지를 떠나면 학습 데이터가 저장되지 않을 수 있습니다.';
+  return e.returnValue;
+}
+
+function _unlockNav() {
+  document.querySelectorAll('.nav-bar a, .mobile-nav-drawer nav a').forEach(a => {
+    if (a.dataset.hrefBak !== undefined) {
+      a.setAttribute('href', a.dataset.hrefBak);
+      delete a.dataset.hrefBak;
+    }
+    a.classList.remove('nav-locked');
+    a.removeEventListener('click', _navLockAlert, true);
+  });
+  const hbtn = document.getElementById('hamburgerBtn');
+  if (hbtn) hbtn.classList.remove('nav-locked-btn');
+  window.removeEventListener('beforeunload', _beforeUnloadHandler);
+  const toast = document.getElementById('learningLockToast');
+  if (toast) toast.style.display = 'none';
 }
 
 function deactivateLearningMode() {
@@ -837,6 +896,8 @@ function deactivateLearningMode() {
   // 7. 동영상 조작 차단 해제
   const blocker = document.getElementById('videoBlocker');
   if (blocker) blocker.style.display = 'none';
+  // 8. 메뉴 이동 잠금 해제
+  _unlockNav();
 }
 
 /* ══════════════════════════════════════════════════════════

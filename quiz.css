@@ -101,8 +101,10 @@
 }
 #quizOverlay.active {
   display: flex;
-  /* 카드가 뷰포트보다 작으면 수직 중앙 정렬 */
-  align-items: safe center;
+}
+/* 데스크탑에서만 safe center (모바일은 항상 flex-start) */
+@media (min-width: 641px) {
+  #quizOverlay.active { align-items: safe center; }
 }
 
 /* ── 퀴즈 카드 ── */
@@ -1711,6 +1713,10 @@
   .pg-flow-arrow { display: none; }
   .parent-guide-body { padding: 14px 14px 20px; }
 }
+
+/* ── 학습 중 메뉴 잠금 스타일 ── */
+.nav-locked { opacity: 0.4 !important; cursor: not-allowed !important; }
+.nav-locked-btn { opacity: 0.4 !important; cursor: not-allowed !important; pointer-events: none; }
 
 /* ── 스크롤바 스타일 ── */
 .quiz-card::-webkit-scrollbar { width: 6px; }
