@@ -359,6 +359,14 @@ function finishSession() {
   // 결과 저장
   recordSession(correct, total, score, maxScore);
 
+  // 모든 트리거 완료 여부 확인 → 완료 시 차단 해제
+  const allDone = QE.session.firedSet.size >= QUIZ_DATA.triggers.length;
+  if (allDone) {
+    QE.learningMode = false;
+    const blocker = document.getElementById('videoBlocker');
+    if (blocker) blocker.style.display = 'none';
+  }
+
   // 분기
   if (correct === 0) {
     showRetryModal(score, maxScore, correct, total);
@@ -783,6 +791,9 @@ function _startLearning() {
   }
   // 영상이 0초부터 재생된 이후에 learningMode를 true로 — 중간 위치 트리거 오발 방지
   QE.learningMode = true;
+  // 동영상 조작 차단
+  const blocker = document.getElementById('videoBlocker');
+  if (blocker) blocker.style.display = 'block';
 }
 
 function deactivateLearningMode() {
@@ -822,6 +833,10 @@ function deactivateLearningMode() {
   // 6. 버튼 OFF 상태 복원 (index.html toggleLearningMode 에서도 처리하지만 안전망)
   const btn = document.getElementById('learningModeBtn');
   if (btn) { btn.classList.remove('active'); btn.textContent = '동영상 학습'; }
+
+  // 7. 동영상 조작 차단 해제
+  const blocker = document.getElementById('videoBlocker');
+  if (blocker) blocker.style.display = 'none';
 }
 
 /* ══════════════════════════════════════════════════════════
