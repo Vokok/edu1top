@@ -130,23 +130,6 @@ function hideNameModal() {
   if (m) m.classList.remove('active');
 }
 
-function submitName() {
-  const inp = el('nameInput');
-  const name = inp ? inp.value.trim() : '';
-  if (!name) {
-    if (inp) inp.classList.add('shake');
-    setTimeout(() => inp && inp.classList.remove('shake'), 400);
-    return;
-  }
-  QE.userName = name;
-  QE.results = loadResults();
-  hideNameModal();
-  // 영상 재생 시작
-  if (QE.player && typeof QE.player.playVideo === 'function') {
-    QE.player.playVideo();
-  }
-}
-
 /* ══════════════════════════════════════════════════════════
    5. 퀴즈 준비 (문제·보기 선택)
    ══════════════════════════════════════════════════════════ */
@@ -408,12 +391,55 @@ function recordSession(correct, total, score, maxScore) {
   QE.results.push(record);
   saveResults(QE.results);
 
-  // 인라인 결과 패널 갱신
+  // 인라인 결과 패널 + 상태바 갱신
   renderMyResultPanel();
+  renderStatusBar();
 }
 
 /* ══════════════════════════════════════════════════════════
-   10. 모달들
+   10. 섹션 상태바 (영상 아래 뱃지)
+   ══════════════════════════════════════════════════════════ */
+function renderStatusBar() {
+  const bar = el('quizStatusBar');
+  if (!bar) return;
+
+  // 섹션별 최신 결과 집계 (마지막 시도 기준)
+  const latest = {}; // sectionIdx → record
+  QE.results.forEach(r => {
+    if (!latest[r.sectionIdx] || r.timestamp > latest[r.sectionIdx].timestamp) {
+      latest[r.sectionIdx] = r;
+    }
+  });
+
+  bar.innerHTML = QUIZ_DATA.sections.map((s, i) => {
+    const r   = latest[i];
+    let icon, label, bg, border;
+    if (!r) {
+      icon = '⬜'; bg = 'rgba(255,255,255,0.1)'; border = 'rgba(255,255,255,0.25)';
+      label = '미완료';
+    } else if (r.correct === r.total) {
+      icon = '✅'; bg = 'rgba(22,163,74,0.25)';  border = '#4ade80';
+      label = `${r.score}점 통과`;
+    } else if (r.correct > 0) {
+      icon = '⚠️'; bg = 'rgba(217,119,6,0.25)';  border = '#fbbf24';
+      label = `${r.score}점 경고`;
+    } else {
+      icon = '❌'; bg = 'rgba(220,38,38,0.25)';   border = '#f87171';
+      label = '재시청';
+    }
+    const name = (s[QE.lang] || s.ko).replace(/^섹션 \d+: |^Section \d+: /, '');
+    return `<div style="
+      display:inline-flex;align-items:center;gap:6px;
+      padding:6px 12px;border-radius:20px;font-size:0.78rem;font-weight:700;
+      background:${bg};border:1.5px solid ${border};color:#fff;
+      cursor:default;white-space:nowrap;" title="${label}">
+      ${icon} ${name}
+    </div>`;
+  }).join('');
+}
+
+/* ══════════════════════════════════════════════════════════
+   11. 모달들
    ══════════════════════════════════════════════════════════ */
 
 /* ── 재시청 모달 (0/2) ── */
@@ -606,7 +632,8 @@ function resetResults() {
    ══════════════════════════════════════════════════════════ */
 function setLang(lang) {
   QE.lang = lang;
-  renderMyResultPanel(); // 언어 변경 시 결과 패널도 갱신
+  renderMyResultPanel();
+  renderStatusBar();
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -640,9 +667,6 @@ document.addEventListener('DOMContentLoaded', () => {
   showNameModal();
 });
 
-/* 이름 저장 (제출 시 lastUser 기억) */
-const _origSubmit = submitName;
-// submitName 재정의로 lastUser 저장
 function submitName() {
   const inp  = el('nameInput');
   const name = inp ? inp.value.trim() : '';
@@ -668,7 +692,7 @@ window.QE = Object.assign(QE, {
   setLang,
   resetResults,
   renderMyResultPanel,
-  // index.html 에서 직접 호출 가능하도록 노출
+  renderStatusBar,
   showNameModal,
   submitName,
 });

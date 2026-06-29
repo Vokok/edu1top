@@ -120,6 +120,8 @@
     <a href="#section-video" data-i18n="nav1">📹 프로그램 영상</a>
     <a href="#section-pdf1" data-i18n="nav2">📄 교육 프로그램 소개서</a>
     <a href="#section-pdf2" data-i18n="nav3">📋 상세 소개 PDF</a>
+    <a href="my-results.html" data-i18n="nav_myresults" target="_blank">📊 내 결과</a>
+    <a href="admin.html"      data-i18n="nav_admin"     target="_blank">🔐 관리자</a>
   </nav>
 </header>
 
@@ -162,8 +164,12 @@
     <div class="video-wrap">
       <div id="ytPlayer"></div>
     </div>
+    <div id="quizStatusBar" style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:18px;min-height:32px;"></div>
   </div>
 </section>
+
+<!-- 개인 결과 패널: 퀴즈 완료 후 영상 바로 아래 표시 -->
+<div id="myResultPanel"></div>
 
 <!-- 교육 철학 & 핵심 프로그램 -->
 <section id="section-philosophy">
@@ -316,7 +322,7 @@
 <script>
 const T = {
   ko: {
-    nav1:"📹 프로그램 영상", nav2:"📄 교육 프로그램 소개서", nav3:"📋 상세 소개 PDF",
+    nav1:"📹 프로그램 영상", nav2:"📄 교육 프로그램 소개서", nav3:"📋 상세 소개 PDF", nav_myresults:"📊 내 결과", nav_admin:"🔐 관리자",
     hero_badge:"AI 기반 이주배경학생 완전학습 플랫폼",
     hero_sub:"이주배경청소년 통합 교육 프로그램",
     promise_title:"핵심 약속",
@@ -378,7 +384,7 @@ const T = {
   },
 
   en: {
-    nav1:"📹 Program Video", nav2:"📄 Program Brochure", nav3:"📋 Detailed PDF",
+    nav1:"📹 Program Video", nav2:"📄 Program Brochure", nav3:"📋 Detailed PDF", nav_myresults:"📊 My Results", nav_admin:"🔐 Admin",
     hero_badge:"AI-Based Complete Learning Platform for Immigrant Background Students",
     hero_sub:"Integrated Education Program for Immigrant Background Youth",
     promise_title:"Our Core Promise",
@@ -1934,11 +1940,6 @@ changeLanguage = function(lang) {
 </div>
 
 <!-- ══════════════════════════════════════════════
-     개인 결과 패널 (영상 아래)
-     ══════════════════════════════════════════════ -->
-<div id="myResultPanel"></div>
-
-<!-- ══════════════════════════════════════════════
      스크립트 로딩
      ══════════════════════════════════════════════ -->
 <script src="quiz-data.js"></script>
@@ -1962,7 +1963,10 @@ function onYouTubeIframeAPIReady() {
     },
     events: {
       onReady: function(e) {
-        // 엔진에 플레이어 전달 (이름 입력 후 재생은 엔진이 제어)
+        // YT API가 iframe에 인라인으로 박는 width/height 제거 → CSS .video-wrap이 제어
+        var iframe = e.target.getIframe();
+        iframe.style.width  = '';
+        iframe.style.height = '';
         window.QE.initPlayer(e.target);
       }
     }
