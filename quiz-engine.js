@@ -540,6 +540,14 @@ function closeMyResultPanel() {
   document.body.style.overflow = '';
 }
 
+function goBackToVideo() {
+  closeMyResultPanel();
+  setTimeout(() => {
+    const sec = document.getElementById('section-video');
+    if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 180);
+}
+
 function renderMyResultPanel() {
   const panel = el('myResultPanel');
   if (!panel) return;
@@ -559,6 +567,10 @@ function renderMyResultPanel() {
   const totalScore    = all.reduce((s, r) => s + r.score, 0);
   const totalMax      = all.reduce((s, r) => s + r.maxScore, 0);
   const accuracy      = totalQ ? Math.round((totalCorrect / totalQ) * 100) : 0;
+  const passCount     = all.filter(r => r.correct === r.total).length;
+  const allDetails    = all.flatMap(r => r.details || []);
+  const avgTimeSec    = allDetails.length
+    ? Math.round(allDetails.reduce((s, d) => s + (d.elapsed || 0), 0) / allDetails.length / 1000) : 0;
 
   // 섹션별 정확도
   const sectAcc = Array(6).fill(null).map(() => ({ c: 0, t: 0 }));
@@ -572,27 +584,40 @@ function renderMyResultPanel() {
       <div class="result-panel-header">
         <div class="result-panel-header-text">
           <h2>📊 ${QE.userName}님의 학습 결과</h2>
-          <p>총 ${totalSessions}개 섹션 완료</p>
+          <p>총 ${totalSessions}회 퀴즈 참여</p>
         </div>
-        <button class="result-panel-close" onclick="QE.closeMyResultPanel()" title="닫기">✕</button>
+        <div class="result-panel-header-actions">
+          <div class="result-user-avatar">${QE.userName.charAt(0) || '?'}</div>
+          <button class="result-back-btn" onclick="QE.goBackToVideo()">← 영상으로 돌아가기</button>
+        </div>
       </div>
 
       <!-- KPI -->
       <div class="result-kpi-grid">
-        <div class="result-kpi-item">
+        <div class="result-kpi-item" style="border-left-color:var(--qz-primary)">
           <div class="result-kpi-label">완료 섹션</div>
           <div class="result-kpi-value highlight">${totalSessions}</div>
           <div class="result-kpi-unit">/ 6</div>
         </div>
-        <div class="result-kpi-item">
-          <div class="result-kpi-label">정답률</div>
-          <div class="result-kpi-value ${accuracy >= 70 ? 'success' : accuracy >= 40 ? '' : 'danger'}">${accuracy}%</div>
-          <div class="result-kpi-unit">${totalCorrect}/${totalQ} 문제</div>
+        <div class="result-kpi-item" style="border-left-color:${accuracy>=70?'#d97706':accuracy>=40?'#d97706':'#dc2626'}">
+          <div class="result-kpi-label">전체 정답률</div>
+          <div class="result-kpi-value ${accuracy >= 70 ? 'success' : accuracy >= 40 ? 'warning' : 'danger'}">${accuracy}%</div>
+          <div class="result-kpi-unit">${totalCorrect} / ${totalQ} 문제</div>
         </div>
-        <div class="result-kpi-item">
+        <div class="result-kpi-item" style="border-left-color:var(--qz-primary)">
           <div class="result-kpi-label">획득 점수</div>
           <div class="result-kpi-value highlight">${totalScore}</div>
           <div class="result-kpi-unit">/ ${totalMax}점</div>
+        </div>
+        <div class="result-kpi-item" style="border-left-color:#16a34a">
+          <div class="result-kpi-label">퀴즈 통과</div>
+          <div class="result-kpi-value success">${passCount}</div>
+          <div class="result-kpi-unit">회</div>
+        </div>
+        <div class="result-kpi-item" style="border-left-color:#7c3aed">
+          <div class="result-kpi-label">평균 풀이 시간</div>
+          <div class="result-kpi-value" style="color:#7c3aed">${avgTimeSec}</div>
+          <div class="result-kpi-unit">초</div>
         </div>
       </div>
 
@@ -824,6 +849,7 @@ window.QE = Object.assign(QE, {
   renderMyResultPanel,
   openMyResultPanel,
   closeMyResultPanel,
+  goBackToVideo,
   renderStatusBar,
   showNameModal,
   submitName,

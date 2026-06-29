@@ -628,36 +628,62 @@
 }
 .result-panel-header p { font-size: 0.85rem; opacity: 0.85; }
 
-/* 패널 닫기 버튼 */
-.result-panel-close {
-  background: rgba(255,255,255,0.18);
-  border: none;
-  color: #fff;
-  width: 30px;
-  height: 30px;
+/* 헤더 액션 영역 */
+.result-panel-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* 사용자 이니셜 아바타 */
+.result-user-avatar {
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
+  background: #06b6d4;
+  color: #fff;
+  font-weight: 900;
   font-size: 1rem;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: background var(--qz-transition);
-  font-family: inherit;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
-.result-panel-close:hover { background: rgba(255,255,255,0.32); }
 
-/* ── 주요 수치 그리드 ── */
+/* 영상으로 돌아가기 버튼 */
+.result-back-btn {
+  padding: 8px 14px;
+  background: rgba(255,255,255,0.12);
+  border: 1.5px solid rgba(255,255,255,0.45);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 0.83rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background var(--qz-transition);
+  white-space: nowrap;
+}
+.result-back-btn:hover { background: rgba(255,255,255,0.28); }
+
+/* ── 주요 수치 그리드 (5개) ── */
 .result-kpi-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 1px;
   background: var(--qz-border);
 }
+/* 4·5번째 카드는 두 번째 줄 2열 균등 */
+.result-kpi-grid .result-kpi-item:nth-child(4) { grid-column: 1 / 2; }
+.result-kpi-grid .result-kpi-item:nth-child(5) { grid-column: 2 / 4; }
+
 .result-kpi-item {
   background: var(--qz-card);
   padding: 18px 16px;
   text-align: center;
+  border-left: 4px solid transparent;
 }
 .result-kpi-label {
   font-size: 0.75rem;
@@ -675,6 +701,7 @@
 .result-kpi-value.highlight { color: var(--qz-primary); }
 .result-kpi-value.success   { color: var(--qz-success); }
 .result-kpi-value.danger    { color: var(--qz-danger);  }
+.result-kpi-value.warning   { color: var(--qz-warning); }
 .result-kpi-unit {
   font-size: 0.78rem;
   color: var(--qz-muted);
@@ -1190,6 +1217,19 @@
   .quiz-feedback-title { font-size: 0.95rem; }
   .quiz-feedback-pts { font-size: 0.82rem; padding: 3px 10px; }
   .quiz-fb-popup.active { border-radius: 12px; }
+
+  /* 결과 패널 헤더 액션 — 모바일 */
+  .result-panel-header { flex-wrap: wrap; gap: 10px; padding: 14px 16px; }
+  .result-panel-header-actions { flex-wrap: wrap; gap: 6px; }
+  .result-back-btn { font-size: 0.78rem; padding: 6px 10px; }
+  .result-user-avatar { width: 30px; height: 30px; font-size: 0.85rem; }
+
+  /* KPI 5개: 모바일 2열 */
+  .result-kpi-grid { grid-template-columns: 1fr 1fr; }
+  .result-kpi-grid .result-kpi-item:nth-child(4) { grid-column: auto; }
+  .result-kpi-grid .result-kpi-item:nth-child(5) { grid-column: auto; }
+  .result-kpi-item { padding: 14px 10px; }
+  .result-kpi-value { font-size: 1.3rem; }
 
   /* ── 이름 모달 ── */
   .name-modal-box {
