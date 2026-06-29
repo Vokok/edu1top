@@ -1544,6 +1544,174 @@
 }
 .intro-cancel-btn:hover { color: #94a3b8; }
 
+/* ══════════════════════════════════════════════
+   자세히 보기 버튼 (인트로 모달 내)
+   ══════════════════════════════════════════════ */
+.intro-detail-btn {
+  display: block;
+  margin: 8px auto 0;
+  padding: 5px 16px;
+  background: transparent;
+  border: 1.5px solid rgba(255,255,255,0.4);
+  border-radius: 20px;
+  color: rgba(255,255,255,0.8);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s, color 0.2s;
+  letter-spacing: 0.02em;
+}
+.intro-detail-btn:hover { background: rgba(255,255,255,0.15); color: #fff; }
+
+/* ══════════════════════════════════════════════
+   학부모 안내 팝업 (parentGuideModal)
+   ══════════════════════════════════════════════ */
+.parent-guide-box {
+  width: 100%;
+  max-width: 680px;
+  background: #fff;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+  animation: qzSlideUp 0.25s ease;
+}
+.parent-guide-header {
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+  padding: 20px 20px 18px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.parent-guide-close {
+  background: rgba(255,255,255,0.15);
+  border: none;
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 1rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.parent-guide-close:hover { background: rgba(255,255,255,0.3); }
+.parent-guide-body { padding: 20px 20px 24px; }
+
+.pg-section { margin-bottom: 22px; }
+.pg-section-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #1e3a8a;
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+/* 흐름 그리드 */
+.pg-flow-grid {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.pg-flow-item {
+  flex: 1;
+  min-width: 80px;
+  background: #eff6ff;
+  border-radius: 10px;
+  padding: 10px 8px;
+  text-align: center;
+  font-size: 0.75rem;
+}
+.pg-flow-item strong { display: block; font-size: 0.78rem; color: #1e3a8a; margin-bottom: 3px; }
+.pg-flow-item p { color: #475569; line-height: 1.4; margin: 0; }
+.pg-flow-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #2563eb;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 900;
+  margin-bottom: 5px;
+}
+.pg-flow-arrow { color: #94a3b8; font-size: 1rem; flex-shrink: 0; }
+
+/* 채점 카드 */
+.pg-card-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
+.pg-card {
+  border-radius: 10px;
+  padding: 12px 10px;
+  text-align: center;
+  font-size: 0.78rem;
+}
+.pg-card-icon { font-size: 1.4rem; margin-bottom: 5px; }
+.pg-card strong { display: block; font-size: 0.78rem; margin-bottom: 4px; }
+.pg-card p { color: #475569; font-size: 0.73rem; margin: 0; line-height: 1.4; }
+.pg-card-pass   { background: #f0fdf4; border: 1.5px solid #86efac; }
+.pg-card-warn   { background: #fffbeb; border: 1.5px solid #fcd34d; }
+.pg-card-retry  { background: #fef2f2; border: 1.5px solid #fca5a5; }
+
+/* 표 */
+.pg-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+.pg-table thead th { background: #1e3a8a; color: #fff; padding: 8px 12px; text-align: left; }
+.pg-table tbody td { padding: 8px 12px; border-bottom: 1px solid #e2e8f0; }
+.pg-table tbody tr:last-child td { border-bottom: none; }
+.pg-table tbody tr:nth-child(even) { background: #f8fafc; }
+
+/* 안내 목록 */
+.pg-info-list { display: flex; flex-direction: column; gap: 8px; }
+.pg-info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.84rem;
+  color: #334155;
+  line-height: 1.5;
+}
+.pg-info-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+
+/* 확인 버튼 */
+.pg-close-btn {
+  display: block;
+  width: 100%;
+  padding: 13px;
+  margin-top: 4px;
+  background: linear-gradient(135deg, #1e3a8a, #2563eb);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: filter 0.2s;
+}
+.pg-close-btn:hover { filter: brightness(1.1); }
+
+/* 모바일 */
+@media (max-width: 640px) {
+  .pg-card-grid { grid-template-columns: 1fr; gap: 8px; }
+  .pg-flow-grid { gap: 3px; }
+  .pg-flow-item { min-width: 60px; padding: 8px 5px; }
+  .pg-flow-arrow { display: none; }
+  .parent-guide-body { padding: 14px 14px 20px; }
+}
+
 /* ── 스크롤바 스타일 ── */
 .quiz-card::-webkit-scrollbar { width: 6px; }
 .quiz-card::-webkit-scrollbar-track { background: #f1f5f9; }

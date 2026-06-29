@@ -2179,6 +2179,21 @@ const T = {
   }
 };
 
+// ── 학부모 안내 팝업 ──
+function openParentGuide() {
+  const m = document.getElementById('parentGuideModal');
+  if (m) { m.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+}
+function closeParentGuide() {
+  const m = document.getElementById('parentGuideModal');
+  if (m) { m.style.display = 'none'; document.body.style.overflow = ''; }
+}
+// 바깥 클릭 시 닫기
+document.addEventListener('click', function(e) {
+  const m = document.getElementById('parentGuideModal');
+  if (m && m.style.display === 'flex' && e.target === m) closeParentGuide();
+});
+
 // ── 햄버거 메뉴 ──
 function toggleMobileNav() {
   const drawer = document.getElementById('mobileNavDrawer');
@@ -2299,6 +2314,7 @@ function toggleLearningMode() {
           <div class="intro-flow-icon">📊</div>
           <div class="intro-flow-label">결과<br>저장</div>
         </div>
+        <button class="intro-detail-btn" onclick="openParentGuide()">📋 자세히 보기</button>
       </div>
 
       <!-- 단계별 설명 -->
@@ -2344,6 +2360,89 @@ function toggleLearningMode() {
 
       <button class="intro-next-btn" onclick="QE.proceedToName()">이름이나 별명을 입력하고 시작하기 →</button>
       <button class="intro-cancel-btn" onclick="QE.cancelLearningMode()">취소 (일반 시청으로 돌아가기)</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     학부모 안내 상세 설명 팝업
+     ══════════════════════════════════════════════ -->
+<div id="parentGuideModal" style="display:none;position:fixed;inset:0;z-index:10500;background:rgba(0,0,0,0.7);align-items:flex-start;justify-content:center;overflow-y:auto;padding:20px 14px 40px;">
+  <div class="parent-guide-box">
+    <div class="parent-guide-header">
+      <div>
+        <h2 style="font-size:1.2rem;font-weight:900;color:#fff;margin-bottom:4px;">📋 에듀원탑 동영상 학습 — 학부모 안내</h2>
+        <p style="font-size:0.8rem;color:rgba(255,255,255,0.7);">자녀의 학습 방식을 쉽게 이해할 수 있도록 정리했습니다</p>
+      </div>
+      <button class="parent-guide-close" onclick="closeParentGuide()">✕</button>
+    </div>
+    <div class="parent-guide-body">
+
+      <!-- 한눈에 보기 -->
+      <div class="pg-section">
+        <h3 class="pg-section-title">🎯 한눈에 보는 학습 흐름</h3>
+        <div class="pg-flow-grid">
+          <div class="pg-flow-item"><span class="pg-flow-num">1</span><strong>영상 시청</strong><p>프로그램 소개 영상을 처음부터 시청합니다</p></div>
+          <div class="pg-flow-arrow">→</div>
+          <div class="pg-flow-item"><span class="pg-flow-num">2</span><strong>자동 일시정지</strong><p>6개 핵심 구간마다 영상이 자동으로 멈춥니다</p></div>
+          <div class="pg-flow-arrow">→</div>
+          <div class="pg-flow-item"><span class="pg-flow-num">3</span><strong>퀴즈 2문제</strong><p>구간별 내용을 확인하는 퀴즈 2문제가 출제됩니다</p></div>
+          <div class="pg-flow-arrow">→</div>
+          <div class="pg-flow-item"><span class="pg-flow-num">4</span><strong>즉시 피드백</strong><p>정답·오답을 바로 확인하고 다음으로 진행합니다</p></div>
+          <div class="pg-flow-arrow">→</div>
+          <div class="pg-flow-item"><span class="pg-flow-num">5</span><strong>결과 저장</strong><p>학습 기록이 자동으로 저장되어 언제든 확인 가능합니다</p></div>
+        </div>
+      </div>
+
+      <!-- 채점 방식 -->
+      <div class="pg-section">
+        <h3 class="pg-section-title">📊 채점 및 진행 방식</h3>
+        <div class="pg-card-grid">
+          <div class="pg-card pg-card-pass">
+            <div class="pg-card-icon">✅</div>
+            <strong>2문제 모두 정답 — 통과!</strong>
+            <p>다음 구간 영상으로 자동 진행됩니다</p>
+          </div>
+          <div class="pg-card pg-card-warn">
+            <div class="pg-card-icon">⚠️</div>
+            <strong>1문제 정답 — 경고 후 계속</strong>
+            <p>경고 메시지 확인 후 다음 구간으로 진행됩니다</p>
+          </div>
+          <div class="pg-card pg-card-retry">
+            <div class="pg-card-icon">🔄</div>
+            <strong>2문제 모두 오답 — 재시청</strong>
+            <p>해당 구간 처음부터 다시 영상을 시청합니다</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 배점 안내 -->
+      <div class="pg-section">
+        <h3 class="pg-section-title">🏆 배점 및 퀴즈 구성</h3>
+        <table class="pg-table">
+          <thead><tr><th>구분</th><th>내용</th></tr></thead>
+          <tbody>
+            <tr><td>출제 방식</td><td>구간별 5개 문항 중 <strong>2개 무작위</strong> 선택</td></tr>
+            <tr><td>보기 수</td><td>매번 무작위 <strong>3·4·5지선다</strong> 중 하나</td></tr>
+            <tr><td>배점</td><td>3지선다 = <strong>3점</strong> / 4지선다 = <strong>4점</strong> / 5지선다 = <strong>5점</strong></td></tr>
+            <tr><td>시간 제한</td><td>문제당 <strong>30초</strong> (시간 초과 시 자동 오답 처리)</td></tr>
+            <tr><td>총 구간 수</td><td><strong>6구간</strong> (최대 12문제, 최대 60점)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 결과 확인 방법 -->
+      <div class="pg-section">
+        <h3 class="pg-section-title">📁 학습 결과 확인 방법</h3>
+        <div class="pg-info-list">
+          <div class="pg-info-item"><span class="pg-info-dot" style="background:#3b82f6"></span>이름(별명)을 입력하면 개인별 학습 기록이 자동 저장됩니다</div>
+          <div class="pg-info-item"><span class="pg-info-dot" style="background:#10b981"></span>상단 메뉴 <strong>📊 내 결과</strong>에서 섹션별 정답률·점수·풀이 시간을 확인할 수 있습니다</div>
+          <div class="pg-info-item"><span class="pg-info-dot" style="background:#f59e0b"></span>같은 이름으로 반복 학습하면 누적 기록이 모두 저장됩니다</div>
+          <div class="pg-info-item"><span class="pg-info-dot" style="background:#8b5cf6"></span>관리자 페이지에서 전체 학습자 현황을 한눈에 확인할 수 있습니다</div>
+        </div>
+      </div>
+
+      <button class="pg-close-btn" onclick="closeParentGuide()">확인했습니다 ✓</button>
     </div>
   </div>
 </div>
