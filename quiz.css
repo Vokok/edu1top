@@ -94,11 +94,16 @@
   inset: 0;
   z-index: 9100;
   background: var(--qz-overlay);
-  align-items: center;
+  align-items: flex-start;   /* top=0 기준, 카드가 뷰포트보다 크면 스크롤 가능 */
   justify-content: center;
-  padding: 16px;
+  padding: 20px 16px 40px;
+  overflow-y: auto;
 }
-#quizOverlay.active { display: flex; }
+#quizOverlay.active {
+  display: flex;
+  /* 카드가 뷰포트보다 작으면 수직 중앙 정렬 */
+  align-items: safe center;
+}
 
 /* ── 퀴즈 카드 ── */
 .quiz-card {
@@ -107,7 +112,7 @@
   box-shadow: var(--qz-shadow);
   width: 100%;
   max-width: 620px;
-  max-height: 92vh;
+  max-height: none;  /* 높이 제한 제거 — 오버레이가 스크롤 담당 */
   overflow-y: auto;
   animation: qzSlideUp 0.3s ease;
 }
@@ -1163,7 +1168,7 @@
    ══════════════════════════════════════════════════════════ */
 @media (max-width: 640px) {
 
-  /* ── 모든 오버레이: 최상단 정렬, 전체 너비 ── */
+  /* ── 모든 오버레이: top=0 기준, 스크롤 가능 ── */
   #quizOverlay,
   #warnModal,
   #retryModal,
@@ -1175,14 +1180,16 @@
     padding: 0;
     overflow-y: auto;
   }
+  #quizOverlay.active { align-items: flex-start; }
 
   /* ── 퀴즈 카드 ── */
   .quiz-card {
     max-height: none;
     width: 100%;
     border-radius: 0 0 20px 20px;
-    overflow-y: auto;
+    overflow-y: visible;
     box-shadow: 0 8px 32px rgba(0,0,0,0.22);
+    margin: 0;
   }
   .quiz-header {
     padding: 14px 16px 10px;
