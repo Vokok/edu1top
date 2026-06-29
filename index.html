@@ -2390,67 +2390,85 @@ function toggleLearningMode() {
     </div>
     <div class="parent-guide-body">
 
-      <!-- 한눈에 보기 -->
+      <!-- ① 학습 흐름 -->
       <div class="pg-section">
-        <h3 class="pg-section-title">🎯 한눈에 보는 학습 흐름</h3>
+        <h3 class="pg-section-title">🎯 학습 흐름 (6단계)</h3>
         <div class="pg-flow-grid">
-          <div class="pg-flow-item"><span class="pg-flow-num">1</span><strong>영상 시청</strong><p>프로그램 소개 영상을 처음부터 시청합니다</p></div>
+          <div class="pg-flow-item"><span class="pg-flow-num">1</span><strong>이름 입력</strong><p>별명도 가능, 결과 저장에 사용</p></div>
           <div class="pg-flow-arrow">→</div>
-          <div class="pg-flow-item"><span class="pg-flow-num">2</span><strong>자동 일시정지</strong><p>6개 핵심 구간마다 영상이 자동으로 멈춥니다</p></div>
+          <div class="pg-flow-item"><span class="pg-flow-num">2</span><strong>영상 시청</strong><p>처음부터 1.25배속 자동 재생</p></div>
           <div class="pg-flow-arrow">→</div>
-          <div class="pg-flow-item"><span class="pg-flow-num">3</span><strong>퀴즈 2문제</strong><p>구간별 내용을 확인하는 퀴즈 2문제가 출제됩니다</p></div>
+          <div class="pg-flow-item"><span class="pg-flow-num">3</span><strong>구간 정지</strong><p>6개 핵심 구간마다 자동 일시정지</p></div>
           <div class="pg-flow-arrow">→</div>
-          <div class="pg-flow-item"><span class="pg-flow-num">4</span><strong>즉시 피드백</strong><p>정답·오답을 바로 확인하고 다음으로 진행합니다</p></div>
+          <div class="pg-flow-item"><span class="pg-flow-num">4</span><strong>퀴즈 2문제</strong><p>5문제 중 2개 무작위 출제</p></div>
           <div class="pg-flow-arrow">→</div>
-          <div class="pg-flow-item"><span class="pg-flow-num">5</span><strong>결과 저장</strong><p>학습 기록이 자동으로 저장되어 언제든 확인 가능합니다</p></div>
+          <div class="pg-flow-item"><span class="pg-flow-num">5</span><strong>즉시 채점</strong><p>정답 시 1초 후 자동 진행</p></div>
+          <div class="pg-flow-arrow">→</div>
+          <div class="pg-flow-item"><span class="pg-flow-num">6</span><strong>결과 저장</strong><p>섹션별 점수·정답률 기록</p></div>
         </div>
       </div>
 
-      <!-- 채점 방식 -->
+      <!-- ② 채점 분기 -->
       <div class="pg-section">
-        <h3 class="pg-section-title">📊 채점 및 진행 방식</h3>
+        <h3 class="pg-section-title">📊 채점 결과별 진행 방식</h3>
         <div class="pg-card-grid">
           <div class="pg-card pg-card-pass">
             <div class="pg-card-icon">✅</div>
-            <strong>2문제 모두 정답 — 통과!</strong>
-            <p>다음 구간 영상으로 자동 진행됩니다</p>
+            <strong>2/2 정답 — 통과</strong>
+            <p>다음 구간으로 자동 진행</p>
           </div>
           <div class="pg-card pg-card-warn">
             <div class="pg-card-icon">⚠️</div>
-            <strong>1문제 정답 — 경고 후 계속</strong>
-            <p>경고 메시지 확인 후 다음 구간으로 진행됩니다</p>
+            <strong>1/2 정답 — 경고</strong>
+            <p>경고 확인 후 다음 구간 진행</p>
           </div>
           <div class="pg-card pg-card-retry">
             <div class="pg-card-icon">🔄</div>
-            <strong>2문제 모두 오답 — 재시청</strong>
-            <p>해당 구간 처음부터 다시 영상을 시청합니다</p>
+            <strong>0/2 정답 — 재시청</strong>
+            <p>해당 구간 처음부터 다시 시청</p>
           </div>
+        </div>
+        <div class="pg-info-list" style="margin-top:10px;">
+          <div class="pg-info-item"><span class="pg-info-dot" style="background:#f59e0b"></span><strong>연속 2회 경고</strong> 발생 시 → 이전 섹션으로 돌아가 재학습</div>
         </div>
       </div>
 
-      <!-- 배점 안내 -->
+      <!-- ③ 배점 -->
       <div class="pg-section">
         <h3 class="pg-section-title">🏆 배점 및 퀴즈 구성</h3>
         <table class="pg-table">
           <thead><tr><th>구분</th><th>내용</th></tr></thead>
           <tbody>
-            <tr><td>출제 방식</td><td>구간별 5개 문항 중 <strong>2개 무작위</strong> 선택</td></tr>
-            <tr><td>보기 수</td><td>매번 무작위 <strong>3·4·5지선다</strong> 중 하나</td></tr>
-            <tr><td>배점</td><td>3지선다 = <strong>3점</strong> / 4지선다 = <strong>4점</strong> / 5지선다 = <strong>5점</strong></td></tr>
-            <tr><td>시간 제한</td><td>문제당 <strong>30초</strong> (시간 초과 시 자동 오답 처리)</td></tr>
-            <tr><td>총 구간 수</td><td><strong>6구간</strong> (최대 12문제, 최대 60점)</td></tr>
+            <tr><td>출제 방식</td><td>구간별 5문항 중 <strong>2개 무작위</strong> 선택</td></tr>
+            <tr><td>보기 수</td><td>매번 무작위 <strong>3·4·5지선다</strong></td></tr>
+            <tr><td>배점</td><td>3지선다 <strong>3점</strong> / 4지선다 <strong>4점</strong> / 5지선다 <strong>5점</strong></td></tr>
+            <tr><td>시간 제한</td><td>문제당 <strong>30초</strong> (초과 시 자동 오답)</td></tr>
+            <tr><td>총 구간</td><td><strong>6구간</strong> — 최대 12문제, 최대 60점</td></tr>
           </tbody>
         </table>
       </div>
 
-      <!-- 결과 확인 방법 -->
+      <!-- ④ 학습 중 규칙 -->
       <div class="pg-section">
-        <h3 class="pg-section-title">📁 학습 결과 확인 방법</h3>
+        <h3 class="pg-section-title">🔒 학습 중 준수 사항</h3>
         <div class="pg-info-list">
-          <div class="pg-info-item"><span class="pg-info-dot" style="background:#3b82f6"></span>이름(별명)을 입력하면 개인별 학습 기록이 자동 저장됩니다</div>
-          <div class="pg-info-item"><span class="pg-info-dot" style="background:#10b981"></span>상단 메뉴 <strong>📊 내 결과</strong>에서 섹션별 정답률·점수·풀이 시간을 확인할 수 있습니다</div>
-          <div class="pg-info-item"><span class="pg-info-dot" style="background:#f59e0b"></span>같은 이름으로 반복 학습하면 누적 기록이 모두 저장됩니다</div>
-          <div class="pg-info-item"><span class="pg-info-dot" style="background:#8b5cf6"></span>관리자 페이지에서 전체 학습자 현황을 한눈에 확인할 수 있습니다</div>
+          <div class="pg-info-item"><span class="pg-info-dot" style="background:#dc2626"></span>학습 중 <strong>페이지 스크롤 불가</strong> — 시도 시 경고 팝업 표시 (최대 2회)</div>
+          <div class="pg-info-item"><span class="pg-info-dot" style="background:#dc2626"></span>학습 중 <strong>화면 클릭 불가</strong> — 퀴즈·모달 창 외 모든 클릭 차단</div>
+          <div class="pg-info-item"><span class="pg-info-dot" style="background:#dc2626"></span>학습 중 <strong>동영상 직접 조작 불가</strong> — 재생바·버튼 비활성화</div>
+          <div class="pg-info-item"><span class="pg-info-dot" style="background:#dc2626"></span>학습 중 <strong>메뉴 이동 불가</strong> — 다른 섹션·페이지 이동 잠금</div>
+          <div class="pg-info-item"><span class="pg-info-dot" style="background:#7c3aed"></span>이탈 시도 내역은 <strong>선생님(관리자)에게 자동 기록</strong>됩니다</div>
+          <div class="pg-info-item"><span class="pg-info-dot" style="background:#475569"></span><strong>F12(개발자 도구)</strong> 및 우클릭 메뉴 차단</div>
+        </div>
+      </div>
+
+      <!-- ⑤ 결과 확인 -->
+      <div class="pg-section">
+        <h3 class="pg-section-title">📁 결과 확인 방법</h3>
+        <div class="pg-info-list">
+          <div class="pg-info-item"><span class="pg-info-dot" style="background:#3b82f6"></span>이름(별명) 입력 시 개인별 학습 기록 자동 저장</div>
+          <div class="pg-info-item"><span class="pg-info-dot" style="background:#10b981"></span>상단 메뉴 <strong>📊 내 결과</strong>에서 섹션별 정답률·점수·풀이 시간 확인</div>
+          <div class="pg-info-item"><span class="pg-info-dot" style="background:#f59e0b"></span>같은 이름으로 반복 학습 시 누적 기록 모두 저장</div>
+          <div class="pg-info-item"><span class="pg-info-dot" style="background:#8b5cf6"></span>관리자 페이지에서 전체 학습자 현황·이탈 로그 확인 가능</div>
         </div>
       </div>
 
