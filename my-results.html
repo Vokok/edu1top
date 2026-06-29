@@ -77,9 +77,24 @@
   .qa-row-l { min-width: 68px; color: var(--qz-muted); font-weight: 600; }
 
   @media(max-width:640px){
-    .stats-dashboard { padding: 12px; }
-    .stats-topbar    { padding: 14px 16px; }
+    .stats-dashboard { padding: 10px; }
+    .stats-topbar    { padding: 12px 14px; flex-wrap: wrap; gap: 8px; }
+    .stats-topbar h1 { font-size: 1rem; }
+    .topbar-right    { gap: 8px; flex-wrap: wrap; }
     .sect-grid       { grid-template-columns: 1fr; }
+    .stats-tabs      { overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; }
+    .stats-tabs::-webkit-scrollbar { display: none; }
+    .stats-tab       { font-size: 0.8rem; padding: 9px 14px; white-space: nowrap; flex-shrink: 0; }
+    .stats-section-body { padding: 12px; }
+    .stats-kpi-row   { gap: 8px; }
+    .stats-kpi-card  { padding: 12px 10px; min-width: 0; }
+    .kpi-v           { font-size: 1.5rem; }
+    .kpi-l           { font-size: 0.72rem; }
+    .donut-wrap      { flex-direction: column; align-items: flex-start; gap: 14px; }
+    .qa-row          { flex-direction: column; gap: 3px; }
+    .qa-row-l        { min-width: unset; }
+    table            { font-size: 0.78rem; }
+    thead th, tbody td { padding: 8px 9px; }
   }
 </style>
 </head>

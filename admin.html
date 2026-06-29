@@ -71,9 +71,26 @@
   #drawerOverlay.open { display: block; }
 
   @media(max-width:640px){
-    .stats-dashboard { padding: 12px; }
-    .stats-topbar    { padding: 14px 16px; }
+    .stats-dashboard { padding: 10px; }
+    .stats-topbar    { padding: 12px 14px; flex-wrap: wrap; gap: 8px; }
+    .stats-topbar h1 { font-size: 1rem; }
+    .topbar-right    { gap: 8px; flex-wrap: wrap; }
+    .stats-tabs      { overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; }
+    .stats-tabs::-webkit-scrollbar { display: none; }
+    .stats-tab       { font-size: 0.8rem; padding: 9px 14px; white-space: nowrap; flex-shrink: 0; }
+    .stats-section-body { padding: 12px; }
+    .stats-kpi-row   { gap: 8px; }
+    .stats-kpi-card  { padding: 12px 10px; min-width: 0; }
+    .kpi-v           { font-size: 1.5rem; }
+    .kpi-l           { font-size: 0.72rem; }
+    #kpiRow          { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .donut-wrap      { flex-direction: column; align-items: flex-start; gap: 14px; }
+    table            { font-size: 0.78rem; }
+    thead th, tbody td { padding: 8px 9px; }
+    .user-chip       { font-size: 0.78rem; padding: 3px 10px; }
     #userDrawer      { width: 100%; max-width: 100%; right: -100%; }
+    .stats-login-card { padding: 28px 18px; margin: 0 12px; }
+    .mini-bar-track  { width: 56px; }
   }
 </style>
 </head>

@@ -79,7 +79,235 @@
   .effect-item p { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
   footer { background: var(--primary-dark); color: #94a3b8; text-align: center; padding: 28px 24px; font-size: 0.85rem; }
   footer strong { color: #fff; }
-  @media (max-width: 600px) { .nav-bar { flex-wrap: wrap; } .nav-bar a { font-size: 0.8rem; padding: 8px 12px; } .ct-stage { min-width: 90px; } }
+
+  /* ══════════════════════════════════════════════
+     모바일 최적화 (≤ 640px)
+     ══════════════════════════════════════════════ */
+  @media (max-width: 640px) {
+
+    /* ── 헤더 ── */
+    .header-top {
+      padding: 8px 14px;
+      gap: 6px;
+    }
+    .header-title {
+      font-size: 0.9rem;
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    #lang-select {
+      padding: 5px 8px;
+      font-size: 0.78rem;
+      max-width: 130px;
+    }
+
+    /* ── 네비게이션: 가로 스크롤 ── */
+    .nav-bar {
+      overflow-x: auto;
+      overflow-y: hidden;
+      flex-wrap: nowrap;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .nav-bar::-webkit-scrollbar { display: none; }
+    .nav-bar a {
+      font-size: 0.75rem;
+      padding: 9px 12px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      gap: 4px;
+    }
+
+    /* ── 히어로 ── */
+    .hero {
+      padding: 36px 16px 32px;
+    }
+    .hero h1 {
+      font-size: clamp(1.35rem, 7vw, 1.9rem);
+      line-height: 1.25;
+    }
+    .hero-sub { font-size: 0.9rem; margin-bottom: 20px; }
+    .hero-promise {
+      padding: 14px 18px;
+      font-size: 0.86rem;
+      line-height: 1.75;
+      text-align: left;
+    }
+    .hero-badge { font-size: 0.72rem; padding: 3px 12px; }
+
+    /* ── 섹션 공통 ── */
+    section { padding: 36px 14px; }
+    .section-inner { max-width: 100%; }
+    .section-title {
+      font-size: 1.1rem;
+      gap: 7px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    /* ── 카드 ── */
+    .card { padding: 16px; }
+
+    /* ── 테이블 → 모바일 카드 변환 ── */
+    .tbl-wrap {
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+    table { font-size: 0.82rem; }
+    thead th { padding: 10px 10px; font-size: 0.8rem; }
+    tbody td { padding: 9px 10px; }
+
+    /* 3열 이상 테이블은 첫 열 고정 스타일 */
+    .tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+    /* ── 프로그램 카드 ── */
+    .prog-grid {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    .prog-card { padding: 20px 18px; }
+    .prog-icon { font-size: 2rem; }
+    .prog-card h3 { font-size: 1rem; }
+    .prog-card p { font-size: 0.84rem; }
+
+    /* ── 로드맵 ── */
+    .roadmap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .rm-item {
+      flex: none;
+      padding: 12px 12px;
+    }
+    .rm-item h4 { font-size: 0.85rem; margin-bottom: 5px; }
+    .rm-item p { font-size: 0.76rem; }
+
+    /* ── 90분 수업 타임라인 ── */
+    .class-timeline { gap: 8px; }
+    .ct-row {
+      padding: 10px 12px;
+      gap: 10px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+    .ct-time {
+      min-width: 44px;
+      font-size: 0.78rem;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 6px;
+      padding: 3px 6px;
+      text-align: center;
+    }
+    .ct-stage {
+      min-width: unset;
+      font-size: 0.84rem;
+      font-weight: 700;
+      flex: 1;
+    }
+    .ct-act {
+      width: 100%;
+      font-size: 0.79rem;
+      padding-left: 54px;
+      color: var(--muted);
+    }
+
+    /* ── 수강 신청 단계 ── */
+    .step-list { gap: 10px; }
+    .step-item {
+      padding: 14px 14px;
+      gap: 12px;
+    }
+    .step-num { min-width: 32px; height: 32px; font-size: 0.85rem; }
+    .step-content h4 { font-size: 0.9rem; }
+    .step-content p { font-size: 0.82rem; }
+
+    /* ── 기대효과 ── */
+    .effect-grid {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    .effect-item { padding: 16px; }
+    .effect-item .ef-icon { font-size: 1.7rem; }
+    .effect-item h4 { font-size: 0.9rem; }
+    .effect-item p { font-size: 0.8rem; }
+
+    /* ── 동영상 섹션 ── */
+    #section-video { padding: 24px 12px; }
+    #section-video .section-title {
+      font-size: 1rem;
+      flex-wrap: wrap;
+      gap: 8px;
+      row-gap: 8px;
+    }
+    .lm-btn {
+      width: 100%;
+      margin-left: 0;
+      padding: 10px;
+      font-size: 0.9rem;
+      text-align: center;
+      order: 10;    /* 타이틀 아래로 */
+    }
+    #section-video > .section-inner > p {
+      font-size: 0.76rem;
+      margin-bottom: 12px;
+    }
+    #quizStatusBar {
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    /* ── PDF 섹션: 모바일에서 iframe 숨기고 버튼 표시 ── */
+    .pdf-wrap { display: none; }
+    .pdf-mobile-open { display: flex !important; }
+
+    /* ── 푸터 ── */
+    footer { padding: 20px 16px; font-size: 0.8rem; line-height: 1.7; }
+  }
+
+  /* ── 초소형 (≤ 380px) ── */
+  @media (max-width: 380px) {
+    .header-title { font-size: 0.82rem; }
+    .hero h1 { font-size: 1.25rem; }
+    .roadmap { grid-template-columns: 1fr; }
+    .nav-bar a { font-size: 0.72rem; padding: 8px 10px; }
+  }
+
+  /* ── PDF 모바일 열기 버튼 (기본: 숨김) ── */
+  .pdf-mobile-open {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 28px 20px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 12px;
+    border: 2px dashed rgba(255,255,255,0.2);
+    text-align: center;
+  }
+  .pdf-mobile-open p { font-size: 0.85rem; color: #94a3b8; line-height: 1.6; }
+  .pdf-open-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 28px;
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: inherit;
+    box-shadow: 0 4px 14px rgba(16,185,129,0.4);
+    transition: all 0.22s;
+  }
+  .pdf-open-btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
 
   /* 학습 모드 토글 버튼 */
   .lm-btn {
@@ -318,6 +546,14 @@
       <span class="icon">📄</span><span style="color:#10b981;" data-i18n="pdf1_title">이주배경청소년 통합 교육 프로그램 소개서</span>
     </h2>
     <p style="color:#94a3b8; margin-bottom:16px; font-size:0.9rem;" data-i18n="pdf1_desc">아래에서 소개서를 직접 확인하실 수 있습니다. (스크롤·확대 가능)</p>
+    <!-- 모바일: 버튼으로 열기 -->
+    <div class="pdf-mobile-open">
+      <p>📄 모바일에서는 PDF를 새 탭에서 여는 것이 더 편리합니다.</p>
+      <a class="pdf-open-btn" href="01%20이주배경청소년%20통합%20교육%20프로그램.pdf" target="_blank">
+        📂 소개서 PDF 열기
+      </a>
+    </div>
+    <!-- 데스크톱: iframe 뷰어 -->
     <div class="pdf-wrap">
       <iframe src="01%20이주배경청소년%20통합%20교육%20프로그램.pdf#toolbar=1&amp;navpanes=1" title="이주배경청소년 통합 교육 프로그램"></iframe>
     </div>
@@ -331,6 +567,14 @@
       <span class="icon">📋</span><span data-i18n="pdf2_title">꿈담길 + 에듀원탑 + 배틀학습 상세 소개 (240p)</span>
     </h2>
     <p style="color:var(--muted); margin-bottom:16px; font-size:0.9rem;" data-i18n="pdf2_desc">아래에서 상세 소개 PDF를 직접 확인하실 수 있습니다. (스크롤·확대 가능)</p>
+    <!-- 모바일: 버튼으로 열기 -->
+    <div class="pdf-mobile-open" style="border-color:rgba(0,0,0,0.15); background:#f1f5f9;">
+      <p style="color:#64748b;">📋 모바일에서는 PDF를 새 탭에서 여는 것이 더 편리합니다.</p>
+      <a class="pdf-open-btn" href="02%20꿈담길%2B에듀원탑%2B배틀학습%20소개.pdf" target="_blank">
+        📂 상세 소개 PDF 열기 (240p)
+      </a>
+    </div>
+    <!-- 데스크톱: iframe 뷰어 -->
     <div class="pdf-wrap">
       <iframe src="02%20꿈담길%2B에듀원탑%2B배틀학습%20소개.pdf#toolbar=1&amp;navpanes=1" title="꿈담길+에듀원탑+배틀학습 소개"></iframe>
     </div>

@@ -1054,7 +1054,8 @@
    9. 반응형
    ══════════════════════════════════════════════════════════ */
 @media (max-width: 640px) {
-  /* ── 퀴즈·모달 오버레이: 모바일에서 화면 최상단 정렬 ── */
+
+  /* ── 모든 오버레이: 최상단 정렬, 전체 너비 ── */
   #quizOverlay,
   #warnModal,
   #retryModal,
@@ -1067,43 +1068,110 @@
     overflow-y: auto;
   }
 
-  /* 카드를 화면 꽉 채우되 스크롤 가능하게 */
+  /* ── 퀴즈 카드 ── */
   .quiz-card {
     max-height: none;
     width: 100%;
-    border-radius: 0 0 16px 16px;
+    border-radius: 0 0 20px 20px;
     overflow-y: auto;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.22);
   }
+  .quiz-header {
+    padding: 14px 16px 10px;
+    position: sticky;
+    top: 0;
+    background: var(--qz-card);
+    z-index: 2;
+    border-bottom: 1px solid var(--qz-border);
+  }
+  .quiz-header-section { font-size: 0.72rem; padding: 3px 10px; }
+  .quiz-header-counter { font-size: 0.82rem; }
+  .quiz-score-badge { padding: 8px 16px; font-size: 0.82rem; gap: 4px; }
+  .quiz-timer-bar { padding: 6px 16px; gap: 8px; }
+  .quiz-timer-text { font-size: 0.82rem; min-width: 28px; }
+  .quiz-body { padding: 14px 16px; }
+  .quiz-question { font-size: 0.95rem; line-height: 1.6; margin-bottom: 14px; }
+  .quiz-option-btn {
+    padding: 11px 12px;
+    font-size: 0.88rem;
+    gap: 10px;
+    border-radius: 10px;
+  }
+  .quiz-option-num {
+    min-width: 26px;
+    height: 26px;
+    font-size: 0.78rem;
+  }
+  .quiz-options { gap: 8px; margin-bottom: 14px; }
+  .quiz-submit-wrap,
+  .quiz-next-wrap { padding: 0 16px 14px; }
+  .quiz-feedback { margin: 0 16px 12px; padding: 12px 14px; font-size: 0.84rem; }
+  .quiz-feedback-title { font-size: 0.95rem; }
+  .quiz-feedback-pts { font-size: 0.82rem; padding: 3px 10px; }
+
+  /* ── 이름 모달 ── */
   .name-modal-box {
     width: 100%;
-    border-radius: 0 0 16px 16px;
-    padding: 28px 20px;
+    border-radius: 0 0 20px 20px;
+    padding: 24px 18px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.22);
   }
+  .name-modal-box h2 { font-size: 1.25rem; }
+  .name-modal-box p { font-size: 0.85rem; }
+  .name-modal-box input { padding: 13px 14px; font-size: 0.95rem; }
+  .name-modal-box .btn-start { padding: 13px; font-size: 0.98rem; }
+
+  /* ── 경고·재시도·통과 모달 ── */
   .warn-modal-box,
   .retry-modal-box,
   .section-clear-box {
     width: 100%;
-    border-radius: 0 0 16px 16px;
+    border-radius: 0 0 20px 20px;
+    padding: 24px 18px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.22);
   }
+
+  /* ── 인트로 모달 ── */
   .intro-modal-box {
     width: 100%;
-    border-radius: 0 0 16px 16px;
+    border-radius: 0 0 20px 20px;
     max-height: none;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.22);
   }
+  .intro-header { padding: 20px 18px 16px; }
+  .intro-logo { font-size: 2rem; margin-bottom: 7px; }
+  .intro-header h2 { font-size: 1.1rem; }
+  .intro-body { padding: 16px 16px 20px; }
+  .intro-flow { gap: 0; margin-bottom: 14px; }
+  .intro-flow-step { min-width: 56px; }
+  .intro-flow-icon { width: 36px; height: 36px; font-size: 1rem; }
+  .intro-flow-label { font-size: 0.65rem; }
+  .intro-flow-arrow { font-size: 0.9rem; padding-bottom: 16px; }
+  .intro-steps { gap: 8px; margin-bottom: 14px; }
+  .intro-step { padding: 10px 12px; gap: 10px; }
+  .intro-step-content strong { font-size: 0.84rem; }
+  .intro-step-content p { font-size: 0.77rem; }
+  .intro-score-chips { padding: 10px 12px; gap: 6px; margin-bottom: 14px; }
+  .intro-score-chip { font-size: 0.72rem; padding: 2px 8px; }
+  .intro-next-btn { padding: 13px; font-size: 0.95rem; }
+  .intro-cancel-btn { font-size: 0.8rem; margin-top: 6px; }
 
-  /* 퀴즈 카드 내부 패딩 축소 */
-  .quiz-header { padding: 16px 18px 12px; }
-  .quiz-body { padding: 18px; }
-  .quiz-question { font-size: 0.98rem; }
-  .quiz-option-btn { padding: 12px 14px; font-size: 0.91rem; }
-  .quiz-submit-wrap,
-  .quiz-next-wrap { padding-left: 18px; padding-right: 18px; }
-  .quiz-feedback { margin: 0 18px 14px; }
+  /* ── 퀴즈 상태바 ── */
+  #quizStatusBar { gap: 5px; margin-top: 10px; }
 
-  .stats-topbar  { padding: 16px 20px; }
-  .stats-dashboard { padding: 16px; }
-  .stats-login-card { padding: 32px 24px; }
-  .bar-label { min-width: 72px; font-size: 0.75rem; }
+  /* ── 통계 페이지 (my-results / admin) ── */
+  .stats-topbar { padding: 14px 16px; }
+  .stats-topbar h1 { font-size: 1.05rem; }
+  .stats-topbar .topbar-sub { font-size: 0.75rem; }
+  .stats-dashboard { padding: 14px; }
+  .stats-section-body { padding: 14px; }
+  .stats-kpi-card { padding: 14px 12px; }
+  .kpi-v { font-size: 1.6rem; }
+  .stats-login-card { padding: 28px 18px; margin: 0 16px; }
+  .bar-label { min-width: 66px; font-size: 0.73rem; }
+
+  /* ── 도넛 차트 ── */
+  .donut-wrap { flex-direction: column; align-items: flex-start; gap: 16px; }
 }
 
 /* ══════════════════════════════════════════════════════════
