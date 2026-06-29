@@ -907,44 +907,34 @@ function _onIntegrityViolation() {
   if (_integrityCooldown) return;
   _integrityCooldown = true;
 
-  // 스크롤 원위치
+  // 스크롤 즉시 고정 (원위치)
   window.scrollTo({ top: _integrityScrollY, behavior: 'instant' });
 
-  // 횟수 증가
+  // 횟수 증가 (감점 없음)
   QE.session.integrityCount++;
-  const count   = QE.session.integrityCount;
-  const isWarn  = count === 1;           // 1회 = 경고만
-  const penalty = isWarn ? 0 : 1;       // 2회~ = -1점
-  if (penalty > 0) QE.session.penaltyTotal += penalty;
+  const count = QE.session.integrityCount;
 
   // 관리자 기록 저장
-  _logIntegrity(count, penalty);
+  _logIntegrity(count, 0);
 
-  // 팝업 표시
-  _showIntegrityPopup(count, isWarn, penalty);
+  // 경고 팝업 표시
+  _showIntegrityPopup(count);
 
-  // 3.5초 후 자동 닫힘 → 프로그램 영상 섹션으로 이동 + 쿨다운 해제
+  // 3초 후 자동 닫힘 (화면 이동 없음)
   setTimeout(() => {
     const m = document.getElementById('integrityModal');
     if (m) m.classList.remove('active');
-    // 영상 섹션으로 스크롤 이동 후 scrollY 기준 갱신
-    const sec = document.getElementById('section-video');
-    if (sec) {
-      sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      setTimeout(() => { _integrityScrollY = window.scrollY; }, 600);
-    }
     _integrityCooldown = false;
-  }, 3500);
+  }, 3000);
 }
 
-function _showIntegrityPopup(count, isWarn, penalty) {
+function _showIntegrityPopup(count) {
   const m = document.getElementById('integrityModal');
   if (!m) return;
 
-  document.getElementById('integrityCount').textContent  = count + '회';
-  document.getElementById('integrityMsg').textContent    = isWarn
-    ? '⚠️ 1회 경고입니다. 다음 이탈부터 점수가 감점됩니다.'
-    : `🔴 ${count}회 이탈 — ${penalty}점 감점이 적용됩니다.`;
+  document.getElementById('integrityCount').textContent = count + '회';
+  document.getElementById('integrityMsg').textContent   =
+    `⚠️ 학습 중 화면 이탈이 감지되었습니다. (${count}회)`;
   document.getElementById('integrityReport').textContent =
     '이 내용은 선생님(관리자)에게 기록됩니다.';
 
@@ -980,22 +970,36 @@ function _logIntegrity(count, penalty) {
 
 function _startIntegrityWatch() {
   _integrityScrollY = window.scrollY;
-  window.addEventListener('scroll',     _integrityScrollHandler, { passive: true });
-  window.addEventListener('touchmove',  _integrityScrollHandler, { passive: true });
+  // passive:false → preventDefault() 가능 (스크롤 자체 차단)
+  window.addEventListener('scroll',     _integrityScrollHandler, { passive: false });
+  window.addEventListener('wheel',      _integrityWheelHandler,  { passive: false });
+  window.addEventListener('touchmove',  _integrityTouchHandler,  { passive: false });
 }
 
 function _stopIntegrityWatch() {
   window.removeEventListener('scroll',    _integrityScrollHandler);
-  window.removeEventListener('touchmove', _integrityScrollHandler);
+  window.removeEventListener('wheel',     _integrityWheelHandler);
+  window.removeEventListener('touchmove', _integrityTouchHandler);
   _integrityCooldown = false;
 }
 
 function _integrityScrollHandler() {
   if (!QE.learningMode) return;
-  // 허용 범위(±30px) 벗어나면 이탈로 간주
-  if (Math.abs(window.scrollY - _integrityScrollY) > 30) {
-    _onIntegrityViolation();
-  }
+  // 스크롤 즉시 원위치 고정
+  window.scrollTo({ top: _integrityScrollY, behavior: 'instant' });
+  _onIntegrityViolation();
+}
+
+function _integrityWheelHandler(e) {
+  if (!QE.learningMode) return;
+  e.preventDefault();
+  _onIntegrityViolation();
+}
+
+function _integrityTouchHandler(e) {
+  if (!QE.learningMode) return;
+  e.preventDefault();
+  _onIntegrityViolation();
 }
 
 function _unlockNav() {
