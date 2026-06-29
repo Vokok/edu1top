@@ -706,8 +706,33 @@ function setLang(lang) {
 
 /* index.html 의 "동영상 학습" 버튼이 호출 */
 function activateLearningMode() {
-  QE.learningMode = true;
-  // 항상 인트로 설명 모달을 먼저 표시
+  // 1. 폴링이 퀴즈를 발동하지 못하도록 학습 모드는 아직 false 유지
+  QE.learningMode = false;
+
+  // 2. 혹시 열려있는 퀴즈/팝업 전부 닫기
+  clearInterval(_qTimer);
+  ['quizOverlay','warnModal','retryModal','sectionClearModal'].forEach(id => {
+    const m = el(id); if (m) m.classList.remove('active');
+  });
+  hideFeedback();
+  const nextWrap   = el('quizNextWrap');
+  const submitWrap = el('quizSubmitWrap');
+  if (nextWrap)   nextWrap.style.display   = 'none';
+  if (submitWrap) submitWrap.style.display = '';
+
+  // 3. 세션 초기화 (firedSet 포함) — 영상 처음부터 재시작 대비
+  QE.session = {
+    triggerIdx: -1, questions: [], qCursor: 0,
+    answers: [], scores: [], startTimes: [], firedSet: new Set(),
+  };
+
+  // 4. 영상을 처음으로 이동 후 정지
+  if (QE.player && typeof QE.player.seekTo === 'function') {
+    QE.player.seekTo(0, true);
+    QE.player.pauseVideo();
+  }
+
+  // 5. 이름 입력 화면(인트로 모달) 표시
   showIntroModal();
 }
 
@@ -752,6 +777,8 @@ function _startLearning() {
     QE.player.seekTo(0, true);
     QE.player.playVideo();
   }
+  // 영상이 0초부터 재생된 이후에 learningMode를 true로 — 중간 위치 트리거 오발 방지
+  QE.learningMode = true;
 }
 
 function deactivateLearningMode() {
