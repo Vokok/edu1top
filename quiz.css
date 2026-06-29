@@ -1054,7 +1054,44 @@
    9. 반응형
    ══════════════════════════════════════════════════════════ */
 @media (max-width: 640px) {
-  .quiz-card { max-height: 95vh; }
+  /* ── 퀴즈·모달 오버레이: 모바일에서 화면 최상단 정렬 ── */
+  #quizOverlay,
+  #warnModal,
+  #retryModal,
+  #sectionClearModal,
+  #nameModal,
+  #learningIntroModal {
+    align-items: flex-start;
+    justify-content: center;
+    padding: 0;
+    overflow-y: auto;
+  }
+
+  /* 카드를 화면 꽉 채우되 스크롤 가능하게 */
+  .quiz-card {
+    max-height: none;
+    width: 100%;
+    border-radius: 0 0 16px 16px;
+    overflow-y: auto;
+  }
+  .name-modal-box {
+    width: 100%;
+    border-radius: 0 0 16px 16px;
+    padding: 28px 20px;
+  }
+  .warn-modal-box,
+  .retry-modal-box,
+  .section-clear-box {
+    width: 100%;
+    border-radius: 0 0 16px 16px;
+  }
+  .intro-modal-box {
+    width: 100%;
+    border-radius: 0 0 16px 16px;
+    max-height: none;
+  }
+
+  /* 퀴즈 카드 내부 패딩 축소 */
   .quiz-header { padding: 16px 18px 12px; }
   .quiz-body { padding: 18px; }
   .quiz-question { font-size: 0.98rem; }
@@ -1065,7 +1102,6 @@
 
   .stats-topbar  { padding: 16px 20px; }
   .stats-dashboard { padding: 16px; }
-  .name-modal-box { padding: 28px 20px; }
   .stats-login-card { padding: 32px 24px; }
   .bar-label { min-width: 72px; font-size: 0.75rem; }
 }
