@@ -81,6 +81,7 @@
   footer strong { color: #fff; }
   @media (max-width: 600px) { .nav-bar { flex-wrap: wrap; } .nav-bar a { font-size: 0.8rem; padding: 8px 12px; } .ct-stage { min-width: 90px; } }
 </style>
+<link rel="stylesheet" href="quiz.css">
 </head>
 <body>
 
@@ -159,7 +160,7 @@
       <span class="icon">📹</span><span style="color:#f59e0b;" data-i18n="sec_video">프로그램 소개 영상</span>
     </h2>
     <div class="video-wrap">
-      <iframe src="https://www.youtube.com/embed/OkM3PEVyUvk?rel=0&modestbranding=1" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+      <div id="ytPlayer"></div>
     </div>
   </div>
 </section>
@@ -1815,6 +1816,158 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 });
+
+// ── 언어 변경 시 퀴즈 엔진 동기 ──
+const _origChangeLang = changeLanguage;
+changeLanguage = function(lang) {
+  _origChangeLang(lang);
+  if (window.QE) window.QE.setLang(lang);
+};
+</script>
+
+<!-- ══════════════════════════════════════════════
+     퀴즈 HTML — 이름 입력 모달
+     ══════════════════════════════════════════════ -->
+<div id="nameModal">
+  <div class="name-modal-box">
+    <h2>👤 시청자 이름 입력</h2>
+    <p>영상 퀴즈에 참여하려면 이름을 입력해 주세요.<br>결과가 이름별로 저장됩니다.</p>
+    <form id="nameForm">
+      <input id="nameInput" type="text" placeholder="이름을 입력하세요" maxlength="20" autocomplete="off">
+      <button type="submit" id="nameSubmitBtn" class="btn-start">퀴즈 시작하기 →</button>
+    </form>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     퀴즈 오버레이
+     ══════════════════════════════════════════════ -->
+<div id="quizOverlay">
+  <div class="quiz-card">
+
+    <!-- 헤더 -->
+    <div class="quiz-header">
+      <span id="quizSectionBadge" class="quiz-section-badge">섹션</span>
+      <span id="quizCounter"      class="quiz-counter">1 / 2</span>
+    </div>
+
+    <!-- 진행 바 -->
+    <div class="quiz-progress-bar">
+      <div id="quizProgressFill" class="quiz-progress-fill" style="width:0%"></div>
+    </div>
+
+    <!-- 배점 안내 -->
+    <div class="quiz-score-badge">
+      <span class="badge-icon">🏆</span>
+      <span id="quizScoreBadge">배점 안내</span>
+    </div>
+
+    <!-- 타이머 -->
+    <div class="quiz-timer-bar">
+      <span>⏱</span>
+      <div class="quiz-timer-track">
+        <div id="quizTimerFill" class="quiz-timer-fill" style="width:100%"></div>
+      </div>
+      <span id="quizTimerNum">30초</span>
+    </div>
+
+    <!-- 문제 본문 -->
+    <div class="quiz-body">
+      <p id="quizQuestion" class="quiz-question"></p>
+      <div id="quizOptions" class="quiz-options"></div>
+    </div>
+
+    <!-- 제출 버튼 -->
+    <div class="quiz-submit-wrap">
+      <button id="quizSubmitBtn" class="quiz-submit-btn" disabled>선택 후 확인</button>
+    </div>
+
+    <!-- 피드백 -->
+    <div id="quizFeedback" class="quiz-feedback"></div>
+
+    <!-- 다음 버튼 -->
+    <div id="quizNextWrap" class="quiz-next-wrap" style="display:none">
+      <button id="quizNextBtn" class="quiz-next-btn">다음 문제 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     경고 모달 (1/2)
+     ══════════════════════════════════════════════ -->
+<div id="warnModal">
+  <div class="warn-box">
+    <div class="warn-icon">⚠️</div>
+    <div class="warn-title">아깝네요!</div>
+    <p  class="warn-desc"  id="warnDesc"></p>
+    <div class="warn-score-chip" id="warnScoreChip"></div>
+    <div class="warn-btn-group">
+      <button class="warn-btn retry"    id="warnRetryBtn">↩ 다시 시청</button>
+      <button class="warn-btn continue" id="warnContinueBtn">계속 보기 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     재시청 모달 (0/2)
+     ══════════════════════════════════════════════ -->
+<div id="retryModal">
+  <div class="retry-box">
+    <div class="retry-icon">😢</div>
+    <div class="retry-title" id="retryTitle">다시 한번 확인해봐요!</div>
+    <p  class="retry-desc"  id="retryDesc"></p>
+    <button class="retry-btn" id="retryBtn">↩ 해당 구간 다시 시청</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     통과 모달 (2/2)
+     ══════════════════════════════════════════════ -->
+<div id="sectionClearModal">
+  <div class="clear-box">
+    <div class="clear-icon">🎉</div>
+    <div class="clear-title">완벽합니다!</div>
+    <div class="clear-score" id="clearScore"></div>
+    <p   class="clear-desc"  id="clearDesc"></p>
+    <button class="clear-btn" id="clearBtn">다음 구간 계속 보기 →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     개인 결과 패널 (영상 아래)
+     ══════════════════════════════════════════════ -->
+<div id="myResultPanel"></div>
+
+<!-- ══════════════════════════════════════════════
+     스크립트 로딩
+     ══════════════════════════════════════════════ -->
+<script src="quiz-data.js"></script>
+<script src="quiz-engine.js"></script>
+<script>
+/* YouTube IFrame API 초기화 */
+(function() {
+  const tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+})();
+
+var ytPlayerInstance;
+function onYouTubeIframeAPIReady() {
+  ytPlayerInstance = new YT.Player('ytPlayer', {
+    videoId: 'OkM3PEVyUvk',
+    playerVars: {
+      rel: 0,
+      modestbranding: 1,
+      enablejsapi: 1,
+    },
+    events: {
+      onReady: function(e) {
+        // 엔진에 플레이어 전달 (이름 입력 후 재생은 엔진이 제어)
+        window.QE.initPlayer(e.target);
+      }
+    }
+  });
+}
 </script>
 </body>
 </html>
