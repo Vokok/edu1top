@@ -23,6 +23,16 @@
   .rank-3 { background: #b45309; color: #fff; }
   .rank-n { background: #f1f5f9; color: var(--qz-muted); }
 
+  /* 로그인 카드 홈 버튼 */
+  .login-home-btn {
+    position: absolute; top: 12px; right: 12px;
+    font-size: 1.3rem; text-decoration: none;
+    border-radius: 8px; padding: 4px 8px;
+    background: #f1f5f9; transition: background 0.2s;
+    line-height: 1;
+  }
+  .login-home-btn:hover { background: #e2e8f0; }
+
   /* 테이블 정렬 아이콘 */
   th[data-sort] { cursor: pointer; user-select: none; }
   th[data-sort]:hover { background: #1e3a8a; }
@@ -100,7 +110,8 @@
      로그인 화면
      ══════════════════════════════════════ -->
 <div class="stats-login-wrap" id="loginWrap">
-  <div class="stats-login-card">
+  <div class="stats-login-card" style="position:relative;">
+    <a href="index.html" class="login-home-btn" title="홈으로 이동">🏠</a>
     <div class="stats-login-logo">🔐</div>
     <h2>관리자 로그인</h2>
     <p>전체 학습 현황을 확인하려면<br>관리자 계정으로 로그인하세요.</p>
