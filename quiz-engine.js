@@ -301,9 +301,13 @@ function submitAnswer(choice) {
       sess.qCursor++;
       showQuestion();
     };
+    // 정답이면 1초 후 자동 이동
+    if (correct) setTimeout(() => { sess.qCursor++; showQuestion(); }, 1000);
   } else {
     nextBtn.textContent = '결과 확인 →';
     nextBtn.onclick     = () => finishSession(elapsed);
+    // 정답이면 1초 후 자동 결과
+    if (correct) setTimeout(() => finishSession(elapsed), 1000);
   }
 }
 
