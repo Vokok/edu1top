@@ -425,26 +425,37 @@ function renderStatusBar() {
   bar.innerHTML = QUIZ_DATA.sections.map((s, i) => {
     const r   = latest[i];
     let icon, label, bg, border;
+    let dotColor, chipBg, chipBorder, dotChar;
     if (!r) {
-      icon = '⬜'; bg = 'rgba(255,255,255,0.1)'; border = 'rgba(255,255,255,0.25)';
+      dotChar = ''; dotColor = '#94a3b8';
+      chipBg = 'rgba(255,255,255,0.08)'; chipBorder = 'rgba(255,255,255,0.22)';
       label = '미완료';
     } else if (r.correct === r.total) {
-      icon = '✅'; bg = 'rgba(22,163,74,0.25)';  border = '#4ade80';
+      dotChar = '✓'; dotColor = '#4ade80';
+      chipBg = 'rgba(22,163,74,0.22)'; chipBorder = '#4ade80';
       label = `${r.score}점 통과`;
     } else if (r.correct > 0) {
-      icon = '⚠️'; bg = 'rgba(217,119,6,0.25)';  border = '#fbbf24';
+      dotChar = '!'; dotColor = '#fbbf24';
+      chipBg = 'rgba(217,119,6,0.22)'; chipBorder = '#fbbf24';
       label = `${r.score}점 경고`;
     } else {
-      icon = '❌'; bg = 'rgba(220,38,38,0.25)';   border = '#f87171';
+      dotChar = '✕'; dotColor = '#f87171';
+      chipBg = 'rgba(220,38,38,0.22)'; chipBorder = '#f87171';
       label = '재시청';
     }
     const name = (s[QE.lang] || s.ko).replace(/^섹션 \d+: |^Section \d+: /, '');
+    const dot = dotChar
+      ? `<span style="width:16px;height:16px;border-radius:50%;background:${dotColor};color:#fff;
+           font-size:0.6rem;font-weight:900;display:inline-flex;align-items:center;
+           justify-content:center;flex-shrink:0;">${dotChar}</span>`
+      : `<span style="width:10px;height:10px;border-radius:50%;background:${dotColor};
+           display:inline-block;flex-shrink:0;"></span>`;
     return `<div style="
       display:inline-flex;align-items:center;gap:6px;
-      padding:6px 12px;border-radius:20px;font-size:0.78rem;font-weight:700;
-      background:${bg};border:1.5px solid ${border};color:#fff;
+      padding:5px 12px;border-radius:20px;font-size:0.78rem;font-weight:700;
+      background:${chipBg};border:1.5px solid ${chipBorder};color:#fff;
       cursor:default;white-space:nowrap;" title="${label}">
-      ${icon} ${name}
+      ${dot} ${name}
     </div>`;
   }).join('');
 }
