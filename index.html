@@ -2353,6 +2353,8 @@ function onYouTubeIframeAPIReady() {
     },
     events: {
       onReady: function(e) {
+        // 기본 재생 속도 1.25배속
+        e.target.setPlaybackRate(1.25);
         // YT API가 iframe에 인라인으로 박는 width/height 제거 → CSS .video-wrap이 제어
         var iframe = e.target.getIframe();
         iframe.style.width  = '';
