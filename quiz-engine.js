@@ -372,6 +372,7 @@ function finishSession() {
     if (blocker) blocker.style.display = 'none';
     _unlockNav();
     _stopIntegrityWatch();
+    _hideClickBlocker();
   }
 
   // consecutiveWarn 카운터 업데이트
@@ -856,6 +857,8 @@ function _startLearning() {
   _lockNav();
   // 이탈 감지 시작
   _startIntegrityWatch();
+  // 전체 화면 클릭 차단 레이어 활성화
+  _showClickBlocker();
 }
 
 /* 학습 중 메뉴/이탈 차단 */
@@ -968,6 +971,24 @@ function _logIntegrity(count, penalty) {
   localStorage.setItem(key, JSON.stringify(logs));
 }
 
+/* ── 전체 화면 클릭 차단 ── */
+function _showClickBlocker() {
+  const b = document.getElementById('pageClickBlocker');
+  if (!b) return;
+  b.style.display = 'block';
+  b.onclick = _onIntegrityViolation;
+  // 학습 중 버튼은 블로커 위로 올려 클릭 가능 유지
+  const lmBtn = document.getElementById('learningModeBtn');
+  if (lmBtn) { lmBtn.style.position = 'relative'; lmBtn.style.zIndex = '600'; }
+}
+
+function _hideClickBlocker() {
+  const b = document.getElementById('pageClickBlocker');
+  if (b) { b.style.display = 'none'; b.onclick = null; }
+  const lmBtn = document.getElementById('learningModeBtn');
+  if (lmBtn) { lmBtn.style.position = ''; lmBtn.style.zIndex = ''; }
+}
+
 function _startIntegrityWatch() {
   _integrityScrollY = window.scrollY;
   // passive:false → preventDefault() 가능 (스크롤 자체 차단)
@@ -1059,9 +1080,10 @@ function deactivateLearningMode() {
   // 7. 동영상 조작 차단 해제
   const blocker = document.getElementById('videoBlocker');
   if (blocker) blocker.style.display = 'none';
-  // 8. 메뉴 이동 잠금 해제 + 이탈 감지 정지
+  // 8. 메뉴 이동 잠금 해제 + 이탈 감지 정지 + 클릭 차단 해제
   _unlockNav();
   _stopIntegrityWatch();
+  _hideClickBlocker();
 }
 
 /* ══════════════════════════════════════════════════════════
