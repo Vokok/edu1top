@@ -923,10 +923,16 @@ function _onIntegrityViolation() {
   // 팝업 표시
   _showIntegrityPopup(count, isWarn, penalty);
 
-  // 3초 후 자동 닫힘 + 쿨다운 해제
+  // 3.5초 후 자동 닫힘 → 프로그램 영상 섹션으로 이동 + 쿨다운 해제
   setTimeout(() => {
     const m = document.getElementById('integrityModal');
     if (m) m.classList.remove('active');
+    // 영상 섹션으로 스크롤 이동 후 scrollY 기준 갱신
+    const sec = document.getElementById('section-video');
+    if (sec) {
+      sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setTimeout(() => { _integrityScrollY = window.scrollY; }, 600);
+    }
     _integrityCooldown = false;
   }, 3500);
 }
