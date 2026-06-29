@@ -731,14 +731,41 @@ function _startLearning() {
 
 function deactivateLearningMode() {
   QE.learningMode = false;
-  // 열려있는 퀴즈·인트로 팝업 모두 닫기
+
+  // 1. 퀴즈 타이머 정지
+  clearInterval(_qTimer);
+
+  // 2. 열려있는 모든 팝업 닫기
   ['learningIntroModal','quizOverlay','warnModal','retryModal','sectionClearModal','nameModal']
     .forEach(id => { const m = el(id); if (m) m.classList.remove('active'); });
-  clearInterval(_qTimer);
-  // 영상 일시정지 상태면 재개
-  if (QE.player && QE.player.getPlayerState() === 2) {
-    QE.player.playVideo();
+
+  // 3. 피드백 팝업·제출 버튼 초기화
+  hideFeedback();
+  const nextWrap   = el('quizNextWrap');
+  const submitWrap = el('quizSubmitWrap');
+  if (nextWrap)   nextWrap.style.display   = 'none';
+  if (submitWrap) submitWrap.style.display = '';
+
+  // 4. session 전체 초기화 (다음 학습 때 처음부터 퀴즈 가능)
+  QE.session = {
+    triggerIdx: -1,
+    questions:  [],
+    qCursor:    0,
+    answers:    [],
+    scores:     [],
+    startTimes: [],
+    firedSet:   new Set(),
+  };
+
+  // 5. 영상 처음(0초)으로 이동 후 일시정지
+  if (QE.player && typeof QE.player.seekTo === 'function') {
+    QE.player.seekTo(0, true);
+    QE.player.pauseVideo();
   }
+
+  // 6. 버튼 OFF 상태 복원 (index.html toggleLearningMode 에서도 처리하지만 안전망)
+  const btn = document.getElementById('learningModeBtn');
+  if (btn) { btn.classList.remove('active'); btn.textContent = '동영상 학습'; }
 }
 
 /* ══════════════════════════════════════════════════════════
