@@ -2264,19 +2264,19 @@ function toggleLearningMode() {
     <div class="quiz-body">
       <p id="quizQuestion" class="quiz-question"></p>
       <div id="quizOptions" class="quiz-options"></div>
+
+      <!-- 피드백 팝업 — 정답/오답 후 보기 위에 떠오름 -->
+      <div id="quizFeedbackPopup" class="quiz-fb-popup">
+        <div id="quizFeedback" class="quiz-feedback"></div>
+        <div id="quizNextWrap" class="quiz-next-wrap" style="display:none">
+          <button id="quizNextBtn" class="quiz-next-btn">다음 문제 →</button>
+        </div>
+      </div>
     </div>
 
     <!-- 제출 버튼 -->
-    <div class="quiz-submit-wrap">
+    <div id="quizSubmitWrap" class="quiz-submit-wrap">
       <button id="quizSubmitBtn" class="quiz-submit-btn" disabled>선택 후 확인</button>
-    </div>
-
-    <!-- 피드백 -->
-    <div id="quizFeedback" class="quiz-feedback"></div>
-
-    <!-- 다음 버튼 -->
-    <div id="quizNextWrap" class="quiz-next-wrap" style="display:none">
-      <button id="quizNextBtn" class="quiz-next-btn">다음 문제 →</button>
     </div>
   </div>
 </div>

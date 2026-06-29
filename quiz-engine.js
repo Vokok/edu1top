@@ -201,11 +201,12 @@ function showQuestion() {
     optWrap.appendChild(btn);
   });
 
-  // 피드백·다음 버튼 숨김
+  // 피드백 팝업·다음 버튼·제출 버튼 초기화
   hideFeedback();
   el('quizNextWrap').style.display  = 'none';
   el('quizSubmitBtn').disabled      = true;
   el('quizSubmitBtn').onclick       = null;
+  el('quizSubmitWrap').style.display = '';
 
   // 선택 추적
   qi._selected = null;
@@ -286,8 +287,8 @@ function submitAnswer(choice) {
   // 피드백 표시
   showFeedback(correct, qi, elapsed);
 
-  // 제출 버튼 비활성화
-  el('quizSubmitBtn').disabled = true;
+  // 제출 버튼 숨기기 (팝업이 대신 표시)
+  el('quizSubmitWrap').style.display = 'none';
 
   // 다음 버튼 표시
   const nextWrap = el('quizNextWrap');
@@ -307,6 +308,12 @@ function submitAnswer(choice) {
 }
 
 function showFeedback(correct, qi, elapsed) {
+  // 팝업 래퍼 활성화
+  const popup = el('quizFeedbackPopup');
+  if (popup) {
+    popup.className = 'quiz-fb-popup active ' + (correct ? 'correct-popup' : 'wrong-popup');
+  }
+
   const fb = el('quizFeedback');
   fb.className = 'quiz-feedback active ' + (correct ? 'correct-fb' : 'wrong-fb');
 
@@ -327,6 +334,8 @@ function showFeedback(correct, qi, elapsed) {
 function hideFeedback() {
   const fb = el('quizFeedback');
   if (fb) { fb.className = 'quiz-feedback'; fb.innerHTML = ''; }
+  const popup = el('quizFeedbackPopup');
+  if (popup) popup.className = 'quiz-fb-popup';
 }
 
 /* ══════════════════════════════════════════════════════════

@@ -307,12 +307,36 @@
   transform: none;
 }
 
-/* ── 피드백 패널 ── */
+/* ── 피드백 팝업 래퍼 (보기 위에 절대 위치) ── */
+.quiz-body { position: relative; }
+
+.quiz-fb-popup {
+  display: none;
+}
+.quiz-fb-popup.active {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-shadow: 0 6px 36px rgba(0, 0, 0, 0.2);
+  animation: qzSlideUp 0.28s cubic-bezier(.4,0,.2,1);
+  overflow: hidden;
+  justify-content: center;
+}
+.quiz-fb-popup.correct-popup { border: 2.5px solid #86efac; }
+.quiz-fb-popup.wrong-popup   { border: 2.5px solid #fca5a5; }
+
+/* ── 피드백 내용 ── */
 .quiz-feedback {
   display: none;
-  margin: 0 24px 16px;
-  border-radius: 12px;
-  padding: 16px 18px;
+  margin: 0;
+  padding: 20px 20px 12px;
+  border-radius: 0;
   animation: qzFadeIn 0.3s ease;
 }
 .quiz-feedback.active { display: block; }
@@ -350,7 +374,7 @@
 .wrong-fb   .quiz-feedback-score { color: var(--qz-danger);  }
 
 /* ── 다음 버튼 ── */
-.quiz-next-wrap { padding: 0 24px 24px; }
+.quiz-next-wrap { padding: 0 20px 20px; }
 .quiz-next-btn {
   width: 100%;
   padding: 13px;
@@ -1103,11 +1127,12 @@
     font-size: 0.78rem;
   }
   .quiz-options { gap: 8px; margin-bottom: 14px; }
-  .quiz-submit-wrap,
-  .quiz-next-wrap { padding: 0 16px 14px; }
-  .quiz-feedback { margin: 0 16px 12px; padding: 12px 14px; font-size: 0.84rem; }
+  .quiz-submit-wrap { padding: 0 16px 14px; }
+  .quiz-next-wrap   { padding: 0 14px 14px; }
+  .quiz-feedback    { padding: 16px 14px 10px; font-size: 0.84rem; }
   .quiz-feedback-title { font-size: 0.95rem; }
   .quiz-feedback-pts { font-size: 0.82rem; padding: 3px 10px; }
+  .quiz-fb-popup.active { border-radius: 12px; }
 
   /* ── 이름 모달 ── */
   .name-modal-box {
