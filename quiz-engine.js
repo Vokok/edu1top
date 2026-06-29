@@ -527,13 +527,30 @@ function showClearModal(score, maxScore, correct, total) {
 /* ══════════════════════════════════════════════════════════
    11. 인라인 개인 결과 패널 (index.html 하단)
    ══════════════════════════════════════════════════════════ */
+function openMyResultPanel() {
+  renderMyResultPanel();
+  const ov = el('myResultOverlay');
+  if (ov) ov.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeMyResultPanel() {
+  const ov = el('myResultOverlay');
+  if (ov) ov.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
 function renderMyResultPanel() {
   const panel = el('myResultPanel');
   if (!panel) return;
 
   const all = QE.results;
-  if (!all.length) { panel.classList.remove('active'); return; }
-  panel.classList.add('active');
+
+  // 열기 버튼 표시/숨김
+  const openBtn = el('resultOpenBtnWrap');
+  if (openBtn) openBtn.style.display = all.length ? 'flex' : 'none';
+
+  if (!all.length) { panel.innerHTML = ''; return; }
 
   // KPI 계산
   const totalSessions = all.length;
@@ -553,8 +570,11 @@ function renderMyResultPanel() {
   panel.innerHTML = `
     <div class="result-panel-card">
       <div class="result-panel-header">
-        <h2>📊 ${QE.userName}님의 학습 결과</h2>
-        <p>총 ${totalSessions}개 섹션 완료</p>
+        <div class="result-panel-header-text">
+          <h2>📊 ${QE.userName}님의 학습 결과</h2>
+          <p>총 ${totalSessions}개 섹션 완료</p>
+        </div>
+        <button class="result-panel-close" onclick="QE.closeMyResultPanel()" title="닫기">✕</button>
       </div>
 
       <!-- KPI -->
@@ -616,7 +636,7 @@ function renderMyResultPanel() {
                 <tr>
                   <td style="white-space:nowrap">${r.sectionName}</td>
                   <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${d.question}">${d.question}</td>
-                  <td>${d.userAns}</td>
+                  <td style="max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${d.userAns}">${d.userAns}</td>
                   <td><span class="badge ${d.isCorrect ? 'badge-correct' : 'badge-wrong'}">${d.isCorrect ? '정답' : '오답'}</span></td>
                   <td><span class="badge badge-score">${d.pts}점</span></td>
                   <td>${fmtTime(d.elapsed || 0)}</td>
@@ -629,11 +649,8 @@ function renderMyResultPanel() {
       <!-- 링크 -->
       <div class="result-link-row">
         <a href="my-results.html?name=${encodeURIComponent(QE.userName)}" class="result-link-btn primary" target="_blank">
-          📈 상세 통계 보기
+          📈 전체 통계 페이지 열기
         </a>
-        <button class="result-link-btn outline" onclick="QE.resetResults()">
-          🗑 내 기록 초기화
-        </button>
       </div>
     </div>
   `;
@@ -778,6 +795,8 @@ window.QE = Object.assign(QE, {
   setLang,
   resetResults,
   renderMyResultPanel,
+  openMyResultPanel,
+  closeMyResultPanel,
   renderStatusBar,
   showNameModal,
   submitName,

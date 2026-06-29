@@ -419,11 +419,17 @@
       <div id="ytPlayer"></div>
     </div>
     <div id="quizStatusBar" style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:18px;min-height:32px;"></div>
+    <!-- 결과 보기 버튼 (결과 있을 때만 노출) -->
+    <div id="resultOpenBtnWrap" style="display:none;justify-content:center;margin-top:12px;">
+      <button class="result-open-btn" onclick="QE.openMyResultPanel()">📊 내 학습 결과 보기</button>
+    </div>
   </div>
 </section>
 
-<!-- 개인 결과 패널: 퀴즈 완료 후 영상 바로 아래 표시 -->
-<div id="myResultPanel"></div>
+<!-- 결과 모달 오버레이 -->
+<div id="myResultOverlay">
+  <div id="myResultPanel"></div>
+</div>
 
 <!-- 교육 철학 & 핵심 프로그램 -->
 <section id="section-philosophy">
@@ -2099,6 +2105,11 @@ changeLanguage = function(lang) {
   _origChangeLang(lang);
   if (window.QE) window.QE.setLang(lang);
 };
+
+// ── 결과 모달 외부 클릭 닫기 ──
+document.getElementById('myResultOverlay').addEventListener('click', function(e) {
+  if (e.target === this && window.QE) window.QE.closeMyResultPanel();
+});
 
 // ── 동영상 학습 버튼 토글 ──
 function toggleLearningMode() {
