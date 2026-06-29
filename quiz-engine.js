@@ -33,7 +33,8 @@ const QE = {
     answers:      [],   // 사용자 정답 여부 [true/false, ...]
     scores:       [],   // 문제별 획득 점수
     startTimes:   [],   // 문제별 시작 timestamp
-    firedSet:     new Set(), // 이미 발동한 트리거 인덱스 (재생 중 중복 방지)
+    firedSet:       new Set(), // 이미 발동한 트리거 인덱스 (재생 중 중복 방지)
+    consecutiveWarn: 0,        // 연속 50%(warn) 카운터
   },
 
   // 전체 누적 결과 (localStorage 저장)
@@ -370,7 +371,23 @@ function finishSession() {
     _unlockNav();
   }
 
-  // 분기
+  // consecutiveWarn 카운터 업데이트
+  if (correct === 0) {
+    QE.session.consecutiveWarn = 0; // 재시청 → 리셋
+  } else if (correct < total) {
+    QE.session.consecutiveWarn++;   // 50% 경고 → +1
+  } else {
+    QE.session.consecutiveWarn = 0; // 통과 → 리셋
+  }
+
+  // 연속 2회 경고 → 이전 섹션으로 이동
+  if (QE.session.consecutiveWarn >= 2) {
+    QE.session.consecutiveWarn = 0;
+    showConsecWarnModal(score, maxScore, correct, total);
+    return;
+  }
+
+  // 일반 분기
   if (correct === 0) {
     showRetryModal(score, maxScore, correct, total);
   } else if (correct < total) {
@@ -519,6 +536,39 @@ function showWarnModal(score, maxScore, correct, total) {
     QE.session.firedSet.delete(QE.session.triggerIdx);
     if (QE.player) {
       QE.player.seekTo(startSec, true);
+      QE.player.playVideo();
+    }
+  };
+  m.classList.add('active');
+}
+
+/* ── 연속 경고 모달 (2회 연속 50%) ── */
+function showConsecWarnModal(score, maxScore, correct, total) {
+  const m = el('consecWarnModal');
+  if (!m) return;
+
+  const sess     = QE.session;
+  const trig     = QUIZ_DATA.triggers[sess.triggerIdx];
+  const curSect  = trig ? trig.section : 0;          // 0-based 현재 섹션
+  const prevSect = Math.max(0, curSect - 1);          // 이전 섹션 (최소 0)
+  const sectName = QUIZ_DATA.sections[prevSect]
+    ? QUIZ_DATA.sections[prevSect].name
+    : 'S' + (prevSect + 1);
+  const seekTime = SECTION_START[prevSect] || 0;
+
+  el('consecWarnTitle').textContent =
+    `⚠️ 연속 2회 경고 — 이전 구간으로 돌아갑니다`;
+  el('consecWarnDesc').textContent =
+    `"${sectName}" 구간부터 다시 학습합니다. 집중해서 시청 후 퀴즈를 풀어보세요!`;
+
+  el('consecWarnBtn').onclick = () => {
+    m.classList.remove('active');
+    // 이전 섹션의 트리거를 firedSet에서 제거 → 재도전 허용
+    QUIZ_DATA.triggers.forEach((t, i) => {
+      if (t.section === prevSect) QE.session.firedSet.delete(i);
+    });
+    if (QE.player) {
+      QE.player.seekTo(seekTime, true);
       QE.player.playVideo();
     }
   };
@@ -738,7 +788,7 @@ function activateLearningMode() {
   // 3. 세션 초기화 (firedSet 포함) — 영상 처음부터 재시작 대비
   QE.session = {
     triggerIdx: -1, questions: [], qCursor: 0,
-    answers: [], scores: [], startTimes: [], firedSet: new Set(),
+    answers: [], scores: [], startTimes: [], firedSet: new Set(), consecutiveWarn: 0,
   };
 
   // 4. 영상을 처음으로 이동 후 정지

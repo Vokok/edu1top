@@ -519,6 +519,60 @@
 .retry-btn:hover { background: #b91c1c; }
 
 /* ══════════════════════════════════════════════════════════
+   4-b. 연속 경고 모달 (2회 연속 50%)
+   ══════════════════════════════════════════════════════════ */
+#consecWarnModal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9300;
+  background: var(--qz-overlay);
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+#consecWarnModal.active { display: flex; }
+
+.consec-warn-box {
+  background: #fff;
+  border-radius: var(--qz-radius);
+  box-shadow: var(--qz-shadow);
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  padding: 36px 32px;
+  animation: qzSlideUp 0.3s ease;
+  border-top: 5px solid #f59e0b;
+}
+.consec-warn-icon  { font-size: 3rem; margin-bottom: 12px; }
+.consec-warn-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #b45309;
+  margin-bottom: 10px;
+}
+.consec-warn-desc {
+  font-size: 0.9rem;
+  color: var(--qz-muted);
+  line-height: 1.65;
+  margin-bottom: 24px;
+}
+.consec-warn-btn {
+  width: 100%;
+  padding: 13px;
+  background: linear-gradient(135deg, #d97706, #f59e0b);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter var(--qz-transition);
+  font-family: inherit;
+}
+.consec-warn-btn:hover { filter: brightness(1.08); }
+
+/* ══════════════════════════════════════════════════════════
    5. 섹션 완료 팝업 (통과)
    ══════════════════════════════════════════════════════════ */
 #sectionClearModal {
