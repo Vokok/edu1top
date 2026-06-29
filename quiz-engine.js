@@ -916,22 +916,24 @@ function _onIntegrityViolation() {
   // 스크롤 즉시 고정 (원위치)
   window.scrollTo({ top: _integrityScrollY, behavior: 'instant' });
 
-  // 횟수 증가 (감점 없음)
+  // 횟수 증가
   QE.session.integrityCount++;
   const count = QE.session.integrityCount;
 
   // 관리자 기록 저장
   _logIntegrity(count, 0);
 
-  // 경고 팝업 표시
-  _showIntegrityPopup(count);
-
-  // 3초 후 자동 닫힘 (화면 이동 없음)
-  setTimeout(() => {
-    const m = document.getElementById('integrityModal');
-    if (m) m.classList.remove('active');
+  // 2회까지만 팝업, 3회 이상은 조용히 차단
+  if (count <= 2) {
+    _showIntegrityPopup(count);
+    setTimeout(() => {
+      const m = document.getElementById('integrityModal');
+      if (m) m.classList.remove('active');
+      _integrityCooldown = false;
+    }, 3000);
+  } else {
     _integrityCooldown = false;
-  }, 3000);
+  }
 }
 
 function _showIntegrityPopup(count) {
