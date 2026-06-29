@@ -271,9 +271,9 @@
   log.total = (log.total || 0) + 1;
   if (!log.dates) log.dates = {};
   log.dates[today] = (log.dates[today] || 0) + 1;
-  // 최근 60일만 보관
+  // 최근 365일만 보관
   const kept = {};
-  Object.keys(log.dates).sort().slice(-60).forEach(d => { kept[d] = log.dates[d]; });
+  Object.keys(log.dates).sort().slice(-365).forEach(d => { kept[d] = log.dates[d]; });
   log.dates = kept;
   localStorage.setItem('admin_visit_log', JSON.stringify(log));
 })();
