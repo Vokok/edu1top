@@ -35,6 +35,8 @@ const QE = {
     startTimes:   [],   // 문제별 시작 timestamp
     firedSet:       new Set(), // 이미 발동한 트리거 인덱스 (재생 중 중복 방지)
     consecutiveWarn: 0,        // 연속 50%(warn) 카운터
+    integrityCount:  0,        // 이탈 감지 누적 횟수 (1회=경고, 2회~=-1점)
+    penaltyTotal:    0,        // 누적 감점 합계
   },
 
   // 전체 누적 결과 (localStorage 저장)
@@ -369,6 +371,7 @@ function finishSession() {
     const blocker = document.getElementById('videoBlocker');
     if (blocker) blocker.style.display = 'none';
     _unlockNav();
+    _stopIntegrityWatch();
   }
 
   // consecutiveWarn 카운터 업데이트
@@ -428,6 +431,7 @@ function recordSession(correct, total, score, maxScore) {
         ? Date.now() - sess.startTimes[i]
         : 0,
     })),
+    penalty:   QE.session.penaltyTotal,
     timestamp: new Date().toISOString(),
   };
 
@@ -788,7 +792,8 @@ function activateLearningMode() {
   // 3. 세션 초기화 (firedSet 포함) — 영상 처음부터 재시작 대비
   QE.session = {
     triggerIdx: -1, questions: [], qCursor: 0,
-    answers: [], scores: [], startTimes: [], firedSet: new Set(), consecutiveWarn: 0,
+    answers: [], scores: [], startTimes: [], firedSet: new Set(),
+    consecutiveWarn: 0, integrityCount: 0, penaltyTotal: 0,
   };
 
   // 4. 영상을 처음으로 이동 후 정지
@@ -849,6 +854,8 @@ function _startLearning() {
   if (blocker) blocker.style.display = 'block';
   // 메뉴 이동 차단 + 페이지 이탈 경고
   _lockNav();
+  // 이탈 감지 시작
+  _startIntegrityWatch();
 }
 
 /* 학습 중 메뉴/이탈 차단 */
@@ -887,6 +894,102 @@ function _beforeUnloadHandler(e) {
   e.preventDefault();
   e.returnValue = '학습이 진행 중입니다. 페이지를 떠나면 학습 데이터가 저장되지 않을 수 있습니다.';
   return e.returnValue;
+}
+
+/* ══════════════════════════════════════════════════════════
+   학습 이탈 감지 (스크롤 / 스와이프)
+   ══════════════════════════════════════════════════════════ */
+let _integrityScrollY = 0;
+let _integrityCooldown = false; // 팝업 중복 방지
+
+function _onIntegrityViolation() {
+  if (!QE.learningMode) return;
+  if (_integrityCooldown) return;
+  _integrityCooldown = true;
+
+  // 스크롤 원위치
+  window.scrollTo({ top: _integrityScrollY, behavior: 'instant' });
+
+  // 횟수 증가
+  QE.session.integrityCount++;
+  const count   = QE.session.integrityCount;
+  const isWarn  = count === 1;           // 1회 = 경고만
+  const penalty = isWarn ? 0 : 1;       // 2회~ = -1점
+  if (penalty > 0) QE.session.penaltyTotal += penalty;
+
+  // 관리자 기록 저장
+  _logIntegrity(count, penalty);
+
+  // 팝업 표시
+  _showIntegrityPopup(count, isWarn, penalty);
+
+  // 3초 후 자동 닫힘 + 쿨다운 해제
+  setTimeout(() => {
+    const m = document.getElementById('integrityModal');
+    if (m) m.classList.remove('active');
+    _integrityCooldown = false;
+  }, 3500);
+}
+
+function _showIntegrityPopup(count, isWarn, penalty) {
+  const m = document.getElementById('integrityModal');
+  if (!m) return;
+
+  document.getElementById('integrityCount').textContent  = count + '회';
+  document.getElementById('integrityMsg').textContent    = isWarn
+    ? '⚠️ 1회 경고입니다. 다음 이탈부터 점수가 감점됩니다.'
+    : `🔴 ${count}회 이탈 — ${penalty}점 감점이 적용됩니다.`;
+  document.getElementById('integrityReport').textContent =
+    '이 내용은 선생님(관리자)에게 기록됩니다.';
+
+  // 카운트다운 표시
+  let sec = 3;
+  const cd = document.getElementById('integrityCd');
+  if (cd) {
+    cd.textContent = sec + '초 후 닫힘';
+    clearInterval(cd._t);
+    cd._t = setInterval(() => {
+      sec--;
+      if (sec <= 0) { clearInterval(cd._t); return; }
+      cd.textContent = sec + '초 후 닫힘';
+    }, 1000);
+  }
+  m.classList.add('active');
+}
+
+function _logIntegrity(count, penalty) {
+  const key  = 'quiz_integrity_log';
+  const logs = JSON.parse(localStorage.getItem(key) || '[]');
+  logs.push({
+    userName: QE.userName || '(미입력)',
+    time:     new Date().toISOString(),
+    count,
+    penalty,
+    page:     location.href,
+  });
+  // 최근 500건만 유지
+  if (logs.length > 500) logs.splice(0, logs.length - 500);
+  localStorage.setItem(key, JSON.stringify(logs));
+}
+
+function _startIntegrityWatch() {
+  _integrityScrollY = window.scrollY;
+  window.addEventListener('scroll',     _integrityScrollHandler, { passive: true });
+  window.addEventListener('touchmove',  _integrityScrollHandler, { passive: true });
+}
+
+function _stopIntegrityWatch() {
+  window.removeEventListener('scroll',    _integrityScrollHandler);
+  window.removeEventListener('touchmove', _integrityScrollHandler);
+  _integrityCooldown = false;
+}
+
+function _integrityScrollHandler() {
+  if (!QE.learningMode) return;
+  // 허용 범위(±30px) 벗어나면 이탈로 간주
+  if (Math.abs(window.scrollY - _integrityScrollY) > 30) {
+    _onIntegrityViolation();
+  }
 }
 
 function _unlockNav() {
@@ -946,8 +1049,9 @@ function deactivateLearningMode() {
   // 7. 동영상 조작 차단 해제
   const blocker = document.getElementById('videoBlocker');
   if (blocker) blocker.style.display = 'none';
-  // 8. 메뉴 이동 잠금 해제
+  // 8. 메뉴 이동 잠금 해제 + 이탈 감지 정지
   _unlockNav();
+  _stopIntegrityWatch();
 }
 
 /* ══════════════════════════════════════════════════════════
