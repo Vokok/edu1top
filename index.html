@@ -1,0 +1,1822 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>꿈담길 × 에듀원탑AI × 배틀학습 | 이주배경청소년 통합 교육 프로그램</title>
+<style>
+  :root {
+    --primary: #1d4ed8;
+    --primary-dark: #1e3a8a;
+    --accent: #f59e0b;
+    --accent2: #10b981;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --text: #1e293b;
+    --muted: #64748b;
+    --border: #e2e8f0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; background: var(--bg); color: var(--text); }
+  #site-header { position: sticky; top: 0; z-index: 100; background: var(--primary-dark); box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+  .header-top { display: flex; align-items: center; justify-content: space-between; padding: 10px 24px; flex-wrap: wrap; gap: 8px; }
+  .header-title { color: #fff; font-size: 1.1rem; font-weight: 700; white-space: nowrap; }
+  .header-title span { color: var(--accent); }
+  #lang-select { padding: 6px 12px; border-radius: 6px; border: none; background: #fff; color: var(--primary-dark); font-size: 0.9rem; cursor: pointer; font-weight: 600; }
+  .nav-bar { display: flex; gap: 0; border-top: 1px solid rgba(255,255,255,0.15); }
+  .nav-bar a { color: #cbd5e1; text-decoration: none; padding: 10px 20px; font-size: 0.9rem; font-weight: 600; transition: background 0.2s, color 0.2s; border-right: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 6px; }
+  .nav-bar a:hover { background: var(--primary); color: #fff; }
+  .hero { background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 50%, #0ea5e9 100%); color: #fff; text-align: center; padding: 60px 24px 50px; }
+  .hero-badge { display: inline-block; background: var(--accent); color: #7c2d12; font-size: 0.8rem; font-weight: 700; padding: 4px 14px; border-radius: 20px; margin-bottom: 16px; letter-spacing: 0.05em; }
+  .hero h1 { font-size: clamp(1.6rem, 5vw, 2.8rem); font-weight: 900; line-height: 1.2; margin-bottom: 10px; }
+  .hero h1 span { color: var(--accent); }
+  .hero-sub { font-size: 1.1rem; color: #bfdbfe; margin-bottom: 30px; }
+  .hero-promise { display: inline-block; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.3); border-radius: 12px; padding: 16px 28px; font-size: 0.95rem; line-height: 1.8; max-width: 700px; }
+  .hero-promise strong { color: var(--accent); }
+  section { padding: 56px 24px; }
+  section:nth-child(even) { background: #f1f5f9; }
+  .section-inner { max-width: 960px; margin: 0 auto; }
+  .section-title { font-size: 1.5rem; font-weight: 800; color: var(--primary-dark); margin-bottom: 28px; padding-bottom: 10px; border-bottom: 3px solid var(--primary); display: flex; align-items: center; gap: 10px; }
+  .card { background: var(--card); border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); border-left: 4px solid var(--primary); }
+  .tbl-wrap { overflow-x: auto; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+  table { width: 100%; border-collapse: collapse; background: #fff; font-size: 0.9rem; }
+  thead th { background: var(--primary-dark); color: #fff; padding: 12px 14px; text-align: left; font-weight: 700; }
+  tbody tr:nth-child(even) { background: #f8fafc; }
+  tbody td { padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tbody tr:hover { background: #eff6ff; }
+  .step-list { display: flex; flex-direction: column; gap: 14px; }
+  .step-item { display: flex; align-items: flex-start; gap: 16px; background: #fff; border-radius: 10px; padding: 18px 20px; box-shadow: 0 1px 6px rgba(0,0,0,0.06); }
+  .step-num { min-width: 36px; height: 36px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.95rem; flex-shrink: 0; }
+  .step-content h4 { font-size: 0.97rem; font-weight: 700; margin-bottom: 4px; color: var(--primary-dark); }
+  .step-content p { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
+  .video-wrap { position: relative; width: 100%; padding-top: 56.25%; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+  .video-wrap video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; background: #000; }
+  .pdf-wrap { width: 100%; height: 85vh; min-height: 600px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.12); border: 2px solid var(--border); }
+  .pdf-wrap iframe { width: 100%; height: 100%; border: none; }
+  .prog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+  .prog-card { background: #fff; border-radius: 14px; padding: 28px 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); text-align: center; transition: transform 0.2s; }
+  .prog-card:hover { transform: translateY(-4px); }
+  .prog-icon { font-size: 2.4rem; margin-bottom: 12px; }
+  .prog-card h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 10px; color: var(--primary-dark); }
+  .prog-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+  .prog-card.c1 { border-top: 4px solid #3b82f6; }
+  .prog-card.c2 { border-top: 4px solid #f59e0b; }
+  .prog-card.c3 { border-top: 4px solid #10b981; }
+  .roadmap { display: flex; flex-wrap: wrap; gap: 12px; }
+  .rm-item { flex: 1 1 130px; background: #fff; border-radius: 10px; padding: 16px 14px; box-shadow: 0 1px 6px rgba(0,0,0,0.07); border-top: 3px solid var(--primary); }
+  .rm-item h4 { font-size: 0.9rem; font-weight: 800; color: var(--primary); margin-bottom: 8px; }
+  .rm-item p { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+  .class-timeline { display: flex; flex-direction: column; gap: 10px; }
+  .ct-row { display: flex; align-items: center; gap: 16px; background: #fff; border-radius: 8px; padding: 12px 18px; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+  .ct-time { min-width: 60px; font-size: 0.85rem; font-weight: 700; color: var(--primary); text-align: center; }
+  .ct-stage { min-width: 130px; font-weight: 700; font-size: 0.9rem; }
+  .ct-act { font-size: 0.87rem; color: var(--muted); }
+  .effect-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+  .effect-item { background: #fff; border-radius: 10px; padding: 20px; box-shadow: 0 1px 6px rgba(0,0,0,0.06); text-align: center; }
+  .effect-item .ef-icon { font-size: 2rem; margin-bottom: 8px; }
+  .effect-item h4 { font-size: 0.95rem; font-weight: 700; color: var(--primary-dark); margin-bottom: 6px; }
+  .effect-item p { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+  footer { background: var(--primary-dark); color: #94a3b8; text-align: center; padding: 28px 24px; font-size: 0.85rem; }
+  footer strong { color: #fff; }
+  @media (max-width: 600px) { .nav-bar { flex-wrap: wrap; } .nav-bar a { font-size: 0.8rem; padding: 8px 12px; } .ct-stage { min-width: 90px; } }
+</style>
+</head>
+<body>
+
+<!-- 헤더 -->
+<header id="site-header">
+  <div class="header-top">
+    <div class="header-title">꿈담길 <span>×</span> 에듀원탑AI <span>×</span> 배틀학습</div>
+    <select id="lang-select" onchange="changeLanguage(this.value)" title="언어 선택">
+      <option value="ko" selected>🇰🇷 한국어</option>
+      <option value="en">🇺🇸 English</option>
+      <option value="zh-CN">🇨🇳 中文(简体)</option>
+      <option value="zh-TW">🇹🇼 中文(繁體)</option>
+      <option value="vi">🇻🇳 Tiếng Việt</option>
+      <option value="ru">🇷🇺 Русский</option>
+      <option value="ja">🇯🇵 日本語</option>
+      <option value="fil">🇵🇭 Filipino</option>
+      <option value="th">🇹🇭 ภาษาไทย</option>
+      <option value="id">🇮🇩 Bahasa Indonesia</option>
+      <option value="mn">🇲🇳 Монгол</option>
+      <option value="uz">🇺🇿 O'zbek</option>
+      <option value="kk">🇰🇿 Қазақ</option>
+      <option value="ky">🇰🇬 Кыргызча</option>
+      <option value="ar">🇸🇦 العربية</option>
+      <option value="hi">🇮🇳 हिन्दी</option>
+      <option value="bn">🇧🇩 বাংলা</option>
+      <option value="ne">🇳🇵 नेपाली</option>
+      <option value="my">🇲🇲 မြန်မာဘာသာ</option>
+      <option value="km">🇰🇭 ភាសាខ្មែរ</option>
+      <option value="lo">🇱🇦 ພາສາລາວ</option>
+      <option value="es">🇪🇸 Español</option>
+      <option value="pt">🇧🇷 Português</option>
+      <option value="fr">🇫🇷 Français</option>
+    </select>
+  </div>
+  <nav class="nav-bar">
+    <a href="#section-video" data-i18n="nav1">📹 프로그램 영상</a>
+    <a href="#section-pdf1" data-i18n="nav2">📄 교육 프로그램 소개서</a>
+    <a href="#section-pdf2" data-i18n="nav3">📋 상세 소개 PDF</a>
+  </nav>
+</header>
+
+<!-- 히어로 -->
+<div class="hero">
+  <div class="hero-badge" data-i18n="hero_badge">AI 기반 이주배경학생 완전학습 플랫폼</div>
+  <h1>꿈담길 <span>×</span> 에듀원탑AI<br><span>×</span> 배틀학습</h1>
+  <p class="hero-sub" data-i18n="hero_sub">이주배경청소년 통합 교육 프로그램</p>
+  <div class="hero-promise">
+    <strong data-i18n="promise_title">핵심 약속</strong><br>
+    <span data-i18n="promise_text">학생의 언어·문화적 배경과 현재 학습 수준을 존중하고, 작은 성공을 반복하여 <strong>자존감·기초학력·진로역량</strong>을 함께 키우는 장기 성장 프로그램입니다.</span>
+  </div>
+</div>
+
+<!-- 프로그램 개요 -->
+<section id="section-overview">
+  <div class="section-inner">
+    <h2 class="section-title"><span class="icon">📋</span><span data-i18n="sec_overview">프로그램 개요</span></h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th data-i18n="th_cat">구분</th><th data-i18n="th_content">내용</th></tr></thead>
+        <tbody>
+          <tr><td><strong data-i18n="ov_r1_k">주관·대상</strong></td><td data-i18n="ov_r1_v">IEC 아카데미 주관 / 이주배경가정 초·중·고 학생</td></tr>
+          <tr><td><strong data-i18n="ov_r2_k">교육 목표</strong></td><td data-i18n="ov_r2_v">기초학력 회복, 한국어·영어·모국어 연계, 교과 적응, 진로 설계, 자존감 회복</td></tr>
+          <tr><td><strong data-i18n="ov_r3_k">운영 시간</strong></td><td data-i18n="ov_r3_v">주 2회 × 90분, 4주 기준 월 12시간 / 단기 집중부터 최대 12년 성장관리</td></tr>
+          <tr><td><strong data-i18n="ov_r4_k">교육 장소</strong></td><td data-i18n="ov_r4_v">지역 거점센터·학교·협력기관 대면수업 + 에듀원탑 온라인학습 + 가정연계</td></tr>
+          <tr><td><strong data-i18n="ov_r5_k">교육 방법</strong></td><td data-i18n="ov_r5_v">AI 개인맞춤학습 + 게임형 배틀 복습 + 꿈담길 멘토링·학부모 코칭</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 프로그램 영상 -->
+<section id="section-video" style="background:#0f172a;">
+  <div class="section-inner">
+    <h2 class="section-title" style="color:#fff; border-bottom-color:#f59e0b;">
+      <span class="icon">📹</span><span style="color:#f59e0b;" data-i18n="sec_video">프로그램 소개 영상</span>
+    </h2>
+    <div class="video-wrap">
+      <video controls preload="metadata">
+        <source src="https://storm9259900.mycafe24.com/edu1top.mp4" type="video/mp4">
+        <span data-i18n="video_fallback">이 브라우저는 동영상 재생을 지원하지 않습니다.</span>
+      </video>
+    </div>
+  </div>
+</section>
+
+<!-- 교육 철학 & 핵심 프로그램 -->
+<section id="section-philosophy">
+  <div class="section-inner">
+    <h2 class="section-title"><span class="icon">💡</span><span data-i18n="sec_philosophy">교육 철학</span></h2>
+    <div class="card" style="margin-bottom:28px; border-left-color:#f59e0b; background:#fffbeb;">
+      <p style="font-size:1rem; line-height:1.8; color:#78350f;" data-i18n="philosophy_text">
+        출신 국가나 학년보다 <strong>실제 학습 수준을 기준으로 시작</strong>하고, 친구와의 서열화보다 <strong>어제의 나와 비교하는 성장</strong>을 확인합니다. 모국어와 문화적 배경을 결손이 아닌 <strong>학습 자원으로 존중</strong>합니다.
+      </p>
+    </div>
+
+    <h2 class="section-title"><span class="icon">🏆</span><span data-i18n="sec_programs">세 가지 핵심 프로그램</span></h2>
+    <div class="prog-grid">
+      <div class="prog-card c1">
+        <div class="prog-icon">🤖</div>
+        <h3 data-i18n="prog1_title">에듀원탑 AI</h3>
+        <p data-i18n="prog1_text">정교한 학습 진단, 개인 커리큘럼, STT·TTS·발음평가·OCR·문제생성, 자동 보충·성장분석으로 현재 수준에 맞는 학습과 객관적 성장 리포트를 제공합니다.</p>
+      </div>
+      <div class="prog-card c2">
+        <div class="prog-icon">⚔️</div>
+        <h3 data-i18n="prog2_title">배틀학습</h3>
+        <p data-i18n="prog2_text">평등 배틀·공평 배틀, 개인·팀전, 랭킹·콤보·미션·NPC, 게임형 반복복습으로 수준이 달라도 함께 참여하고 즐거운 학습 습관을 만듭니다.</p>
+      </div>
+      <div class="prog-card c3">
+        <div class="prog-icon">🌱</div>
+        <h3 data-i18n="prog3_title">꿈담길</h3>
+        <p data-i18n="prog3_text">진로·성장 멘토링, 학부모 Zoom 코칭, 이주배경 선배·대학·기업 연계로 자존감·관계·진로 정보를 향상하고 사회진출을 준비합니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI 완전학습 & 12년 로드맵 -->
+<section id="section-roadmap">
+  <div class="section-inner">
+    <h2 class="section-title"><span class="icon">🔄</span><span data-i18n="sec_cycle">AI 기반 완전학습 순환</span></h2>
+    <div class="card" style="margin-bottom:32px; padding:20px 24px; background:#eff6ff; border-left-color:#3b82f6;">
+      <p style="font-size:0.95rem; line-height:1.8; color:#1e3a8a;" data-i18n="cycle_text">
+        ① 초기 학습진단 → ② 개인 경로 생성 → ③ 단계별 학습 → ④ 배틀·즐거운 복습 → ⑤ 오답 원인 분석 → ⑥ 하위 단계 보충 → ⑦ 재도전 성취 확인 → ⑧ 성장 리포트<br><strong style="color:#1d4ed8;">진도만 나가는 학습이 아니라, 부족한 선행 개념까지 되돌아가 다시 완성하는 구조입니다.</strong>
+      </p>
+    </div>
+
+    <h2 class="section-title"><span class="icon">📅</span><span data-i18n="sec_roadmap">초등부터 고등까지 12년 성장 로드맵</span></h2>
+    <div class="roadmap">
+      <div class="rm-item"><h4 data-i18n="rm1_title">초등 1~2</h4><p data-i18n="rm1_text">적응·자존감<br>한글·생활한국어<br>기초 영어·수·감각</p></div>
+      <div class="rm-item"><h4 data-i18n="rm2_title">초등 3~4</h4><p data-i18n="rm2_text">교과어휘<br>파닉스·초등단어<br>자기주도 습관</p></div>
+      <div class="rm-item"><h4 data-i18n="rm3_title">초등 5~6</h4><p data-i18n="rm3_text">문해력·교과기초<br>문장패턴·기초문법<br>진로 흥미 탐색</p></div>
+      <div class="rm-item"><h4 data-i18n="rm4_title">중등 1~3</h4><p data-i18n="rm4_text">내신·학습전략<br>교과 한국어·영어<br>진로탐색·멘토링</p></div>
+      <div class="rm-item"><h4 data-i18n="rm5_title">고등 1~2</h4><p data-i18n="rm5_text">내신·수능 기반<br>진학·직업 경로 설계<br>기업·대학 연계</p></div>
+      <div class="rm-item"><h4 data-i18n="rm6_title">고등 3</h4><p data-i18n="rm6_text">수능·취업영어<br>면접·자기소개<br>진학·취업 실행</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 언어 마스터 & 교육과정 -->
+<section id="section-curriculum">
+  <div class="section-inner">
+    <h2 class="section-title"><span class="icon">🌏</span><span data-i18n="sec_lang">언어 마스터 STEP 0~12</span></h2>
+    <div class="tbl-wrap" style="margin-bottom:32px;">
+      <table>
+        <thead><tr><th data-i18n="th_section">구간</th><th data-i18n="th_step">단계</th><th data-i18n="th_core">핵심 학습</th></tr></thead>
+        <tbody>
+          <tr><td data-i18n="ls_r1_k">기초</td><td>STEP 0~3</td><td data-i18n="ls_r1_v">통합진단 → 한글·기초문해 → 파닉스 → 초등 핵심단어</td></tr>
+          <tr><td data-i18n="ls_r2_k">문장·독해</td><td>STEP 4~7</td><td data-i18n="ls_r2_v">문장패턴 → 기초문법 → 초급독해 → 교과서 본문</td></tr>
+          <tr><td data-i18n="ls_r3_k">내신·입시</td><td>STEP 8~10</td><td data-i18n="ls_r3_v">중학 내신 → 고교 내신 → 수능 핵심어휘·유형별 독해</td></tr>
+          <tr><td data-i18n="ls_r4_k">사회진출</td><td>STEP 11~12</td><td data-i18n="ls_r4_v">취업 영어·자기소개 → AI 실전 면접·발음·표현 피드백</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="section-title"><span class="icon">📚</span><span data-i18n="sec_connect">한국어·모국어·교과·진로 연계</span></h2>
+    <div class="tbl-wrap" style="margin-bottom:32px;">
+      <table>
+        <thead><tr><th data-i18n="th_area">영역</th><th data-i18n="th_edu">교육 내용</th><th data-i18n="th_goal">목표</th></tr></thead>
+        <tbody>
+          <tr><td data-i18n="cn_r1_k">한국어 고도화</td><td data-i18n="cn_r1_v">기초어휘·생활회화·교과한국어·문해력·논술·발표</td><td data-i18n="cn_r1_g">수업 이해, 의사소통, 수행평가·진학·취업 역량</td></tr>
+          <tr><td data-i18n="cn_r2_k">모국어 브리지</td><td data-i18n="cn_r2_v">중국어·베트남어·러시아어 등 우선, AI 번역·STT·TTS 활용</td><td data-i18n="cn_r2_g">초기 불안 감소, 한국어와 의미 연결, 다중언어 정체성 유지</td></tr>
+          <tr><td data-i18n="cn_r3_k">교과 지원</td><td data-i18n="cn_r3_v">초등 기초학력 → 중등 국·수·영·사·과·내신 → 고등 내신·수능·직업기초</td><td data-i18n="cn_r3_g">학업중단 위험 완화와 학교 수업 참여 확대</td></tr>
+          <tr><td data-i18n="cn_r4_k">진로·성장</td><td data-i18n="cn_r4_v">흥미·강점 탐색, 멘토링, 기업·대학·직업기관 체험, 포트폴리오·면접</td><td data-i18n="cn_r4_g">진학·취업 선택권과 자기표현 능력 향상</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="section-title"><span class="icon">⏱️</span><span data-i18n="sec_class">1회 90분 표준 수업 구성</span></h2>
+    <div class="class-timeline">
+      <div class="ct-row"><div class="ct-time" data-i18n="ct1_t">10분</div><div class="ct-stage" data-i18n="ct1_s">정서·관계 열기</div><div class="ct-act" data-i18n="ct1_a">인사·감정 확인·오늘의 작은 목표</div></div>
+      <div class="ct-row"><div class="ct-time" data-i18n="ct2_t">25분</div><div class="ct-stage" data-i18n="ct2_s">개인맞춤 핵심학습</div><div class="ct-act" data-i18n="ct2_a">AI 추천 학습 + 교사 코칭 + 읽기·쓰기·듣기</div></div>
+      <div class="ct-row"><div class="ct-time" data-i18n="ct3_t">10분</div><div class="ct-stage" data-i18n="ct3_s">즐거운 개인복습</div><div class="ct-act" data-i18n="ct3_a">카드·TTS·퀴즈·짧은 게임</div></div>
+      <div class="ct-row"><div class="ct-time" data-i18n="ct4_t">10분</div><div class="ct-stage" data-i18n="ct4_s">휴식·전환</div><div class="ct-act" data-i18n="ct4_a">움직임·물 마시기·상호작용</div></div>
+      <div class="ct-row"><div class="ct-time" data-i18n="ct5_t">25분</div><div class="ct-stage" data-i18n="ct5_s">배틀학습</div><div class="ct-act" data-i18n="ct5_a">평등·공평 개인/팀 배틀</div></div>
+      <div class="ct-row"><div class="ct-time" data-i18n="ct6_t">10분</div><div class="ct-stage" data-i18n="ct6_s">성장 확인</div><div class="ct-act" data-i18n="ct6_a">오답 보충·칭찬·가정 과제 안내</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 수강 신청 & 기대효과 -->
+<section id="section-enroll">
+  <div class="section-inner">
+    <h2 class="section-title"><span class="icon">📝</span><span data-i18n="sec_enroll">수강 신청 절차</span></h2>
+    <div class="step-list" style="margin-bottom:40px;">
+      <div class="step-item"><div class="step-num">1</div><div class="step-content"><h4 data-i18n="st1_title">상담 신청</h4><p data-i18n="st1_text">QR·전화·이메일 또는 협력기관을 통해 기본정보와 희망시간 접수</p></div></div>
+      <div class="step-item"><div class="step-num">2</div><div class="step-content"><h4 data-i18n="st2_title">학생·학부모 상담</h4><p data-i18n="st2_text">학교생활·언어환경·현재 어려움·교육 목표 확인</p></div></div>
+      <div class="step-item"><div class="step-num">3</div><div class="step-content"><h4 data-i18n="st3_title">기초진단</h4><p data-i18n="st3_text">부담을 줄인 짧은 활동으로 실제 출발점 파악</p></div></div>
+      <div class="step-item"><div class="step-num">4</div><div class="step-content"><h4 data-i18n="st4_title">개인 교육계획</h4><p data-i18n="st4_text">권장 단계·수업방식·예상기간·가정연계 안내</p></div></div>
+      <div class="step-item"><div class="step-num">5</div><div class="step-content"><h4 data-i18n="st5_title">수강 확정</h4><p data-i18n="st5_text">일정·이용료·지원 여부·개인정보·AI 활용 동의 후 시작</p></div></div>
+    </div>
+
+    <h2 class="section-title"><span class="icon">✨</span><span data-i18n="sec_effect">기대효과</span></h2>
+    <div class="effect-grid">
+      <div class="effect-item"><div class="ef-icon">👦</div><h4 data-i18n="ef1_title">학생</h4><p data-i18n="ef1_text">기초학력 회복, 언어 균형 성장, 자존감·진로역량 향상</p></div>
+      <div class="effect-item"><div class="ef-icon">👨‍👩‍👧</div><h4 data-i18n="ef2_title">학부모</h4><p data-i18n="ef2_text">성장과정 이해, 교육·진학 정보 접근, 교육 불안 감소</p></div>
+      <div class="effect-item"><div class="ef-icon">🏫</div><h4 data-i18n="ef3_title">학교·지역사회</h4><p data-i18n="ef3_text">학업중단 예방, 협력 확대, 지역자원 연결</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PDF 뷰어 1 -->
+<section id="section-pdf1" style="background:#1e293b;">
+  <div class="section-inner">
+    <h2 class="section-title" style="color:#fff; border-bottom-color:#10b981;">
+      <span class="icon">📄</span><span style="color:#10b981;" data-i18n="pdf1_title">이주배경청소년 통합 교육 프로그램 소개서</span>
+    </h2>
+    <p style="color:#94a3b8; margin-bottom:16px; font-size:0.9rem;" data-i18n="pdf1_desc">아래에서 소개서를 직접 확인하실 수 있습니다. (스크롤·확대 가능)</p>
+    <div class="pdf-wrap">
+      <iframe src="01%20이주배경청소년%20통합%20교육%20프로그램.pdf#toolbar=1&amp;navpanes=1" title="이주배경청소년 통합 교육 프로그램"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- PDF 뷰어 2 -->
+<section id="section-pdf2">
+  <div class="section-inner">
+    <h2 class="section-title">
+      <span class="icon">📋</span><span data-i18n="pdf2_title">꿈담길 + 에듀원탑 + 배틀학습 상세 소개 (240p)</span>
+    </h2>
+    <p style="color:var(--muted); margin-bottom:16px; font-size:0.9rem;" data-i18n="pdf2_desc">아래에서 상세 소개 PDF를 직접 확인하실 수 있습니다. (스크롤·확대 가능)</p>
+    <div class="pdf-wrap">
+      <iframe src="02%20꿈담길%2B에듀원탑%2B배틀학습%20소개.pdf#toolbar=1&amp;navpanes=1" title="꿈담길+에듀원탑+배틀학습 소개"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- 푸터 -->
+<footer>
+  <strong>꿈담길 × 에듀원탑AI × 배틀학습</strong><br>
+  <span data-i18n="footer_sub">AI 기반 이주배경학생 완전학습 플랫폼 | IEC 아카데미 주관</span><br>
+  <span style="font-size:0.8rem;" data-i18n="footer_tag">한 아이도 포기하지 않는 교육을 지향합니다.</span>
+</footer>
+
+<script>
+const T = {
+  ko: {
+    nav1:"📹 프로그램 영상", nav2:"📄 교육 프로그램 소개서", nav3:"📋 상세 소개 PDF",
+    hero_badge:"AI 기반 이주배경학생 완전학습 플랫폼",
+    hero_sub:"이주배경청소년 통합 교육 프로그램",
+    promise_title:"핵심 약속",
+    promise_text:"학생의 언어·문화적 배경과 현재 학습 수준을 존중하고, 작은 성공을 반복하여 <strong>자존감·기초학력·진로역량</strong>을 함께 키우는 장기 성장 프로그램입니다.",
+    sec_overview:"프로그램 개요", th_cat:"구분", th_content:"내용",
+    ov_r1_k:"주관·대상", ov_r1_v:"IEC 아카데미 주관 / 이주배경가정 초·중·고 학생",
+    ov_r2_k:"교육 목표", ov_r2_v:"기초학력 회복, 한국어·영어·모국어 연계, 교과 적응, 진로 설계, 자존감 회복",
+    ov_r3_k:"운영 시간", ov_r3_v:"주 2회 × 90분, 4주 기준 월 12시간 / 단기 집중부터 최대 12년 성장관리",
+    ov_r4_k:"교육 장소", ov_r4_v:"지역 거점센터·학교·협력기관 대면수업 + 에듀원탑 온라인학습 + 가정연계",
+    ov_r5_k:"교육 방법", ov_r5_v:"AI 개인맞춤학습 + 게임형 배틀 복습 + 꿈담길 멘토링·학부모 코칭",
+    sec_video:"프로그램 소개 영상",
+    video_fallback:"이 브라우저는 동영상 재생을 지원하지 않습니다.",
+    sec_philosophy:"교육 철학",
+    philosophy_text:"출신 국가나 학년보다 <strong>실제 학습 수준을 기준으로 시작</strong>하고, 친구와의 서열화보다 <strong>어제의 나와 비교하는 성장</strong>을 확인합니다. 모국어와 문화적 배경을 결손이 아닌 <strong>학습 자원으로 존중</strong>합니다.",
+    sec_programs:"세 가지 핵심 프로그램",
+    prog1_title:"에듀원탑 AI", prog1_text:"정교한 학습 진단, 개인 커리큘럼, STT·TTS·발음평가·OCR·문제생성, 자동 보충·성장분석으로 현재 수준에 맞는 학습과 객관적 성장 리포트를 제공합니다.",
+    prog2_title:"배틀학습", prog2_text:"평등 배틀·공평 배틀, 개인·팀전, 랭킹·콤보·미션·NPC, 게임형 반복복습으로 수준이 달라도 함께 참여하고 즐거운 학습 습관을 만듭니다.",
+    prog3_title:"꿈담길", prog3_text:"진로·성장 멘토링, 학부모 Zoom 코칭, 이주배경 선배·대학·기업 연계로 자존감·관계·진로 정보를 향상하고 사회진출을 준비합니다.",
+    sec_cycle:"AI 기반 완전학습 순환",
+    cycle_text:"① 초기 학습진단 → ② 개인 경로 생성 → ③ 단계별 학습 → ④ 배틀·즐거운 복습 → ⑤ 오답 원인 분석 → ⑥ 하위 단계 보충 → ⑦ 재도전 성취 확인 → ⑧ 성장 리포트<br><strong style='color:#1d4ed8;'>진도만 나가는 학습이 아니라, 부족한 선행 개념까지 되돌아가 다시 완성하는 구조입니다.</strong>",
+    sec_roadmap:"초등부터 고등까지 12년 성장 로드맵",
+    rm1_title:"초등 1~2", rm1_text:"적응·자존감<br>한글·생활한국어<br>기초 영어·수·감각",
+    rm2_title:"초등 3~4", rm2_text:"교과어휘<br>파닉스·초등단어<br>자기주도 습관",
+    rm3_title:"초등 5~6", rm3_text:"문해력·교과기초<br>문장패턴·기초문법<br>진로 흥미 탐색",
+    rm4_title:"중등 1~3", rm4_text:"내신·학습전략<br>교과 한국어·영어<br>진로탐색·멘토링",
+    rm5_title:"고등 1~2", rm5_text:"내신·수능 기반<br>진학·직업 경로 설계<br>기업·대학 연계",
+    rm6_title:"고등 3", rm6_text:"수능·취업영어<br>면접·자기소개<br>진학·취업 실행",
+    sec_lang:"언어 마스터 STEP 0~12", th_section:"구간", th_step:"단계", th_core:"핵심 학습",
+    ls_r1_k:"기초", ls_r1_v:"통합진단 → 한글·기초문해 → 파닉스 → 초등 핵심단어",
+    ls_r2_k:"문장·독해", ls_r2_v:"문장패턴 → 기초문법 → 초급독해 → 교과서 본문",
+    ls_r3_k:"내신·입시", ls_r3_v:"중학 내신 → 고교 내신 → 수능 핵심어휘·유형별 독해",
+    ls_r4_k:"사회진출", ls_r4_v:"취업 영어·자기소개 → AI 실전 면접·발음·표현 피드백",
+    sec_connect:"한국어·모국어·교과·진로 연계", th_area:"영역", th_edu:"교육 내용", th_goal:"목표",
+    cn_r1_k:"한국어 고도화", cn_r1_v:"기초어휘·생활회화·교과한국어·문해력·논술·발표", cn_r1_g:"수업 이해, 의사소통, 수행평가·진학·취업 역량",
+    cn_r2_k:"모국어 브리지", cn_r2_v:"중국어·베트남어·러시아어 등 우선, AI 번역·STT·TTS 활용", cn_r2_g:"초기 불안 감소, 한국어와 의미 연결, 다중언어 정체성 유지",
+    cn_r3_k:"교과 지원", cn_r3_v:"초등 기초학력 → 중등 국·수·영·사·과·내신 → 고등 내신·수능·직업기초", cn_r3_g:"학업중단 위험 완화와 학교 수업 참여 확대",
+    cn_r4_k:"진로·성장", cn_r4_v:"흥미·강점 탐색, 멘토링, 기업·대학·직업기관 체험, 포트폴리오·면접", cn_r4_g:"진학·취업 선택권과 자기표현 능력 향상",
+    sec_class:"1회 90분 표준 수업 구성",
+    ct1_t:"10분", ct1_s:"정서·관계 열기", ct1_a:"인사·감정 확인·오늘의 작은 목표",
+    ct2_t:"25분", ct2_s:"개인맞춤 핵심학습", ct2_a:"AI 추천 학습 + 교사 코칭 + 읽기·쓰기·듣기",
+    ct3_t:"10분", ct3_s:"즐거운 개인복습", ct3_a:"카드·TTS·퀴즈·짧은 게임",
+    ct4_t:"10분", ct4_s:"휴식·전환", ct4_a:"움직임·물 마시기·상호작용",
+    ct5_t:"25분", ct5_s:"배틀학습", ct5_a:"평등·공평 개인/팀 배틀",
+    ct6_t:"10분", ct6_s:"성장 확인", ct6_a:"오답 보충·칭찬·가정 과제 안내",
+    sec_enroll:"수강 신청 절차",
+    st1_title:"상담 신청", st1_text:"QR·전화·이메일 또는 협력기관을 통해 기본정보와 희망시간 접수",
+    st2_title:"학생·학부모 상담", st2_text:"학교생활·언어환경·현재 어려움·교육 목표 확인",
+    st3_title:"기초진단", st3_text:"부담을 줄인 짧은 활동으로 실제 출발점 파악",
+    st4_title:"개인 교육계획", st4_text:"권장 단계·수업방식·예상기간·가정연계 안내",
+    st5_title:"수강 확정", st5_text:"일정·이용료·지원 여부·개인정보·AI 활용 동의 후 시작",
+    sec_effect:"기대효과",
+    ef1_title:"학생", ef1_text:"기초학력 회복, 언어 균형 성장, 자존감·진로역량 향상",
+    ef2_title:"학부모", ef2_text:"성장과정 이해, 교육·진학 정보 접근, 교육 불안 감소",
+    ef3_title:"학교·지역사회", ef3_text:"학업중단 예방, 협력 확대, 지역자원 연결",
+    pdf1_title:"이주배경청소년 통합 교육 프로그램 소개서", pdf1_desc:"아래에서 소개서를 직접 확인하실 수 있습니다. (스크롤·확대 가능)",
+    pdf2_title:"꿈담길 + 에듀원탑 + 배틀학습 상세 소개 (240p)", pdf2_desc:"아래에서 상세 소개 PDF를 직접 확인하실 수 있습니다. (스크롤·확대 가능)",
+    footer_sub:"AI 기반 이주배경학생 완전학습 플랫폼 | IEC 아카데미 주관",
+    footer_tag:"한 아이도 포기하지 않는 교육을 지향합니다."
+  },
+
+  en: {
+    nav1:"📹 Program Video", nav2:"📄 Program Brochure", nav3:"📋 Detailed PDF",
+    hero_badge:"AI-Based Complete Learning Platform for Immigrant Background Students",
+    hero_sub:"Integrated Education Program for Immigrant Background Youth",
+    promise_title:"Our Core Promise",
+    promise_text:"We respect each student's linguistic and cultural background and current learning level, building <strong>self-esteem, foundational skills, and career readiness</strong> through repeated small successes — a long-term growth program.",
+    sec_overview:"Program Overview", th_cat:"Category", th_content:"Details",
+    ov_r1_k:"Organizer & Target", ov_r1_v:"Organized by IEC Academy / Elementary, middle & high school students from immigrant-background families",
+    ov_r2_k:"Educational Goals", ov_r2_v:"Recovery of foundational academic skills, Korean·English·native language integration, subject adaptation, career planning, self-esteem recovery",
+    ov_r3_k:"Schedule", ov_r3_v:"Twice a week × 90 min; 12 hrs/month (4-week basis) / Short intensive to up to 12-year growth management",
+    ov_r4_k:"Location", ov_r4_v:"Regional centers·schools·partner institutions (in-person) + Edu1top online learning + home connection",
+    ov_r5_k:"Teaching Method", ov_r5_v:"AI personalized learning + game-style battle review + Kkomdamgil mentoring & parent coaching",
+    sec_video:"Program Introduction Video",
+    video_fallback:"Your browser does not support video playback.",
+    sec_philosophy:"Educational Philosophy",
+    philosophy_text:"We start from the student's <strong>actual learning level</strong>, not their country of origin or grade. We measure <strong>growth compared to yesterday's self</strong>, not ranking among peers. We treat native language and cultural background as <strong>learning resources, not deficits</strong>.",
+    sec_programs:"Three Core Programs",
+    prog1_title:"Edu1top AI", prog1_text:"Sophisticated learning diagnosis, personalized curriculum, STT·TTS·pronunciation evaluation·OCR·question generation, auto-supplementation and growth analysis — provides learning matched to current level and objective growth reports.",
+    prog2_title:"Battle Learning", prog2_text:"Equal battles, fair battles, individual·team battles, ranking·combo·missions·NPC, game-style repeated review — everyone participates regardless of level, building enjoyable learning habits.",
+    prog3_title:"Kkomdamgil", prog3_text:"Career and growth mentoring, parent Zoom coaching, connection with immigrant-background alumni·universities·companies — enhances self-esteem, relationships, and career information while preparing for social entry.",
+    sec_cycle:"AI-Based Complete Learning Cycle",
+    cycle_text:"① Initial diagnosis → ② Personal path creation → ③ Step-by-step learning → ④ Battle & fun review → ⑤ Error cause analysis → ⑥ Lower-level supplementation → ⑦ Re-challenge achievement → ⑧ Growth report<br><strong style='color:#1d4ed8;'>Not just progressing forward, but returning to fill gaps in prerequisite concepts until mastery is achieved.</strong>",
+    sec_roadmap:"12-Year Growth Roadmap from Elementary to High School",
+    rm1_title:"Grade 1~2", rm1_text:"Adaptation·self-esteem<br>Korean alphabet·daily Korean<br>Basic English·math·sense",
+    rm2_title:"Grade 3~4", rm2_text:"Subject vocabulary<br>Phonics·elementary words<br>Self-directed habits",
+    rm3_title:"Grade 5~6", rm3_text:"Literacy·subject basics<br>Sentence patterns·grammar<br>Career interest exploration",
+    rm4_title:"Middle 1~3", rm4_text:"School grades·study strategies<br>Korean·English for subjects<br>Career exploration·mentoring",
+    rm5_title:"High 1~2", rm5_text:"Grades·CSAT prep<br>College/career path design<br>Company·university connection",
+    rm6_title:"High 3", rm6_text:"CSAT·employment English<br>Interview·self-introduction<br>College·employment execution",
+    sec_lang:"Language Master STEP 0~12", th_section:"Phase", th_step:"Step", th_core:"Core Learning",
+    ls_r1_k:"Foundation", ls_r1_v:"Integrated diagnosis → Korean alphabet·basic literacy → Phonics → Elementary core vocabulary",
+    ls_r2_k:"Sentences·Reading", ls_r2_v:"Sentence patterns → Basic grammar → Elementary reading → Textbook content",
+    ls_r3_k:"School Grades·Entrance", ls_r3_v:"Middle school grades → High school grades → CSAT core vocab·type-based reading",
+    ls_r4_k:"Social Entry", ls_r4_v:"Employment English·self-intro → AI real interview·pronunciation·expression feedback",
+    sec_connect:"Korean·Native Language·Subjects·Career Integration", th_area:"Area", th_edu:"Content", th_goal:"Goal",
+    cn_r1_k:"Korean Advancement", cn_r1_v:"Basic vocabulary·daily conversation·subject Korean·literacy·essay·presentation", cn_r1_g:"Classroom comprehension, communication, performance evaluation·college·employment skills",
+    cn_r2_k:"Native Language Bridge", cn_r2_v:"Chinese·Vietnamese·Russian prioritized; AI translation·STT·TTS", cn_r2_g:"Reduce initial anxiety, connect meaning with Korean, maintain multilingual identity",
+    cn_r3_k:"Subject Support", cn_r3_v:"Elementary basics → Middle school all subjects → High school grades·CSAT·vocational basics", cn_r3_g:"Reduce dropout risk and expand classroom participation",
+    cn_r4_k:"Career·Growth", cn_r4_v:"Interest·strength exploration, mentoring, company·university·career institution visits, portfolio·interview", cn_r4_g:"Expand college/career options and self-expression ability",
+    sec_class:"Standard 90-Minute Class Structure",
+    ct1_t:"10 min", ct1_s:"Emotional Opening", ct1_a:"Greeting·emotion check·today's small goal",
+    ct2_t:"25 min", ct2_s:"Personalized Core Learning", ct2_a:"AI-recommended learning + teacher coaching + reading·writing·listening",
+    ct3_t:"10 min", ct3_s:"Fun Personal Review", ct3_a:"Cards·TTS·quiz·short game",
+    ct4_t:"10 min", ct4_s:"Break·Transition", ct4_a:"Movement·water·interaction",
+    ct5_t:"25 min", ct5_s:"Battle Learning", ct5_a:"Equal·fair individual/team battle",
+    ct6_t:"10 min", ct6_s:"Growth Check", ct6_a:"Error review·praise·home assignment guide",
+    sec_enroll:"Enrollment Process",
+    st1_title:"Consultation Request", st1_text:"Submit basic information and preferred time via QR·phone·email or partner institution",
+    st2_title:"Student·Parent Consultation", st2_text:"Review school life·language environment·current difficulties·educational goals",
+    st3_title:"Initial Assessment", st3_text:"Identify actual starting point through short, low-pressure activities",
+    st4_title:"Personal Education Plan", st4_text:"Guidance on recommended level·class format·expected duration·home connection",
+    st5_title:"Enrollment Confirmation", st5_text:"Begin after agreeing on schedule·fees·support eligibility·personal info·AI use",
+    sec_effect:"Expected Outcomes",
+    ef1_title:"Students", ef1_text:"Recovery of foundational skills, balanced language growth, enhanced self-esteem and career readiness",
+    ef2_title:"Parents", ef2_text:"Understanding of growth process, access to education and admissions information, reduced anxiety",
+    ef3_title:"School·Community", ef3_text:"Prevention of school dropout, expanded cooperation, local resource connection",
+    pdf1_title:"Immigrant Background Youth Integrated Education Program Brochure", pdf1_desc:"You can view the brochure directly below. (Scroll and zoom available)",
+    pdf2_title:"Kkomdamgil + Edu1top + Battle Learning Detailed Introduction (240p)", pdf2_desc:"You can view the detailed PDF directly below. (Scroll and zoom available)",
+    footer_sub:"AI-Based Complete Learning Platform for Immigrant Background Students | Organized by IEC Academy",
+    footer_tag:"We aim for education that leaves no child behind."
+  },
+
+  "zh-CN": {
+    nav1:"📹 项目视频", nav2:"📄 教育项目介绍", nav3:"📋 详细介绍 PDF",
+    hero_badge:"基于AI的移民背景学生完全学习平台",
+    hero_sub:"移民背景青少年综合教育项目",
+    promise_title:"核心承诺",
+    promise_text:"尊重学生的语言文化背景与当前学习水平，通过反复积累小成功，共同培养<strong>自尊心·基础学力·职业发展能力</strong>的长期成长项目。",
+    sec_overview:"项目概要", th_cat:"分类", th_content:"内容",
+    ov_r1_k:"主管·对象", ov_r1_v:"IEC学院主管 / 移民家庭小·初·高中学生",
+    ov_r2_k:"教育目标", ov_r2_v:"恢复基础学力，韩语·英语·母语联动，学科适应，职业规划，自尊心恢复",
+    ov_r3_k:"运营时间", ov_r3_v:"每周2次×90分钟，4周基准每月12小时 / 短期集中至最长12年成长管理",
+    ov_r4_k:"教育场所", ov_r4_v:"地区中心·学校·合作机构面授 + Edu1top在线学习 + 家庭联动",
+    ov_r5_k:"教育方法", ov_r5_v:"AI个性化学习 + 游戏型배틀复习 + 꿈담길辅导·家长教练",
+    sec_video:"项目介绍视频",
+    video_fallback:"您的浏览器不支持视频播放。",
+    sec_philosophy:"教育理念",
+    philosophy_text:"以<strong>实际学习水平为基准</strong>，而非出身国家或年级；衡量<strong>与昨日自己相比的成长</strong>，而非与同学排名。将母语和文化背景视为<strong>学习资源而非缺陷</strong>，加以尊重。",
+    sec_programs:"三大核心项目",
+    prog1_title:"Edu1top AI", prog1_text:"精准学习诊断、个性化课程、STT·TTS·发音评测·OCR·题目生成、自动补充·成长分析，提供适合当前水平的学习和客观成长报告。",
+    prog2_title:"배틀학습（对战学习）", prog2_text:"平等对战·公平对战、个人·团队赛、排名·连击·任务·NPC、游戏型反复复习，让不同水平的学生共同参与，培养愉快的学习习惯。",
+    prog3_title:"꿈담길（梦想之路）", prog3_text:"职业·成长辅导、家长Zoom教练、联结移民背景学长·大学·企业，提升自尊心·人际关系·职业信息，准备融入社会。",
+    sec_cycle:"基于AI的完全学习循环",
+    cycle_text:"① 初始学习诊断 → ② 生成个人路径 → ③ 分阶段学习 → ④ 对战·趣味复习 → ⑤ 错误原因分析 → ⑥ 补充低阶概念 → ⑦ 再挑战成就确认 → ⑧ 成长报告<br><strong style='color:#1d4ed8;'>不仅仅是向前推进，而是回头补足欠缺的先修概念，直至完全掌握。</strong>",
+    sec_roadmap:"从小学到高中的12年成长路线图",
+    rm1_title:"小学 1~2年级", rm1_text:"适应·自尊心<br>韩文·日常韩语<br>基础英语·数学·感知",
+    rm2_title:"小学 3~4年级", rm2_text:"学科词汇<br>自然拼读·小学单词<br>自主学习习惯",
+    rm3_title:"小学 5~6年级", rm3_text:"阅读理解·学科基础<br>句型·基础语法<br>职业兴趣探索",
+    rm4_title:"初中 1~3年级", rm4_text:"成绩·学习策略<br>学科韩语·英语<br>职业探索·辅导",
+    rm5_title:"高中 1~2年级", rm5_text:"成绩·高考基础<br>升学·职业路径设计<br>企业·大学联结",
+    rm6_title:"高中 3年级", rm6_text:"高考·就业英语<br>面试·自我介绍<br>升学·就业实施",
+    sec_lang:"语言大师 STEP 0~12", th_section:"阶段", th_step:"步骤", th_core:"核心学习",
+    ls_r1_k:"基础", ls_r1_v:"综合诊断 → 韩文·基础识字 → 自然拼读 → 小学核心单词",
+    ls_r2_k:"句子·阅读", ls_r2_v:"句型 → 基础语法 → 初级阅读 → 教科书正文",
+    ls_r3_k:"成绩·升学", ls_r3_v:"初中成绩 → 高中成绩 → 高考核心词汇·题型阅读",
+    ls_r4_k:"走向社会", ls_r4_v:"就业英语·自我介绍 → AI实战面试·发音·表达反馈",
+    sec_connect:"韩语·母语·学科·职业联动", th_area:"领域", th_edu:"教育内容", th_goal:"目标",
+    cn_r1_k:"韩语强化", cn_r1_v:"基础词汇·日常会话·学科韩语·阅读理解·写作·演讲", cn_r1_g:"理解课堂，沟通交流，考试·升学·就业能力",
+    cn_r2_k:"母语桥梁", cn_r2_v:"优先支持中文·越南语·俄语等，利用AI翻译·STT·TTS", cn_r2_g:"减少初期焦虑，与韩语意义连接，维持多语言身份认同",
+    cn_r3_k:"学科支持", cn_r3_v:"小学基础学力 → 初中所有科目 → 高中成绩·高考·职业基础", cn_r3_g:"降低辍学风险，扩大课堂参与",
+    cn_r4_k:"职业·成长", cn_r4_v:"兴趣·优势探索，辅导，企业·大学·职业机构体验，作品集·面试", cn_r4_g:"扩大升学·就业选择权和自我表达能力",
+    sec_class:"每次90分钟标准课程安排",
+    ct1_t:"10分钟", ct1_s:"情感·关系开场", ct1_a:"问候·情绪确认·今日小目标",
+    ct2_t:"25分钟", ct2_s:"个性化核心学习", ct2_a:"AI推荐学习 + 教师辅导 + 读·写·听",
+    ct3_t:"10分钟", ct3_s:"趣味个人复习", ct3_a:"卡片·TTS·测验·小游戏",
+    ct4_t:"10分钟", ct4_s:"休息·过渡", ct4_a:"活动·喝水·互动",
+    ct5_t:"25分钟", ct5_s:"对战学习", ct5_a:"平等·公平个人/团队对战",
+    ct6_t:"10分钟", ct6_s:"成长确认", ct6_a:"错题补充·表扬·家庭作业指导",
+    sec_enroll:"报名流程",
+    st1_title:"咨询申请", st1_text:"通过QR码·电话·邮件或合作机构提交基本信息和希望时间",
+    st2_title:"学生·家长咨询", st2_text:"了解学校生活·语言环境·当前困难·教育目标",
+    st3_title:"基础诊断", st3_text:"通过轻松的短时活动了解实际起点",
+    st4_title:"个人教育计划", st4_text:"告知推荐阶段·上课方式·预计周期·家庭联动",
+    st5_title:"确认报名", st5_text:"确认时间·费用·支持情况·个人信息·AI使用同意后开始",
+    sec_effect:"预期效果",
+    ef1_title:"学生", ef1_text:"恢复基础学力，语言均衡成长，提升自尊心和职业能力",
+    ef2_title:"家长", ef2_text:"了解成长过程，获取教育·升学信息，减少教育焦虑",
+    ef3_title:"学校·社区", ef3_text:"预防辍学，扩大合作，连结地区资源",
+    pdf1_title:"移民背景青少年综合教育项目介绍书", pdf1_desc:"您可以在下方直接查看介绍书。（可滚动·放大）",
+    pdf2_title:"꿈담길 + Edu1top + 대战학습 详细介绍 (240页)", pdf2_desc:"您可以在下方直接查看详细介绍PDF。（可滚动·放大）",
+    footer_sub:"基于AI的移民背景学生完全学习平台 | IEC学院主管",
+    footer_tag:"我们致力于不放弃任何一个孩子的教育。"
+  },
+
+  vi: {
+    nav1:"📹 Video chương trình", nav2:"📄 Giới thiệu chương trình", nav3:"📋 PDF chi tiết",
+    hero_badge:"Nền tảng học hoàn toàn dựa trên AI cho học sinh có nền tảng di cư",
+    hero_sub:"Chương trình giáo dục tích hợp cho thanh thiếu niên có nền tảng di cư",
+    promise_title:"Cam kết cốt lõi",
+    promise_text:"Tôn trọng nền tảng ngôn ngữ, văn hóa và trình độ học tập hiện tại của học sinh, thông qua việc tích lũy những thành công nhỏ để cùng nhau phát triển <strong>lòng tự trọng · năng lực học tập cơ bản · năng lực định hướng nghề nghiệp</strong> — chương trình phát triển dài hạn.",
+    sec_overview:"Tổng quan chương trình", th_cat:"Hạng mục", th_content:"Nội dung",
+    ov_r1_k:"Tổ chức · Đối tượng", ov_r1_v:"Do IEC Academy tổ chức / Học sinh tiểu học, THCS, THPT từ gia đình có nền tảng di cư",
+    ov_r2_k:"Mục tiêu giáo dục", ov_r2_v:"Phục hồi năng lực học tập cơ bản, liên kết tiếng Hàn·tiếng Anh·tiếng mẹ đẻ, thích nghi môn học, định hướng nghề nghiệp, phục hồi lòng tự trọng",
+    ov_r3_k:"Thời gian hoạt động", ov_r3_v:"2 lần/tuần × 90 phút, 12 giờ/tháng (cơ sở 4 tuần) / Từ học tập tập trung ngắn hạn đến quản lý phát triển tối đa 12 năm",
+    ov_r4_k:"Địa điểm học", ov_r4_v:"Trung tâm khu vực·trường học·cơ sở đối tác (trực tiếp) + Học trực tuyến Edu1top + Kết nối gia đình",
+    ov_r5_k:"Phương pháp giáo dục", ov_r5_v:"Học tập AI cá nhân hóa + Ôn tập kiểu trò chơi Battle + Tư vấn Kkomdamgil·huấn luyện phụ huynh",
+    sec_video:"Video giới thiệu chương trình",
+    video_fallback:"Trình duyệt của bạn không hỗ trợ phát video.",
+    sec_philosophy:"Triết lý giáo dục",
+    philosophy_text:"Bắt đầu từ <strong>trình độ học tập thực tế</strong> chứ không phải quốc gia xuất xứ hay lớp học; đo lường <strong>sự phát triển so với bản thân ngày hôm qua</strong> thay vì xếp hạng với bạn bè. Tôn trọng tiếng mẹ đẻ và nền tảng văn hóa như <strong>nguồn tài nguyên học tập</strong>, không phải khiếm khuyết.",
+    sec_programs:"Ba chương trình cốt lõi",
+    prog1_title:"Edu1top AI", prog1_text:"Chẩn đoán học tập chính xác, chương trình học cá nhân, STT·TTS·đánh giá phát âm·OCR·tạo câu hỏi, tự động bổ sung·phân tích tăng trưởng — cung cấp học tập phù hợp trình độ hiện tại và báo cáo tăng trưởng khách quan.",
+    prog2_title:"Battle Learning (Học tập Battle)", prog2_text:"Battle bình đẳng·Battle công bằng, cá nhân·đội, xếp hạng·combo·nhiệm vụ·NPC, ôn tập lặp đi lặp lại kiểu trò chơi — mọi người cùng tham gia bất kể trình độ, xây dựng thói quen học tập vui vẻ.",
+    prog3_title:"Kkomdamgil (Con đường ước mơ)", prog3_text:"Tư vấn nghề nghiệp·phát triển, huấn luyện phụ huynh qua Zoom, kết nối với học sinh tiền bối·đại học·doanh nghiệp có nền tảng di cư — nâng cao lòng tự trọng·quan hệ·thông tin nghề nghiệp và chuẩn bị hòa nhập xã hội.",
+    sec_cycle:"Vòng học hoàn toàn dựa trên AI",
+    cycle_text:"① Chẩn đoán học tập ban đầu → ② Tạo lộ trình cá nhân → ③ Học từng bước → ④ Battle·ôn tập vui vẻ → ⑤ Phân tích nguyên nhân sai → ⑥ Bổ sung khái niệm cơ bản → ⑦ Xác nhận thành tích thử thách lại → ⑧ Báo cáo tăng trưởng<br><strong style='color:#1d4ed8;'>Không chỉ tiến về phía trước mà còn quay lại bổ sung các khái niệm tiền đề còn thiếu cho đến khi thành thạo hoàn toàn.</strong>",
+    sec_roadmap:"Lộ trình phát triển 12 năm từ tiểu học đến THPT",
+    rm1_title:"Tiểu học 1~2", rm1_text:"Thích nghi·lòng tự trọng<br>Chữ Hàn·tiếng Hàn hàng ngày<br>Tiếng Anh·toán cơ bản",
+    rm2_title:"Tiểu học 3~4", rm2_text:"Từ vựng môn học<br>Phonics·từ tiểu học<br>Thói quen tự học",
+    rm3_title:"Tiểu học 5~6", rm3_text:"Đọc hiểu·cơ bản môn học<br>Mẫu câu·ngữ pháp cơ bản<br>Khám phá sở thích nghề nghiệp",
+    rm4_title:"THCS 1~3", rm4_text:"Điểm số·chiến lược học<br>Tiếng Hàn·tiếng Anh môn học<br>Khám phá nghề nghiệp·tư vấn",
+    rm5_title:"THPT 1~2", rm5_text:"Điểm số·nền tảng thi đại học<br>Thiết kế lộ trình học·nghề<br>Kết nối doanh nghiệp·đại học",
+    rm6_title:"THPT 3", rm6_text:"Thi đại học·tiếng Anh việc làm<br>Phỏng vấn·tự giới thiệu<br>Thực hiện học·việc làm",
+    sec_lang:"Language Master STEP 0~12", th_section:"Giai đoạn", th_step:"Bước", th_core:"Học tập cốt lõi",
+    ls_r1_k:"Cơ bản", ls_r1_v:"Chẩn đoán tổng hợp → Chữ Hàn·đọc viết cơ bản → Phonics → Từ vựng cốt lõi tiểu học",
+    ls_r2_k:"Câu·Đọc hiểu", ls_r2_v:"Mẫu câu → Ngữ pháp cơ bản → Đọc hiểu sơ cấp → Nội dung sách giáo khoa",
+    ls_r3_k:"Điểm số·Thi cử", ls_r3_v:"Điểm THCS → Điểm THPT → Từ vựng cốt lõi thi đại học·đọc theo dạng bài",
+    ls_r4_k:"Hòa nhập xã hội", ls_r4_v:"Tiếng Anh việc làm·tự giới thiệu → Phỏng vấn thực tế AI·phản hồi phát âm·biểu đạt",
+    sec_connect:"Liên kết tiếng Hàn·tiếng mẹ đẻ·môn học·nghề nghiệp", th_area:"Lĩnh vực", th_edu:"Nội dung giáo dục", th_goal:"Mục tiêu",
+    cn_r1_k:"Nâng cao tiếng Hàn", cn_r1_v:"Từ vựng cơ bản·hội thoại hàng ngày·tiếng Hàn môn học·đọc hiểu·viết luận·thuyết trình", cn_r1_g:"Hiểu bài học, giao tiếp, năng lực đánh giá·đại học·việc làm",
+    cn_r2_k:"Cầu nối tiếng mẹ đẻ", cn_r2_v:"Ưu tiên tiếng Trung·tiếng Việt·tiếng Nga, sử dụng AI dịch·STT·TTS", cn_r2_g:"Giảm lo lắng ban đầu, kết nối ý nghĩa với tiếng Hàn, duy trì bản sắc đa ngôn ngữ",
+    cn_r3_k:"Hỗ trợ môn học", cn_r3_v:"Năng lực cơ bản tiểu học → Tất cả môn THCS → Điểm THPT·thi đại học·cơ bản nghề nghiệp", cn_r3_g:"Giảm nguy cơ bỏ học, mở rộng tham gia lớp học",
+    cn_r4_k:"Nghề nghiệp·Phát triển", cn_r4_v:"Khám phá sở thích·thế mạnh, tư vấn, trải nghiệm doanh nghiệp·đại học·cơ sở nghề nghiệp, hồ sơ·phỏng vấn", cn_r4_g:"Mở rộng lựa chọn học·việc làm và năng lực tự biểu đạt",
+    sec_class:"Cấu trúc tiêu chuẩn 90 phút mỗi buổi",
+    ct1_t:"10 phút", ct1_s:"Mở đầu cảm xúc·quan hệ", ct1_a:"Chào hỏi·xác nhận cảm xúc·mục tiêu nhỏ hôm nay",
+    ct2_t:"25 phút", ct2_s:"Học tập cốt lõi cá nhân hóa", ct2_a:"Học AI đề xuất + Hướng dẫn giáo viên + Đọc·viết·nghe",
+    ct3_t:"10 phút", ct3_s:"Ôn tập cá nhân vui vẻ", ct3_a:"Thẻ·TTS·câu đố·trò chơi ngắn",
+    ct4_t:"10 phút", ct4_s:"Nghỉ ngơi·chuyển tiếp", ct4_a:"Vận động·uống nước·tương tác",
+    ct5_t:"25 phút", ct5_s:"Battle Learning", ct5_a:"Battle cá nhân/đội bình đẳng·công bằng",
+    ct6_t:"10 phút", ct6_s:"Xác nhận tăng trưởng", ct6_a:"Bổ sung sai·khen ngợi·hướng dẫn bài tập về nhà",
+    sec_enroll:"Quy trình đăng ký",
+    st1_title:"Yêu cầu tư vấn", st1_text:"Gửi thông tin cơ bản và thời gian mong muốn qua QR·điện thoại·email hoặc cơ sở đối tác",
+    st2_title:"Tư vấn học sinh·phụ huynh", st2_text:"Tìm hiểu sinh hoạt học đường·môi trường ngôn ngữ·khó khăn hiện tại·mục tiêu giáo dục",
+    st3_title:"Chẩn đoán cơ bản", st3_text:"Xác định điểm xuất phát thực tế qua hoạt động ngắn nhẹ nhàng",
+    st4_title:"Kế hoạch giáo dục cá nhân", st4_text:"Hướng dẫn cấp độ đề xuất·hình thức học·thời gian dự kiến·kết nối gia đình",
+    st5_title:"Xác nhận đăng ký", st5_text:"Bắt đầu sau khi đồng ý về lịch học·học phí·hỗ trợ·thông tin cá nhân·sử dụng AI",
+    sec_effect:"Hiệu quả kỳ vọng",
+    ef1_title:"Học sinh", ef1_text:"Phục hồi năng lực cơ bản, phát triển ngôn ngữ cân bằng, nâng cao lòng tự trọng và năng lực nghề nghiệp",
+    ef2_title:"Phụ huynh", ef2_text:"Hiểu quá trình phát triển, tiếp cận thông tin giáo dục·đại học, giảm lo lắng giáo dục",
+    ef3_title:"Trường học·Cộng đồng", ef3_text:"Ngăn chặn bỏ học, mở rộng hợp tác, kết nối tài nguyên địa phương",
+    pdf1_title:"Giới thiệu chương trình giáo dục tích hợp cho thanh thiếu niên có nền tảng di cư", pdf1_desc:"Bạn có thể xem trực tiếp tài liệu giới thiệu bên dưới. (Có thể cuộn·phóng to)",
+    pdf2_title:"Kkomdamgil + Edu1top + Battle Learning - Giới thiệu chi tiết (240 trang)", pdf2_desc:"Bạn có thể xem trực tiếp PDF chi tiết bên dưới. (Có thể cuộn·phóng to)",
+    footer_sub:"Nền tảng học hoàn toàn dựa trên AI cho học sinh có nền tảng di cư | Do IEC Academy tổ chức",
+    footer_tag:"Chúng tôi hướng đến nền giáo dục không bỏ lại bất kỳ em học sinh nào."
+  },
+
+  ru: {
+    nav1:"📹 Видео о программе", nav2:"📄 Брошюра программы", nav3:"📋 Подробный PDF",
+    hero_badge:"Платформа полного обучения на основе ИИ для учеников с миграционным происхождением",
+    hero_sub:"Интегрированная образовательная программа для молодёжи с миграционным происхождением",
+    promise_title:"Наше ключевое обещание",
+    promise_text:"Мы уважаем языковой и культурный фон каждого ученика и его текущий уровень знаний. Через повторяющиеся маленькие успехи мы совместно развиваем <strong>самооценку · базовые учебные навыки · профессиональные компетенции</strong> — долгосрочная программа роста.",
+    sec_overview:"Обзор программы", th_cat:"Категория", th_content:"Содержание",
+    ov_r1_k:"Организатор · Целевая аудитория", ov_r1_v:"Организатор: IEC Academy / Ученики начальной, средней и старшей школы из семей с миграционным происхождением",
+    ov_r2_k:"Цели обучения", ov_r2_v:"Восстановление базовых знаний, интеграция корейского·английского·родного языков, адаптация к предметам, карьерное планирование, восстановление самооценки",
+    ov_r3_k:"Расписание", ov_r3_v:"2 раза в неделю × 90 минут, 12 ч/месяц (4-недельный цикл) / От краткосрочного интенсива до 12-летнего управления ростом",
+    ov_r4_k:"Место обучения", ov_r4_v:"Региональные центры·школы·партнёрские учреждения (очно) + Онлайн-обучение Edu1top + Домашняя связь",
+    ov_r5_k:"Методы обучения", ov_r5_v:"Персонализированное обучение ИИ + Повторение в игровом формате Battle + Наставничество Kkomdamgil·коучинг родителей",
+    sec_video:"Видеопрезентация программы",
+    video_fallback:"Ваш браузер не поддерживает воспроизведение видео.",
+    sec_philosophy:"Образовательная философия",
+    philosophy_text:"Мы начинаем с <strong>фактического уровня знаний</strong> ученика, а не со страны происхождения или класса; измеряем <strong>рост в сравнении с собой вчера</strong>, а не рейтинг среди сверстников. Родной язык и культурный фон рассматриваются как <strong>учебный ресурс, а не недостаток</strong>.",
+    sec_programs:"Три ключевые программы",
+    prog1_title:"Edu1top AI", prog1_text:"Точная диагностика обучения, персональный учебный план, STT·TTS·оценка произношения·OCR·генерация заданий, автоматическое дополнение·анализ роста — предоставляет обучение на текущем уровне и объективные отчёты о прогрессе.",
+    prog2_title:"Battle Learning (Боевое обучение)", prog2_text:"Равный и честный Battle, индивидуальные·командные баттлы, рейтинг·комбо·миссии·NPC, игровое повторение — все участвуют независимо от уровня, формируя приятные учебные привычки.",
+    prog3_title:"Kkomdamgil (Путь мечты)", prog3_text:"Карьерное·личностное наставничество, коучинг родителей через Zoom, связь со старшими учениками·университетами·компаниями с миграционным происхождением — повышает самооценку·отношения·карьерные знания и готовит к социальной интеграции.",
+    sec_cycle:"Цикл полного обучения на основе ИИ",
+    cycle_text:"① Начальная диагностика → ② Создание индивидуального пути → ③ Пошаговое обучение → ④ Battle·весёлое повторение → ⑤ Анализ причин ошибок → ⑥ Восполнение пробелов → ⑦ Подтверждение достижений при повторной попытке → ⑧ Отчёт о росте<br><strong style='color:#1d4ed8;'>Не просто движение вперёд, а возврат к недостающим базовым концепциям до полного освоения.</strong>",
+    sec_roadmap:"12-летняя дорожная карта роста от начальной до старшей школы",
+    rm1_title:"Нач. школа 1~2 кл.", rm1_text:"Адаптация·самооценка<br>Корейский алфавит·разговорный<br>Базовый английский·математика",
+    rm2_title:"Нач. школа 3~4 кл.", rm2_text:"Предметная лексика<br>Фоника·слова начальной школы<br>Навыки самообучения",
+    rm3_title:"Нач. школа 5~6 кл.", rm3_text:"Чтение·основы предметов<br>Речевые шаблоны·базовая грамматика<br>Профориентация",
+    rm4_title:"Ср. школа 1~3 кл.", rm4_text:"Оценки·стратегии учёбы<br>Корейский·английский для предметов<br>Карьерное исследование·наставничество",
+    rm5_title:"Ст. школа 1~2 кл.", rm5_text:"Оценки·подготовка к ЕГЭ<br>Планирование учёбы·карьеры<br>Связь с компаниями·вузами",
+    rm6_title:"Ст. школа 3 кл.", rm6_text:"ЕГЭ·английский для работы<br>Собеседование·самопрезентация<br>Поступление·трудоустройство",
+    sec_lang:"Языковой мастер STEP 0~12", th_section:"Фаза", th_step:"Ступень", th_core:"Ключевое обучение",
+    ls_r1_k:"Основа", ls_r1_v:"Комплексная диагностика → Корейский алфавит·базовая грамотность → Фоника → Базовая лексика",
+    ls_r2_k:"Предложения·Чтение", ls_r2_v:"Речевые шаблоны → Базовая грамматика → Начальное чтение → Текст учебника",
+    ls_r3_k:"Оценки·Поступление", ls_r3_v:"Оценки в средней школе → Оценки в старшей школе → Ключевая лексика ЕГЭ·чтение по типам",
+    ls_r4_k:"Социальная интеграция", ls_r4_v:"Деловой английский·самопрезентация → Реальное собеседование с ИИ·обратная связь по произношению",
+    sec_connect:"Интеграция корейского·родного языка·предметов·карьеры", th_area:"Направление", th_edu:"Содержание обучения", th_goal:"Цель",
+    cn_r1_k:"Углублённый корейский", cn_r1_v:"Базовая лексика·разговорная речь·предметный корейский·чтение·эссе·презентации", cn_r1_g:"Понимание уроков, общение, компетенции для оценивания·поступления·трудоустройства",
+    cn_r2_k:"Мост родного языка", cn_r2_v:"Приоритет: китайский·вьетнамский·русский; использование ИИ-перевода·STT·TTS", cn_r2_g:"Снижение начальной тревожности, связь смысла с корейским, сохранение многоязычной идентичности",
+    cn_r3_k:"Поддержка предметов", cn_r3_v:"Базовые знания начальной школы → Все предметы средней школы → Оценки·ЕГЭ·профессиональные основы", cn_r3_g:"Снижение риска отсева, расширение участия в уроках",
+    cn_r4_k:"Карьера·Развитие", cn_r4_v:"Исследование интересов·сильных сторон, наставничество, стажировки в компаниях·вузах·профучреждениях, портфолио·собеседование", cn_r4_g:"Расширение выбора учёбы·работы и навыков самовыражения",
+    sec_class:"Стандартная структура занятия 90 минут",
+    ct1_t:"10 мин", ct1_s:"Эмоциональное открытие", ct1_a:"Приветствие·проверка эмоций·маленькая цель дня",
+    ct2_t:"25 мин", ct2_s:"Персонализированное обучение", ct2_a:"Рекомендации ИИ + коучинг учителя + чтение·письмо·аудирование",
+    ct3_t:"10 мин", ct3_s:"Весёлое повторение", ct3_a:"Карточки·TTS·тест·короткая игра",
+    ct4_t:"10 мин", ct4_s:"Перерыв·Переход", ct4_a:"Движение·вода·взаимодействие",
+    ct5_t:"25 мин", ct5_s:"Battle-обучение", ct5_a:"Равный·честный индивидуальный/командный Battle",
+    ct6_t:"10 мин", ct6_s:"Проверка роста", ct6_a:"Разбор ошибок·похвала·домашнее задание",
+    sec_enroll:"Процедура записи",
+    st1_title:"Запрос на консультацию", st1_text:"Отправьте основную информацию и удобное время через QR·телефон·email или партнёрское учреждение",
+    st2_title:"Консультация ученика·родителей", st2_text:"Изучение школьной жизни·языковой среды·текущих трудностей·образовательных целей",
+    st3_title:"Начальная диагностика", st3_text:"Определение фактической отправной точки через короткие, ненапряжные задания",
+    st4_title:"Индивидуальный образовательный план", st4_text:"Информирование о рекомендуемом уровне·формате занятий·ожидаемой продолжительности·домашней связи",
+    st5_title:"Подтверждение записи", st5_text:"Начало после согласования расписания·стоимости·поддержки·персональных данных·использования ИИ",
+    sec_effect:"Ожидаемые результаты",
+    ef1_title:"Ученики", ef1_text:"Восстановление базовых знаний, сбалансированное языковое развитие, повышение самооценки и карьерных компетенций",
+    ef2_title:"Родители", ef2_text:"Понимание процесса роста, доступ к образовательной информации и информации о поступлении, снижение тревожности",
+    ef3_title:"Школа·Сообщество", ef3_text:"Профилактика отсева, расширение сотрудничества, связь с местными ресурсами",
+    pdf1_title:"Брошюра интегрированной образовательной программы для молодёжи с миграционным происхождением", pdf1_desc:"Вы можете просмотреть брошюру непосредственно ниже. (Доступна прокрутка и масштабирование)",
+    pdf2_title:"Kkomdamgil + Edu1top + Battle Learning — Подробное описание (240 стр.)", pdf2_desc:"Вы можете просмотреть подробный PDF непосредственно ниже. (Доступна прокрутка и масштабирование)",
+    footer_sub:"Платформа полного обучения на основе ИИ для учеников с миграционным происхождением | Организатор: IEC Academy",
+    footer_tag:"Мы стремимся к образованию, которое не оставляет ни одного ребёнка позади."
+  },
+
+  ja: {
+    nav1:"📹 プログラム動画", nav2:"📄 教育プログラム紹介", nav3:"📋 詳細紹介 PDF",
+    hero_badge:"AIベースの移民背景生徒のための完全学習プラットフォーム",
+    hero_sub:"移民背景青少年統合教育プログラム",
+    promise_title:"コアの約束",
+    promise_text:"生徒の言語・文化的背景と現在の学習レベルを尊重し、小さな成功を積み重ねることで<strong>自己肯定感・基礎学力・キャリア能力</strong>を共に育む長期成長プログラムです。",
+    sec_overview:"プログラム概要", th_cat:"区分", th_content:"内容",
+    ov_r1_k:"主管・対象", ov_r1_v:"IECアカデミー主管 / 移民家庭の小・中・高校生",
+    ov_r2_k:"教育目標", ov_r2_v:"基礎学力の回復、韓国語・英語・母国語の連携、教科適応、進路設計、自己肯定感の回復",
+    ov_r3_k:"運営時間", ov_r3_v:"週2回×90分、4週間基準で月12時間 / 短期集中から最大12年間の成長管理",
+    ov_r4_k:"教育場所", ov_r4_v:"地域拠点センター・学校・協力機関での対面授業 + Edu1topオンライン学習 + 家庭連携",
+    ov_r5_k:"教育方法", ov_r5_v:"AI個別最適化学習 + ゲーム型バトル復習 + クムダムギルメンタリング・保護者コーチング",
+    sec_video:"プログラム紹介動画",
+    video_fallback:"お使いのブラウザは動画再生をサポートしていません。",
+    sec_philosophy:"教育哲学",
+    philosophy_text:"出身国や学年ではなく<strong>実際の学習レベルを基準に開始</strong>し、友達との序列化ではなく<strong>昨日の自分との比較による成長</strong>を確認します。母国語と文化的背景を欠損ではなく<strong>学習資源として尊重</strong>します。",
+    sec_programs:"3つのコアプログラム",
+    prog1_title:"Edu1top AI", prog1_text:"精巧な学習診断、個人カリキュラム、STT・TTS・発音評価・OCR・問題生成、自動補充・成長分析により、現在のレベルに合った学習と客観的な成長レポートを提供します。",
+    prog2_title:"バトル学習", prog2_text:"平等バトル・公平バトル、個人・チーム戦、ランキング・コンボ・ミッション・NPC、ゲーム型反復復習により、レベルが違っても一緒に参加し、楽しい学習習慣を作ります。",
+    prog3_title:"クムダムギル", prog3_text:"進路・成長メンタリング、保護者Zoomコーチング、移民背景の先輩・大学・企業との連携により、自己肯定感・人間関係・進路情報を向上させ、社会参加を準備します。",
+    sec_cycle:"AIベースの完全学習サイクル",
+    cycle_text:"① 初期学習診断 → ② 個人経路生成 → ③ 段階別学習 → ④ バトル・楽しい復習 → ⑤ 誤答原因分析 → ⑥ 下位段階補充 → ⑦ 再挑戦達成確認 → ⑧ 成長レポート<br><strong style='color:#1d4ed8;'>進度を進めるだけでなく、不足している先行概念まで戻って完成させる構造です。</strong>",
+    sec_roadmap:"小学校から高校までの12年間成長ロードマップ",
+    rm1_title:"小学校1〜2年", rm1_text:"適応・自己肯定感<br>ハングル・日常韓国語<br>基礎英語・算数・感覚",
+    rm2_title:"小学校3〜4年", rm2_text:"教科語彙<br>フォニックス・小学単語<br>自己主導習慣",
+    rm3_title:"小学校5〜6年", rm3_text:"読解力・教科基礎<br>文章パターン・基礎文法<br>進路興味探索",
+    rm4_title:"中学校1〜3年", rm4_text:"内申・学習戦略<br>教科韓国語・英語<br>進路探索・メンタリング",
+    rm5_title:"高校1〜2年", rm5_text:"内申・大学入試基盤<br>進学・職業経路設計<br>企業・大学連携",
+    rm6_title:"高校3年", rm6_text:"大学入試・就職英語<br>面接・自己紹介<br>進学・就職実行",
+    sec_lang:"言語マスター STEP 0〜12", th_section:"区間", th_step:"ステップ", th_core:"コア学習",
+    ls_r1_k:"基礎", ls_r1_v:"総合診断 → ハングル・基礎読み書き → フォニックス → 小学コア単語",
+    ls_r2_k:"文章・読解", ls_r2_v:"文章パターン → 基礎文法 → 初級読解 → 教科書本文",
+    ls_r3_k:"内申・入試", ls_r3_v:"中学内申 → 高校内申 → 大学入試コア語彙・タイプ別読解",
+    ls_r4_k:"社会進出", ls_r4_v:"就職英語・自己紹介 → AI実践面接・発音・表現フィードバック",
+    sec_connect:"韓国語・母国語・教科・進路連携", th_area:"領域", th_edu:"教育内容", th_goal:"目標",
+    cn_r1_k:"韓国語高度化", cn_r1_v:"基礎語彙・日常会話・教科韓国語・読解力・小論文・発表", cn_r1_g:"授業理解、コミュニケーション、評価・進学・就職能力",
+    cn_r2_k:"母国語ブリッジ", cn_r2_v:"中国語・ベトナム語・ロシア語等を優先、AI翻訳・STT・TTS活用", cn_r2_g:"初期不安軽減、韓国語との意味連結、多言語アイデンティティ維持",
+    cn_r3_k:"教科支援", cn_r3_v:"小学基礎学力 → 中学全科目 → 高校内申・大学入試・職業基礎", cn_r3_g:"学業中断リスク軽減と授業参加拡大",
+    cn_r4_k:"進路・成長", cn_r4_v:"興味・強み探索、メンタリング、企業・大学・職業機関体験、ポートフォリオ・面接", cn_r4_g:"進学・就職の選択肢拡大と自己表現能力向上",
+    sec_class:"1回90分標準授業構成",
+    ct1_t:"10分", ct1_s:"感情・関係のオープニング", ct1_a:"挨拶・感情確認・今日の小さな目標",
+    ct2_t:"25分", ct2_s:"個別最適化コア学習", ct2_a:"AIおすすめ学習 + 教師コーチング + 読み・書き・聴き",
+    ct3_t:"10分", ct3_s:"楽しい個人復習", ct3_a:"カード・TTS・クイズ・ショートゲーム",
+    ct4_t:"10分", ct4_s:"休憩・転換", ct4_a:"体を動かす・水を飲む・交流",
+    ct5_t:"25分", ct5_s:"バトル学習", ct5_a:"平等・公平な個人/チームバトル",
+    ct6_t:"10分", ct6_s:"成長確認", ct6_a:"誤答補充・称賛・家庭課題案内",
+    sec_enroll:"受講申込手順",
+    st1_title:"相談申込", st1_text:"QR・電話・メールまたは協力機関を通じて基本情報と希望時間を提出",
+    st2_title:"生徒・保護者相談", st2_text:"学校生活・言語環境・現在の困難・教育目標の確認",
+    st3_title:"基礎診断", st3_text:"負担の少ない短時間の活動で実際の出発点を把握",
+    st4_title:"個人教育計画", st4_text:"推奨段階・授業方式・想定期間・家庭連携の案内",
+    st5_title:"受講確定", st5_text:"日程・利用料・支援有無・個人情報・AI活用同意後スタート",
+    sec_effect:"期待される効果",
+    ef1_title:"生徒", ef1_text:"基礎学力の回復、言語バランス成長、自己肯定感・進路能力向上",
+    ef2_title:"保護者", ef2_text:"成長過程の理解、教育・進学情報へのアクセス、教育不安の軽減",
+    ef3_title:"学校・地域社会", ef3_text:"学業中断予防、協力拡大、地域資源との連結",
+    pdf1_title:"移民背景青少年統合教育プログラム紹介書", pdf1_desc:"以下で紹介書を直接ご確認いただけます。（スクロール・拡大可能）",
+    pdf2_title:"クムダムギル + Edu1top + バトル学習 詳細紹介（240ページ）", pdf2_desc:"以下で詳細紹介PDFを直接ご確認いただけます。（スクロール・拡大可能）",
+    footer_sub:"AIベースの移民背景生徒のための完全学習プラットフォーム | IECアカデミー主管",
+    footer_tag:"一人の子どもも諦めない教育を目指しています。"
+  },
+
+  "zh-TW": {
+    nav1:"📹 計畫影片", nav2:"📄 教育計畫介紹", nav3:"📋 詳細介紹 PDF",
+    hero_badge:"基於AI的移民背景學生完全學習平台",
+    hero_sub:"移民背景青少年綜合教育計畫",
+    promise_title:"核心承諾",
+    promise_text:"尊重學生的語言文化背景與當前學習水準，透過反覆積累小成功，共同培養<strong>自尊心·基礎學力·職涯發展能力</strong>的長期成長計畫。",
+    sec_overview:"計畫概要", th_cat:"分類", th_content:"內容",
+    ov_r1_k:"主辦·對象", ov_r1_v:"IEC學院主辦 / 移民家庭小·國·高中學生",
+    ov_r2_k:"教育目標", ov_r2_v:"恢復基礎學力，韓語·英語·母語聯動，學科適應，職涯規劃，自尊心恢復",
+    ov_r3_k:"運營時間", ov_r3_v:"每週2次×90分鐘，4週基準每月12小時 / 短期集中至最長12年成長管理",
+    ov_r4_k:"教育場所", ov_r4_v:"地區中心·學校·合作機構面授 + Edu1top線上學習 + 家庭聯動",
+    ov_r5_k:"教育方法", ov_r5_v:"AI個人化學習 + 遊戲型對戰複習 + 꿈담길輔導·家長教練",
+    sec_video:"計畫介紹影片",
+    video_fallback:"您的瀏覽器不支援影片播放。",
+    sec_philosophy:"教育理念",
+    philosophy_text:"以<strong>實際學習水準為基準</strong>，而非出身國家或年級；衡量<strong>與昨日自己相比的成長</strong>，而非與同學排名。將母語和文化背景視為<strong>學習資源而非缺陷</strong>，加以尊重。",
+    sec_programs:"三大核心計畫",
+    prog1_title:"Edu1top AI", prog1_text:"精準學習診斷、個人化課程、STT·TTS·發音評測·OCR·題目生成、自動補充·成長分析，提供適合當前水準的學習和客觀成長報告。",
+    prog2_title:"對戰學習", prog2_text:"平等對戰·公平對戰、個人·團隊賽、排名·連擊·任務·NPC、遊戲型反覆複習，讓不同水準的學生共同參與，培養愉快的學習習慣。",
+    prog3_title:"꿈담길（夢想之路）", prog3_text:"職涯·成長輔導、家長Zoom教練、聯結移民背景學長·大學·企業，提升自尊心·人際關係·職涯資訊，準備融入社會。",
+    sec_cycle:"基於AI的完全學習循環",
+    cycle_text:"① 初始學習診斷 → ② 生成個人路徑 → ③ 分階段學習 → ④ 對戰·趣味複習 → ⑤ 錯誤原因分析 → ⑥ 補充低階概念 → ⑦ 再挑戰成就確認 → ⑧ 成長報告<br><strong style='color:#1d4ed8;'>不僅向前推進，而是回頭補足欠缺的先修概念，直至完全掌握。</strong>",
+    sec_roadmap:"從小學到高中的12年成長路線圖",
+    rm1_title:"小學 1~2年級", rm1_text:"適應·自尊心<br>韓文·日常韓語<br>基礎英語·數學·感知",
+    rm2_title:"小學 3~4年級", rm2_text:"學科詞彙<br>自然拼讀·小學單字<br>自主學習習慣",
+    rm3_title:"小學 5~6年級", rm3_text:"閱讀理解·學科基礎<br>句型·基礎語法<br>職涯興趣探索",
+    rm4_title:"國中 1~3年級", rm4_text:"成績·學習策略<br>學科韓語·英語<br>職涯探索·輔導",
+    rm5_title:"高中 1~2年級", rm5_text:"成績·學測基礎<br>升學·職涯路徑設計<br>企業·大學聯結",
+    rm6_title:"高中 3年級", rm6_text:"學測·就業英語<br>面試·自我介紹<br>升學·就業實施",
+    sec_lang:"語言大師 STEP 0~12", th_section:"階段", th_step:"步驟", th_core:"核心學習",
+    ls_r1_k:"基礎", ls_r1_v:"綜合診斷 → 韓文·基礎識字 → 自然拼讀 → 小學核心單字",
+    ls_r2_k:"句子·閱讀", ls_r2_v:"句型 → 基礎語法 → 初級閱讀 → 教科書正文",
+    ls_r3_k:"成績·升學", ls_r3_v:"國中成績 → 高中成績 → 學測核心詞彙·題型閱讀",
+    ls_r4_k:"走向社會", ls_r4_v:"就業英語·自我介紹 → AI實戰面試·發音·表達回饋",
+    sec_connect:"韓語·母語·學科·職涯聯動", th_area:"領域", th_edu:"教育內容", th_goal:"目標",
+    cn_r1_k:"韓語強化", cn_r1_v:"基礎詞彙·日常會話·學科韓語·閱讀理解·寫作·演講", cn_r1_g:"理解課堂，溝通交流，考試·升學·就業能力",
+    cn_r2_k:"母語橋梁", cn_r2_v:"優先支援中文·越南語·俄語等，利用AI翻譯·STT·TTS", cn_r2_g:"減少初期焦慮，與韓語意義連結，維持多語言身份認同",
+    cn_r3_k:"學科支援", cn_r3_v:"小學基礎學力 → 國中所有科目 → 高中成績·學測·職業基礎", cn_r3_g:"降低輟學風險，擴大課堂參與",
+    cn_r4_k:"職涯·成長", cn_r4_v:"興趣·優勢探索，輔導，企業·大學·職業機構體驗，作品集·面試", cn_r4_g:"擴大升學·就業選擇權和自我表達能力",
+    sec_class:"每次90分鐘標準課程安排",
+    ct1_t:"10分鐘", ct1_s:"情感·關係開場", ct1_a:"問候·情緒確認·今日小目標",
+    ct2_t:"25分鐘", ct2_s:"個人化核心學習", ct2_a:"AI推薦學習 + 教師輔導 + 讀·寫·聽",
+    ct3_t:"10分鐘", ct3_s:"趣味個人複習", ct3_a:"卡片·TTS·測驗·小遊戲",
+    ct4_t:"10分鐘", ct4_s:"休息·過渡", ct4_a:"活動·喝水·互動",
+    ct5_t:"25分鐘", ct5_s:"對戰學習", ct5_a:"平等·公平個人/團隊對戰",
+    ct6_t:"10分鐘", ct6_s:"成長確認", ct6_a:"錯題補充·表揚·家庭作業指導",
+    sec_enroll:"報名流程",
+    st1_title:"諮詢申請", st1_text:"透過QR碼·電話·郵件或合作機構提交基本資訊和希望時間",
+    st2_title:"學生·家長諮詢", st2_text:"瞭解學校生活·語言環境·當前困難·教育目標",
+    st3_title:"基礎診斷", st3_text:"透過輕鬆的短時活動瞭解實際起點",
+    st4_title:"個人教育計畫", st4_text:"告知推薦階段·上課方式·預計週期·家庭聯動",
+    st5_title:"確認報名", st5_text:"確認時間·費用·支援情況·個人資訊·AI使用同意後開始",
+    sec_effect:"預期效果",
+    ef1_title:"學生", ef1_text:"恢復基礎學力，語言均衡成長，提升自尊心和職涯能力",
+    ef2_title:"家長", ef2_text:"瞭解成長過程，獲取教育·升學資訊，減少教育焦慮",
+    ef3_title:"學校·社區", ef3_text:"預防輟學，擴大合作，連結地區資源",
+    pdf1_title:"移民背景青少年綜合教育計畫介紹書", pdf1_desc:"您可以在下方直接查看介紹書。（可滾動·放大）",
+    pdf2_title:"꿈담길 + Edu1top + 對戰學習 詳細介紹 (240頁)", pdf2_desc:"您可以在下方直接查看詳細介紹PDF。（可滾動·放大）",
+    footer_sub:"基於AI的移民背景學生完全學習平台 | IEC學院主辦",
+    footer_tag:"我們致力於不放棄任何一個孩子的教育。"
+  },
+
+  fil: {
+    nav1:"📹 Video ng Programa", nav2:"📄 Brochure ng Programa", nav3:"📋 Detalyadong PDF",
+    hero_badge:"AI-Based na Kumpletong Plataporma ng Pagkatuto para sa mga Mag-aaral na may Migranteng Pinagmulan",
+    hero_sub:"Integradong Programa sa Edukasyon para sa Kabataang may Migranteng Pinagmulan",
+    promise_title:"Aming Pangunahing Pangako",
+    promise_text:"Iginagalang namin ang lingguwistiko at kultural na pinagmulan ng bawat mag-aaral at ang kanilang kasalukuyang antas ng pag-aaral. Sa pamamagitan ng paulit-ulit na maliliit na tagumpay, sama-sama nating pauunlarin ang <strong>pagtitiwala sa sarili · pangunahing kakayahang akademiko · kakayahan sa karera</strong> — isang pangmatagalang programa ng paglago.",
+    sec_overview:"Pangkalahatang-ideya ng Programa", th_cat:"Kategorya", th_content:"Mga Detalye",
+    ov_r1_k:"Tagaayos · Target", ov_r1_v:"Inayos ng IEC Academy / Mga mag-aaral sa elementary, junior high, at senior high mula sa pamilyang may migranteng pinagmulan",
+    ov_r2_k:"Mga Layunin", ov_r2_v:"Pagbawi ng pangunahing kaalaman, pagsasama ng Korean·Ingles·katutubong wika, adaptasyon sa paksa, pagpaplano ng karera, pagbawi ng pagtitiwala sa sarili",
+    ov_r3_k:"Iskedyul", ov_r3_v:"2 beses/linggo × 90 minuto, 12 oras/buwan (4-linggong batayan) / Mula sa maikling intensibo hanggang 12-taong pamamahala ng paglago",
+    ov_r4_k:"Lokasyon", ov_r4_v:"Mga rehiyonal na sentro·paaralan·kasosyong institusyon (personal) + Edu1top online na pag-aaral + Koneksyon sa tahanan",
+    ov_r5_k:"Paraan ng Pagtuturo", ov_r5_v:"AI na personalisadong pag-aaral + Battle review na katulad ng laro + Mentoring ng Kkomdamgil·coaching ng magulang",
+    sec_video:"Video ng Pagpapakilala ng Programa",
+    video_fallback:"Hindi sinusuportahan ng iyong browser ang pag-play ng video.",
+    sec_philosophy:"Pilosopiya sa Edukasyon",
+    philosophy_text:"Nagsisimula kami mula sa <strong>aktwal na antas ng pag-aaral</strong>, hindi sa bansang pinanggalingan o antas; sinusukat ang <strong>paglago kumpara sa sarili kahapon</strong>, hindi ranggo sa mga kapwa. Ang katutubong wika at kultural na pinagmulan ay itinuturing na <strong>mapagkukunan ng pag-aaral, hindi kakulangan</strong>.",
+    sec_programs:"Tatlong Pangunahing Programa",
+    prog1_title:"Edu1top AI", prog1_text:"Tumpak na diagnosis sa pag-aaral, personalisadong kurikulum, STT·TTS·pagsusuri ng pagbigkas·OCR·paglikha ng tanong, awtomatikong karagdagan·pagsusuri ng paglago — nagbibigay ng pag-aaral ayon sa kasalukuyang antas at layuning ulat ng paglago.",
+    prog2_title:"Battle Learning", prog2_text:"Pantay na Battle·Patas na Battle, indibidwal·koponan, ranggo·combo·misyon·NPC, paulit-ulit na pagsusuri na katulad ng laro — lahat ay nakikilahok anuman ang antas, nagtatayo ng masayang gawi sa pag-aaral.",
+    prog3_title:"Kkomdamgil", prog3_text:"Mentoring sa karera·paglago, coaching ng magulang sa Zoom, koneksyon sa mga naunang mag-aaral·unibersidad·kumpanya na may migranteng pinagmulan — nagpapataas ng pagtitiwala sa sarili·relasyon·impormasyon sa karera at naghahanda para sa integrasyon sa lipunan.",
+    sec_cycle:"Siklo ng Kumpletong Pag-aaral Batay sa AI",
+    cycle_text:"① Paunang diagnosis → ② Paglikha ng personal na landas → ③ Hakbang-hakbang na pag-aaral → ④ Battle·masayang pagsusuri → ⑤ Pagsusuri ng dahilan ng pagkakamali → ⑥ Karagdagang konsepto → ⑦ Kumpirmasyon ng tagumpay sa muling pagsubok → ⑧ Ulat ng paglago<br><strong style='color:#1d4ed8;'>Hindi lamang pag-unlad, kundi pagbabalik upang punan ang mga nawawalang konsepto hanggang sa ganap na pagkamit.</strong>",
+    sec_roadmap:"12-Taong Mapa ng Paglago mula Elementary hanggang Senior High",
+    rm1_title:"Baitang 1~2", rm1_text:"Adaptasyon·pagtitiwala sa sarili<br>Korean alpabeto·pang-araw-araw na Korean<br>Pangunahing Ingles·matematika",
+    rm2_title:"Baitang 3~4", rm2_text:"Bokabularyo ng paksa<br>Phonics·mga salitang pang-elementary<br>Mga gawi sa sariling pag-aaral",
+    rm3_title:"Baitang 5~6", rm3_text:"Pagbabasa·pundasyon ng paksa<br>Mga pattern ng pangungusap·gramatika<br>Pagtuklas ng interes sa karera",
+    rm4_title:"Junior High 1~3", rm4_text:"Marka·mga estratehiya sa pag-aaral<br>Korean·Ingles para sa mga paksa<br>Pagtuklas ng karera·mentoring",
+    rm5_title:"Senior High 1~2", rm5_text:"Marka·pundasyon ng pagsusulit<br>Disenyo ng landas sa kolehiyo·karera<br>Koneksyon sa kumpanya·unibersidad",
+    rm6_title:"Senior High 3", rm6_text:"Pagsusulit·Ingles para sa trabaho<br>Panayam·pagpapakilala sa sarili<br>Kolehiyo·trabaho",
+    sec_lang:"Language Master STEP 0~12", th_section:"Yugto", th_step:"Hakbang", th_core:"Pangunahing Pag-aaral",
+    ls_r1_k:"Pundasyon", ls_r1_v:"Komprehensibong diagnosis → Korean alpabeto·pangunahing literacy → Phonics → Pangunahing bokabularyo",
+    ls_r2_k:"Pangungusap·Pagbabasa", ls_r2_v:"Mga pattern ng pangungusap → Pangunahing gramatika → Elementaryang pagbabasa → Nilalaman ng aklat",
+    ls_r3_k:"Marka·Pagpasok", ls_r3_v:"Marka sa junior high → Marka sa senior high → Pangunahing bokabularyo sa pagsusulit·pagbabasa ayon sa uri",
+    ls_r4_k:"Integrasyon sa Lipunan", ls_r4_v:"Ingles para sa trabaho·pagpapakilala sa sarili → Tunay na panayam sa AI·feedback sa pagbigkas",
+    sec_connect:"Integrasyon ng Korean·Katutubong Wika·Paksa·Karera", th_area:"Lugar", th_edu:"Nilalaman", th_goal:"Layunin",
+    cn_r1_k:"Pagpapaunlad ng Korean", cn_r1_v:"Pangunahing bokabularyo·pang-araw-araw na pag-uusap·Korean para sa paksa·literacy·sanaysay·presentasyon", cn_r1_g:"Pag-unawa sa klase, komunikasyon, kakayahan sa pagtatasa·kolehiyo·trabaho",
+    cn_r2_k:"Tulay ng Katutubong Wika", cn_r2_v:"Inuuna ang Tsino·Vietnamese·Ruso; paggamit ng AI translation·STT·TTS", cn_r2_g:"Bawasan ang paunang pagkabalisa, ikonekta ang kahulugan sa Korean, panatilihin ang multilingual na pagkakakilanlan",
+    cn_r3_k:"Suporta sa Paksa", cn_r3_v:"Pangunahing kaalaman sa elementary → Lahat ng paksa sa junior high → Marka·pagsusulit·pundasyon ng bokasyon", cn_r3_g:"Bawasan ang panganib ng pag-alis sa paaralan, palawakin ang pakikilahok sa klase",
+    cn_r4_k:"Karera·Paglago", cn_r4_v:"Pagtuklas ng interes·kalakasan, mentoring, karanasan sa kumpanya·unibersidad·institusyon ng bokasyon, portfolio·panayam", cn_r4_g:"Palawakin ang mga pagpipilian sa kolehiyo·trabaho at kakayahan sa pagpapahayag ng sarili",
+    sec_class:"Pamantayang 90-Minutong Istraktura ng Klase",
+    ct1_t:"10 min", ct1_s:"Emosyonal na Pagbubukas", ct1_a:"Pagbati·pagsusuri ng emosyon·maliit na layunin ngayon",
+    ct2_t:"25 min", ct2_s:"Personalisadong Pangunahing Pag-aaral", ct2_a:"Rekomendasyon ng AI + coaching ng guro + pagbabasa·pagsusulat·pakikinig",
+    ct3_t:"10 min", ct3_s:"Masayang Personal na Pagsusuri", ct3_a:"Mga card·TTS·pagsusulit·maikling laro",
+    ct4_t:"10 min", ct4_s:"Pahinga·Transisyon", ct4_a:"Galaw·tubig·interaksyon",
+    ct5_t:"25 min", ct5_s:"Battle Learning", ct5_a:"Pantay·patas na indibidwal/koponan na Battle",
+    ct6_t:"10 min", ct6_s:"Pagsusuri ng Paglago", ct6_a:"Pagsusuri ng pagkakamali·papuri·gabay sa takdang-aralin",
+    sec_enroll:"Proseso ng Pagpapatala",
+    st1_title:"Kahilingan sa Konsultasyon", st1_text:"Isumite ang pangunahing impormasyon at gustong oras sa pamamagitan ng QR·telepono·email o kasosyong institusyon",
+    st2_title:"Konsultasyon ng Mag-aaral·Magulang", st2_text:"Suriin ang buhay sa paaralan·kapaligiran sa wika·kasalukuyang hirap·mga layunin sa edukasyon",
+    st3_title:"Paunang Pagsusuri", st3_text:"Tukuyin ang aktwal na panimulang punto sa pamamagitan ng maikling, magaang na mga aktibidad",
+    st4_title:"Personal na Plano sa Edukasyon", st4_text:"Gabay sa inirerekomendang antas·format ng klase·inaasahang tagal·koneksyon sa tahanan",
+    st5_title:"Kumpirmasyon ng Pagpapatala", st5_text:"Magsisimula pagkatapos ng kasunduan sa iskedyul·bayad·suporta·personal na impormasyon·paggamit ng AI",
+    sec_effect:"Inaasahang Resulta",
+    ef1_title:"Mga Mag-aaral", ef1_text:"Pagbawi ng pangunahing kaalaman, balanseng paglago ng wika, pagpapataas ng pagtitiwala sa sarili at kakayahan sa karera",
+    ef2_title:"Mga Magulang", ef2_text:"Pag-unawa sa proseso ng paglago, access sa impormasyon sa edukasyon at kolehiyo, pagbabawas ng pagkabalisa",
+    ef3_title:"Paaralan·Komunidad", ef3_text:"Pag-iwas sa pag-alis sa paaralan, pagpapalawak ng kooperasyon, koneksyon sa lokal na mapagkukunan",
+    pdf1_title:"Brochure ng Integradong Programa sa Edukasyon para sa Kabataang may Migranteng Pinagmulan", pdf1_desc:"Maaari mong tingnan ang brochure nang direkta sa ibaba. (Available ang scroll at zoom)",
+    pdf2_title:"Kkomdamgil + Edu1top + Battle Learning — Detalyadong Pagpapakilala (240 pahina)", pdf2_desc:"Maaari mong tingnan ang detalyadong PDF nang direkta sa ibaba. (Available ang scroll at zoom)",
+    footer_sub:"AI-Based na Kumpletong Plataporma ng Pagkatuto | Inayos ng IEC Academy",
+    footer_tag:"Naglalayong magbigay ng edukasyong hindi nag-iiwan ng kahit isang bata."
+  },
+
+  th: {
+    nav1:"📹 วิดีโอโปรแกรม", nav2:"📄 โบรชัวร์โปรแกรม", nav3:"📋 PDF รายละเอียด",
+    hero_badge:"แพลตฟอร์มการเรียนรู้สมบูรณ์แบบด้วย AI สำหรับนักเรียนที่มีพื้นเพผู้อพยพ",
+    hero_sub:"โปรแกรมการศึกษาแบบบูรณาการสำหรับเยาวชนที่มีพื้นเพผู้อพยพ",
+    promise_title:"คำมั่นสัญญาหลักของเรา",
+    promise_text:"เราเคารพพื้นเพทางภาษาและวัฒนธรรมของนักเรียนแต่ละคน ผ่านความสำเร็จเล็กๆ น้อยๆ ที่สะสมกัน เพื่อพัฒนา<strong>ความภาคภูมิใจในตนเอง · ทักษะพื้นฐาน · ความสามารถด้านอาชีพ</strong> — โปรแกรมการเติบโตระยะยาว",
+    sec_overview:"ภาพรวมโปรแกรม", th_cat:"หมวดหมู่", th_content:"รายละเอียด",
+    ov_r1_k:"ผู้จัด · กลุ่มเป้าหมาย", ov_r1_v:"จัดโดย IEC Academy / นักเรียนระดับประถม มัธยมต้น มัธยมปลาย จากครอบครัวที่มีพื้นเพผู้อพยพ",
+    ov_r2_k:"เป้าหมายการศึกษา", ov_r2_v:"ฟื้นฟูทักษะพื้นฐาน เชื่อมโยงภาษาเกาหลี·อังกฤษ·ภาษาแม่ ปรับตัวกับวิชาเรียน วางแผนอาชีพ ฟื้นฟูความภาคภูมิใจ",
+    ov_r3_k:"ตารางเวลา", ov_r3_v:"2 ครั้ง/สัปดาห์ × 90 นาที, 12 ชั่วโมง/เดือน / ตั้งแต่หลักสูตรเข้มข้นระยะสั้นถึงการจัดการการเติบโต 12 ปี",
+    ov_r4_k:"สถานที่เรียน", ov_r4_v:"ศูนย์ภูมิภาค·โรงเรียน·สถาบันพันธมิตร (対面) + การเรียนออนไลน์ Edu1top + การเชื่อมต่อที่บ้าน",
+    ov_r5_k:"วิธีการสอน", ov_r5_v:"การเรียนรู้ส่วนบุคคลด้วย AI + ทบทวนแบบเกม Battle + การให้คำปรึกษา Kkomdamgil·โค้ชผู้ปกครอง",
+    sec_video:"วิดีโอแนะนำโปรแกรม",
+    video_fallback:"เบราว์เซอร์ของคุณไม่รองรับการเล่นวิดีโอ",
+    sec_philosophy:"ปรัชญาการศึกษา",
+    philosophy_text:"เริ่มต้นจาก<strong>ระดับการเรียนรู้ที่แท้จริง</strong> ไม่ใช่ประเทศต้นกำเนิดหรือชั้นเรียน วัด<strong>การเติบโตเทียบกับตัวเองเมื่อวาน</strong> ไม่ใช่อันดับในหมู่เพื่อน ภาษาแม่และพื้นเพวัฒนธรรมถือเป็น<strong>แหล่งทรัพยากรการเรียนรู้ ไม่ใช่ข้อบกพร่อง</strong>",
+    sec_programs:"สามโปรแกรมหลัก",
+    prog1_title:"Edu1top AI", prog1_text:"การวินิจฉัยการเรียนที่แม่นยำ หลักสูตรส่วนบุคคล STT·TTS·การประเมินการออกเสียง·OCR·การสร้างคำถาม การเสริมอัตโนมัติ·การวิเคราะห์การเติบโต — มอบการเรียนรู้ที่เหมาะกับระดับปัจจุบันและรายงานความก้าวหน้าที่เป็นกลาง",
+    prog2_title:"Battle Learning (การเรียนรู้แบบ Battle)", prog2_text:"Battle ที่เท่าเทียม·ยุติธรรม บุคคล·ทีม อันดับ·คอมโบ·ภารกิจ·NPC การทบทวนซ้ำแบบเกม — ทุกคนมีส่วนร่วมโดยไม่คำนึงถึงระดับ สร้างนิสัยการเรียนรู้ที่สนุกสนาน",
+    prog3_title:"Kkomdamgil (เส้นทางแห่งความฝัน)", prog3_text:"การให้คำปรึกษาด้านอาชีพ·การเติบโต โค้ชผู้ปกครองผ่าน Zoom เชื่อมต่อกับรุ่นพี่·มหาวิทยาลัย·บริษัทที่มีพื้นเพผู้อพยพ — เพิ่มความภาคภูมิใจ·ความสัมพันธ์·ข้อมูลด้านอาชีพ และเตรียมพร้อมสำหรับการเข้าสู่สังคม",
+    sec_cycle:"วงจรการเรียนรู้สมบูรณ์แบบด้วย AI",
+    cycle_text:"① วินิจฉัยเบื้องต้น → ② สร้างเส้นทางส่วนบุคคล → ③ เรียนรู้ทีละขั้น → ④ Battle·ทบทวนสนุก → ⑤ วิเคราะห์สาเหตุข้อผิดพลาด → ⑥ เสริมแนวคิดพื้นฐาน → ⑦ ยืนยันความสำเร็จในการท้าทายใหม่ → ⑧ รายงานการเติบโต<br><strong style='color:#1d4ed8;'>ไม่ใช่แค่ก้าวหน้าต่อไป แต่ย้อนกลับเพื่อเติมแนวคิดที่ขาดหายจนกว่าจะเชี่ยวชาญ</strong>",
+    sec_roadmap:"แผนงานการเติบโต 12 ปีตั้งแต่ประถมถึงมัธยมปลาย",
+    rm1_title:"ป.1~2", rm1_text:"การปรับตัว·ความภาคภูมิใจ<br>ตัวอักษรเกาหลี·ภาษาเกาหลีประจำวัน<br>ภาษาอังกฤษ·คณิตศาสตร์พื้นฐาน",
+    rm2_title:"ป.3~4", rm2_text:"คำศัพท์วิชา<br>Phonics·คำศัพท์ประถม<br>นิสัยการเรียนรู้ด้วยตนเอง",
+    rm3_title:"ป.5~6", rm3_text:"การอ่าน·พื้นฐานวิชา<br>รูปแบบประโยค·ไวยากรณ์<br>สำรวจความสนใจด้านอาชีพ",
+    rm4_title:"ม.1~3", rm4_text:"คะแนน·กลยุทธ์การเรียน<br>ภาษาเกาหลี·อังกฤษสำหรับวิชา<br>สำรวจอาชีพ·การให้คำปรึกษา",
+    rm5_title:"ม.4~5", rm5_text:"คะแนน·พื้นฐานสอบเข้ามหาวิทยาลัย<br>ออกแบบเส้นทางการศึกษา·อาชีพ<br>เชื่อมต่อบริษัท·มหาวิทยาลัย",
+    rm6_title:"ม.6", rm6_text:"สอบ·ภาษาอังกฤษสำหรับงาน<br>สัมภาษณ์·แนะนำตัวเอง<br>เข้ามหาวิทยาลัย·ทำงาน",
+    sec_lang:"Language Master STEP 0~12", th_section:"ระยะ", th_step:"ขั้นตอน", th_core:"การเรียนรู้หลัก",
+    ls_r1_k:"พื้นฐาน", ls_r1_v:"วินิจฉัยรวม → ตัวอักษรเกาหลี·การอ่านเขียนพื้นฐาน → Phonics → คำศัพท์หลัก",
+    ls_r2_k:"ประโยค·การอ่าน", ls_r2_v:"รูปแบบประโยค → ไวยากรณ์พื้นฐาน → การอ่านระดับต้น → เนื้อหาตำรา",
+    ls_r3_k:"คะแนน·การสอบเข้า", ls_r3_v:"คะแนนมัธยมต้น → คะแนนมัธยมปลาย → คำศัพท์หลักสอบ·การอ่านตามประเภท",
+    ls_r4_k:"การเข้าสู่สังคม", ls_r4_v:"ภาษาอังกฤษสำหรับงาน·แนะนำตัว → สัมภาษณ์จริงด้วย AI·ป้อนกลับการออกเสียง",
+    sec_connect:"บูรณาการภาษาเกาหลี·ภาษาแม่·วิชา·อาชีพ", th_area:"ด้าน", th_edu:"เนื้อหาการศึกษา", th_goal:"เป้าหมาย",
+    cn_r1_k:"พัฒนาภาษาเกาหลี", cn_r1_v:"คำศัพท์พื้นฐาน·การสนทนาประจำวัน·ภาษาเกาหลีวิชา·การอ่าน·เรียงความ·การนำเสนอ", cn_r1_g:"เข้าใจชั้นเรียน การสื่อสาร ความสามารถประเมิน·มหาวิทยาลัย·งาน",
+    cn_r2_k:"สะพานภาษาแม่", cn_r2_v:"ให้ความสำคัญภาษาจีน·เวียดนาม·รัสเซีย ใช้ AI แปล·STT·TTS", cn_r2_g:"ลดความวิตกกังวลเริ่มต้น เชื่อมความหมายกับภาษาเกาหลี รักษาอัตลักษณ์หลายภาษา",
+    cn_r3_k:"สนับสนุนวิชา", cn_r3_v:"ทักษะพื้นฐานประถม → ทุกวิชามัธยมต้น → คะแนน·สอบ·พื้นฐานอาชีพ", cn_r3_g:"ลดความเสี่ยงออกกลางคัน ขยายการมีส่วนร่วมในชั้นเรียน",
+    cn_r4_k:"อาชีพ·การเติบโต", cn_r4_v:"สำรวจความสนใจ·จุดแข็ง การให้คำปรึกษา ประสบการณ์ในบริษัท·มหาวิทยาลัย portfolio·สัมภาษณ์", cn_r4_g:"ขยายตัวเลือกการศึกษา·งาน และความสามารถในการแสดงออก",
+    sec_class:"โครงสร้างชั้นเรียนมาตรฐาน 90 นาที",
+    ct1_t:"10 นาที", ct1_s:"เปิดอารมณ์·ความสัมพันธ์", ct1_a:"ทักทาย·ตรวจสอบอารมณ์·เป้าหมายเล็กวันนี้",
+    ct2_t:"25 นาที", ct2_s:"การเรียนรู้หลักส่วนบุคคล", ct2_a:"AI แนะนำ + โค้ชครู + อ่าน·เขียน·ฟัง",
+    ct3_t:"10 นาที", ct3_s:"ทบทวนส่วนตัวสนุก", ct3_a:"การ์ด·TTS·แบบทดสอบ·เกมสั้น",
+    ct4_t:"10 นาที", ct4_s:"พัก·เปลี่ยน", ct4_a:"เคลื่อนไหว·ดื่มน้ำ·ปฏิสัมพันธ์",
+    ct5_t:"25 นาที", ct5_s:"Battle Learning", ct5_a:"Battle บุคคล/ทีมที่เท่าเทียม·ยุติธรรม",
+    ct6_t:"10 นาที", ct6_s:"ตรวจสอบการเติบโต", ct6_a:"เสริมข้อผิดพลาด·ชมเชย·แนะนำการบ้าน",
+    sec_enroll:"ขั้นตอนการลงทะเบียน",
+    st1_title:"ขอรับคำปรึกษา", st1_text:"ส่งข้อมูลพื้นฐานและเวลาที่ต้องการผ่าน QR·โทรศัพท์·อีเมล หรือสถาบันพันธมิตร",
+    st2_title:"ปรึกษานักเรียน·ผู้ปกครอง", st2_text:"ทบทวนชีวิตในโรงเรียน·สภาพแวดล้อมทางภาษา·ความยากลำบากปัจจุบัน·เป้าหมายการศึกษา",
+    st3_title:"การประเมินเบื้องต้น", st3_text:"ระบุจุดเริ่มต้นที่แท้จริงผ่านกิจกรรมสั้นที่ไม่กดดัน",
+    st4_title:"แผนการศึกษาส่วนบุคคล", st4_text:"แนะนำระดับ·รูปแบบชั้นเรียน·ระยะเวลาที่คาดหวัง·การเชื่อมต่อที่บ้าน",
+    st5_title:"ยืนยันการลงทะเบียน", st5_text:"เริ่มหลังตกลงตาราง·ค่าธรรมเนียม·การสนับสนุน·ข้อมูลส่วนบุคคล·การใช้ AI",
+    sec_effect:"ผลลัพธ์ที่คาดหวัง",
+    ef1_title:"นักเรียน", ef1_text:"ฟื้นฟูทักษะพื้นฐาน การเติบโตทางภาษาที่สมดุล เพิ่มความภาคภูมิใจและความสามารถด้านอาชีพ",
+    ef2_title:"ผู้ปกครอง", ef2_text:"เข้าใจกระบวนการเติบโต เข้าถึงข้อมูลการศึกษา·มหาวิทยาลัย ลดความวิตกกังวล",
+    ef3_title:"โรงเรียน·ชุมชน", ef3_text:"ป้องกันการออกกลางคัน ขยายความร่วมมือ เชื่อมต่อทรัพยากรท้องถิ่น",
+    pdf1_title:"โบรชัวร์โปรแกรมการศึกษาแบบบูรณาการสำหรับเยาวชนที่มีพื้นเพผู้อพยพ", pdf1_desc:"คุณสามารถดูโบรชัวร์ได้โดยตรงด้านล่าง (เลื่อนและซูมได้)",
+    pdf2_title:"Kkomdamgil + Edu1top + Battle Learning — รายละเอียด (240 หน้า)", pdf2_desc:"คุณสามารถดู PDF รายละเอียดได้โดยตรงด้านล่าง (เลื่อนและซูมได้)",
+    footer_sub:"แพลตฟอร์มการเรียนรู้สมบูรณ์แบบด้วย AI | จัดโดย IEC Academy",
+    footer_tag:"เรามุ่งมั่นสู่การศึกษาที่ไม่ทิ้งเด็กไว้เบื้องหลังแม้แต่คนเดียว"
+  },
+
+  id: {
+    nav1:"📹 Video Program", nav2:"📄 Brosur Program", nav3:"📋 PDF Detail",
+    hero_badge:"Platform Pembelajaran Lengkap Berbasis AI untuk Siswa Berlatar Belakang Migran",
+    hero_sub:"Program Pendidikan Terpadu untuk Pemuda Berlatar Belakang Migran",
+    promise_title:"Janji Inti Kami",
+    promise_text:"Kami menghormati latar belakang bahasa dan budaya setiap siswa serta tingkat pembelajaran mereka saat ini. Melalui keberhasilan-keberhasilan kecil yang berulang, kita bersama-sama mengembangkan <strong>rasa percaya diri · kemampuan akademik dasar · kompetensi karir</strong> — program pertumbuhan jangka panjang.",
+    sec_overview:"Ikhtisar Program", th_cat:"Kategori", th_content:"Detail",
+    ov_r1_k:"Penyelenggara · Target", ov_r1_v:"Diselenggarakan oleh IEC Academy / Siswa SD, SMP, SMA dari keluarga berlatar belakang migran",
+    ov_r2_k:"Tujuan Pendidikan", ov_r2_v:"Pemulihan kemampuan dasar, integrasi bahasa Korea·Inggris·bahasa ibu, adaptasi mata pelajaran, perencanaan karir, pemulihan rasa percaya diri",
+    ov_r3_k:"Jadwal", ov_r3_v:"2 kali/minggu × 90 menit, 12 jam/bulan (siklus 4 minggu) / Dari intensif jangka pendek hingga manajemen pertumbuhan 12 tahun",
+    ov_r4_k:"Lokasi", ov_r4_v:"Pusat regional·sekolah·lembaga mitra (tatap muka) + Pembelajaran online Edu1top + Koneksi rumah",
+    ov_r5_k:"Metode Pengajaran", ov_r5_v:"Pembelajaran personal AI + Ulangan gaya permainan Battle + Mentoring Kkomdamgil·coaching orang tua",
+    sec_video:"Video Pengenalan Program",
+    video_fallback:"Browser Anda tidak mendukung pemutaran video.",
+    sec_philosophy:"Filosofi Pendidikan",
+    philosophy_text:"Kami memulai dari <strong>tingkat pembelajaran aktual</strong> siswa, bukan negara asal atau kelas; mengukur <strong>pertumbuhan dibandingkan diri sendiri kemarin</strong>, bukan peringkat di antara teman. Bahasa ibu dan latar belakang budaya diperlakukan sebagai <strong>sumber daya pembelajaran, bukan kekurangan</strong>.",
+    sec_programs:"Tiga Program Inti",
+    prog1_title:"Edu1top AI", prog1_text:"Diagnosis pembelajaran yang tepat, kurikulum personal, STT·TTS·penilaian pengucapan·OCR·pembuatan soal, suplemen otomatis·analisis pertumbuhan — memberikan pembelajaran sesuai tingkat saat ini dan laporan kemajuan yang objektif.",
+    prog2_title:"Battle Learning", prog2_text:"Battle setara·Battle adil, individu·tim, peringkat·kombo·misi·NPC, pengulangan gaya permainan — semua berpartisipasi tanpa memandang tingkat, membangun kebiasaan belajar yang menyenangkan.",
+    prog3_title:"Kkomdamgil", prog3_text:"Mentoring karir·pertumbuhan, coaching orang tua melalui Zoom, koneksi dengan senior·universitas·perusahaan berlatar belakang migran — meningkatkan kepercayaan diri·hubungan·informasi karir dan mempersiapkan integrasi sosial.",
+    sec_cycle:"Siklus Pembelajaran Lengkap Berbasis AI",
+    cycle_text:"① Diagnosis awal → ② Pembuatan jalur personal → ③ Pembelajaran bertahap → ④ Battle·ulangan menyenangkan → ⑤ Analisis penyebab kesalahan → ⑥ Suplemen konsep dasar → ⑦ Konfirmasi pencapaian tantangan ulang → ⑧ Laporan pertumbuhan<br><strong style='color:#1d4ed8;'>Bukan hanya maju ke depan, tetapi kembali mengisi konsep prasyarat yang kurang hingga benar-benar dikuasai.</strong>",
+    sec_roadmap:"Peta Jalan Pertumbuhan 12 Tahun dari SD hingga SMA",
+    rm1_title:"Kelas 1~2 SD", rm1_text:"Adaptasi·percaya diri<br>Alfabet Korea·bahasa Korea sehari-hari<br>Bahasa Inggris·matematika dasar",
+    rm2_title:"Kelas 3~4 SD", rm2_text:"Kosakata mata pelajaran<br>Fonik·kata-kata SD<br>Kebiasaan belajar mandiri",
+    rm3_title:"Kelas 5~6 SD", rm3_text:"Membaca·dasar mata pelajaran<br>Pola kalimat·tata bahasa dasar<br>Eksplorasi minat karir",
+    rm4_title:"Kelas 1~3 SMP", rm4_text:"Nilai·strategi belajar<br>Korea·Inggris untuk mata pelajaran<br>Eksplorasi karir·mentoring",
+    rm5_title:"Kelas 1~2 SMA", rm5_text:"Nilai·dasar ujian masuk<br>Desain jalur kuliah·karir<br>Koneksi perusahaan·universitas",
+    rm6_title:"Kelas 3 SMA", rm6_text:"Ujian·bahasa Inggris kerja<br>Wawancara·perkenalan diri<br>Kuliah·kerja",
+    sec_lang:"Language Master STEP 0~12", th_section:"Fase", th_step:"Langkah", th_core:"Pembelajaran Inti",
+    ls_r1_k:"Fondasi", ls_r1_v:"Diagnosis komprehensif → Alfabet Korea·literasi dasar → Fonik → Kosakata inti",
+    ls_r2_k:"Kalimat·Membaca", ls_r2_v:"Pola kalimat → Tata bahasa dasar → Membaca dasar → Isi buku teks",
+    ls_r3_k:"Nilai·Ujian Masuk", ls_r3_v:"Nilai SMP → Nilai SMA → Kosakata inti ujian·membaca berdasarkan tipe",
+    ls_r4_k:"Integrasi Sosial", ls_r4_v:"Bahasa Inggris kerja·perkenalan diri → Wawancara nyata AI·umpan balik pengucapan",
+    sec_connect:"Integrasi Korea·Bahasa Ibu·Mata Pelajaran·Karir", th_area:"Bidang", th_edu:"Konten Pendidikan", th_goal:"Tujuan",
+    cn_r1_k:"Peningkatan Bahasa Korea", cn_r1_v:"Kosakata dasar·percakapan sehari-hari·Korea untuk mata pelajaran·literasi·esai·presentasi", cn_r1_g:"Pemahaman kelas, komunikasi, kemampuan penilaian·kuliah·kerja",
+    cn_r2_k:"Jembatan Bahasa Ibu", cn_r2_v:"Prioritas Cina·Vietnam·Rusia; penggunaan terjemahan AI·STT·TTS", cn_r2_g:"Kurangi kecemasan awal, hubungkan makna dengan bahasa Korea, pertahankan identitas multibahasa",
+    cn_r3_k:"Dukungan Mata Pelajaran", cn_r3_v:"Kemampuan dasar SD → Semua mata pelajaran SMP → Nilai SMA·ujian·dasar vokasi", cn_r3_g:"Kurangi risiko putus sekolah, perluas partisipasi di kelas",
+    cn_r4_k:"Karir·Pertumbuhan", cn_r4_v:"Eksplorasi minat·kekuatan, mentoring, pengalaman di perusahaan·universitas·lembaga vokasi, portofolio·wawancara", cn_r4_g:"Perluas pilihan kuliah·kerja dan kemampuan ekspresi diri",
+    sec_class:"Struktur Kelas Standar 90 Menit",
+    ct1_t:"10 menit", ct1_s:"Pembukaan Emosional", ct1_a:"Salam·cek emosi·tujuan kecil hari ini",
+    ct2_t:"25 menit", ct2_s:"Pembelajaran Inti Personal", ct2_a:"Rekomendasi AI + coaching guru + membaca·menulis·mendengarkan",
+    ct3_t:"10 menit", ct3_s:"Ulangan Personal Menyenangkan", ct3_a:"Kartu·TTS·kuis·permainan singkat",
+    ct4_t:"10 menit", ct4_s:"Istirahat·Transisi", ct4_a:"Gerak·minum air·interaksi",
+    ct5_t:"25 menit", ct5_s:"Battle Learning", ct5_a:"Battle individu/tim yang setara·adil",
+    ct6_t:"10 menit", ct6_s:"Cek Pertumbuhan", ct6_a:"Suplemen kesalahan·pujian·panduan PR",
+    sec_enroll:"Proses Pendaftaran",
+    st1_title:"Permintaan Konsultasi", st1_text:"Kirimkan informasi dasar dan waktu yang diinginkan melalui QR·telepon·email atau lembaga mitra",
+    st2_title:"Konsultasi Siswa·Orang Tua", st2_text:"Tinjau kehidupan sekolah·lingkungan bahasa·kesulitan saat ini·tujuan pendidikan",
+    st3_title:"Penilaian Awal", st3_text:"Tentukan titik awal aktual melalui kegiatan singkat yang tidak menekan",
+    st4_title:"Rencana Pendidikan Personal", st4_text:"Panduan tentang tingkat yang direkomendasikan·format kelas·durasi yang diharapkan·koneksi rumah",
+    st5_title:"Konfirmasi Pendaftaran", st5_text:"Mulai setelah menyetujui jadwal·biaya·dukungan·informasi pribadi·penggunaan AI",
+    sec_effect:"Hasil yang Diharapkan",
+    ef1_title:"Siswa", ef1_text:"Pemulihan kemampuan dasar, pertumbuhan bahasa yang seimbang, peningkatan kepercayaan diri dan kompetensi karir",
+    ef2_title:"Orang Tua", ef2_text:"Pemahaman proses pertumbuhan, akses ke informasi pendidikan·kuliah, pengurangan kecemasan",
+    ef3_title:"Sekolah·Komunitas", ef3_text:"Pencegahan putus sekolah, perluasan kerja sama, koneksi sumber daya lokal",
+    pdf1_title:"Brosur Program Pendidikan Terpadu untuk Pemuda Berlatar Belakang Migran", pdf1_desc:"Anda dapat melihat brosur secara langsung di bawah ini. (Gulir dan zoom tersedia)",
+    pdf2_title:"Kkomdamgil + Edu1top + Battle Learning — Pengenalan Detail (240 hal.)", pdf2_desc:"Anda dapat melihat PDF detail secara langsung di bawah ini. (Gulir dan zoom tersedia)",
+    footer_sub:"Platform Pembelajaran Lengkap Berbasis AI | Diselenggarakan oleh IEC Academy",
+    footer_tag:"Kami berdedikasi untuk pendidikan yang tidak meninggalkan seorang anak pun."
+  },
+
+  mn: {
+    nav1:"📹 Хөтөлбөрийн видео", nav2:"📄 Хөтөлбөрийн танилцуулга", nav3:"📋 Дэлгэрэнгүй PDF",
+    hero_badge:"Цагаачлалын гаралтай сурагчдад зориулсан AI суурилсан бүрэн сургалтын платформ",
+    hero_sub:"Цагаачлалын гаралтай залуучуудад зориулсан цогц боловсролын хөтөлбөр",
+    promise_title:"Үндсэн амлалт",
+    promise_text:"Бид хүр бүрийн хэл, соёлын гарал, одоогийн суралцах түвшинг хүндэтгэж, жижиг амжилтуудыг давтан хуримтлуулж <strong>өөрийгөө үнэлэх чадвар · суурь эрдэм мэдлэг · мэргэжлийн чадамж</strong>-ыг хамтдаа хөгжүүлдэг урт хугацааны өсөлтийн хөтөлбөр юм.",
+    sec_overview:"Хөтөлбөрийн тойм", th_cat:"Ангилал", th_content:"Агуулга",
+    ov_r1_k:"Зохион байгуулагч · Зорилтот бүлэг", ov_r1_v:"IEC Academy зохион байгуулна / Цагаачлалын гаралтай гэр бүлийн бага, дунд, ахлах ангийн сурагчид",
+    ov_r2_k:"Боловсролын зорилго", ov_r2_v:"Суурь мэдлэг сэргээх, Солонгос·Англи·эх хэлийг холбох, хичээлд дасан зохицох, карьер төлөвлөх, өөрийгөө үнэлэх чадвар сэргээх",
+    ov_r3_k:"Цаг хуваарь", ov_r3_v:"7 хоногт 2 удаа × 90 минут, 4 долоо хоногт сард 12 цаг / Богино хугацааны эрчимт сургалтаас 12 жилийн өсөлтийн удирдлага хүртэл",
+    ov_r4_k:"Сургалтын байршил", ov_r4_v:"Бүс нутгийн төвүүд·сургуулиуд·түншлэлийн байгууллагууд (биечлэн) + Edu1top онлайн сургалт + Гэрийн холболт",
+    ov_r5_k:"Заах арга", ov_r5_v:"AI хувийн сургалт + Тоглоомын хэлбэрийн Battle давтан + Kkomdamgil зөвлөх·эцэг эхийн дасгалжуулалт",
+    sec_video:"Хөтөлбөрийн танилцуулга видео",
+    video_fallback:"Таны хөтөч видео тоглуулахыг дэмждэггүй.",
+    sec_philosophy:"Боловсролын философи",
+    philosophy_text:"Гарал үүсэл эсвэл анги биш харин <strong>бодит суралцах түвшнээс</strong> эхэлж, найзуудтайгаа зэрэглэл биш харин <strong>өчигдрийн өөртэйгөө харьцуулан өсөлтийг</strong> хэмждэг. Эх хэл болон соёлын гарал нь дутагдал биш <strong>суралцах нөөц болгон</strong> хүндэтгэгддэг.",
+    sec_programs:"Гурван үндсэн хөтөлбөр",
+    prog1_title:"Edu1top AI", prog1_text:"Нарийвчилсан суралцах оношлогоо, хувийн сургалтын төлөвлөгөө, STT·TTS·дуудлага үнэлгээ·OCR·даалгавар үүсгэх, автомат нэмэлт·өсөлт шинжилгээ — одоогийн түвшинд тохирсон сургалт болон объектив өсөлтийн тайлан гаргана.",
+    prog2_title:"Battle сургалт", prog2_text:"Тэгш Battle·Шударга Battle, ганцаарчилсан·багийн тулаан, зэрэглэл·комбо·даалгавар·NPC, тоглоомын хэлбэрийн давтан — түвшин ялгаатай ч хамтдаа оролцож, тааламжтай суралцах дадал бий болгоно.",
+    prog3_title:"Kkomdamgil", prog3_text:"Карьер·өсөлтийн зөвлөх, эцэг эхийн Zoom дасгалжуулалт, цагаачлалын гаралтай ахмадууд·их сургуулиуд·компаниудтай холбох — өөрийгөө үнэлэх·харилцаа·карьерын мэдээллийг сайжруулж, нийгэмд нэгдэхэд бэлддэг.",
+    sec_cycle:"AI суурилсан бүрэн суралцах цикл",
+    cycle_text:"① Анхны оношлогоо → ② Хувийн зам бий болгох → ③ Алхам алхмаар суралцах → ④ Battle·хөгжилтэй давтан → ⑤ Алдааны шалтгаан шинжлэх → ⑥ Доод шатны нэмэлт → ⑦ Дахин оролдлогын амжилтыг баталгаажуулах → ⑧ Өсөлтийн тайлан<br><strong style='color:#1d4ed8;'>Зөвхөн урагшлахаас гадна, дутуу урьдчилсан ойлголтуудыг бүрэн эзэмшил хүртэл буцаж нөхдөг бүтэц.</strong>",
+    sec_roadmap:"Бага сургуулиас ахлах сургуулийг хүртэл 12 жилийн өсөлтийн зам",
+    rm1_title:"1~2-р анги", rm1_text:"Дасан зохицох·өөрийгөө үнэлэх<br>Солонгос үсэг·өдөр тутмын Солонгос<br>Үндсэн Англи·математик",
+    rm2_title:"3~4-р анги", rm2_text:"Хичээлийн үгийн сан<br>Фоникс·үгс<br>Бие даан суралцах дадал",
+    rm3_title:"5~6-р анги", rm3_text:"Унших·хичээлийн үндэс<br>Өгүүлбэрийн загвар·дүрэм<br>Карьерын сонирхол судлах",
+    rm4_title:"7~9-р анги", rm4_text:"Дүн·суралцах стратеги<br>Солонгос·Англи хэл<br>Карьер судлах·зөвлөх",
+    rm5_title:"10~11-р анги", rm5_text:"Дүн·их сургуулийн шалгалтын суурь<br>Боловсролын·карьерын зам<br>Компани·их сургуультай холбох",
+    rm6_title:"12-р анги", rm6_text:"Шалгалт·ажлын Англи<br>Ярилцлага·өөрийгөө танилцуулах<br>Их сургууль·ажил",
+    sec_lang:"Language Master STEP 0~12", th_section:"Үе шат", th_step:"Алхам", th_core:"Үндсэн сургалт",
+    ls_r1_k:"Суурь", ls_r1_v:"Цогц оношлогоо → Солонгос үсэг·суурь бичиг унших → Фоникс → Үндсэн үгийн сан",
+    ls_r2_k:"Өгүүлбэр·Унших", ls_r2_v:"Өгүүлбэрийн загвар → Үндсэн дүрэм → Анхан шатны унших → Сурах бичгийн агуулга",
+    ls_r3_k:"Дүн·Элсэлт", ls_r3_v:"Дунд сургуулийн дүн → Ахлах сургуулийн дүн → Шалгалтын үндсэн үгийн сан·төрөлөөр унших",
+    ls_r4_k:"Нийгэмд нэгдэх", ls_r4_v:"Ажлын Англи·өөрийгөө танилцуулах → AI бодит ярилцлага·дуудлагын санал хүсэлт",
+    sec_connect:"Солонгос·Эх хэл·Хичээл·Карьерын холболт", th_area:"Чиглэл", th_edu:"Боловсролын агуулга", th_goal:"Зорилго",
+    cn_r1_k:"Солонгос хэлийг дэвшилтэт болгох", cn_r1_v:"Үндсэн үгийн сан·өдөр тутмын яриа·хичээлийн Солонгос·унших·эссэ·илтгэл", cn_r1_g:"Хичээл ойлгох, харилцаа, үнэлгээ·их сургууль·ажлын чадамж",
+    cn_r2_k:"Эх хэлний гүүр", cn_r2_v:"Хятад·Вьетнам·Орос хэлийг тэргүүлэх; AI орчуулга·STT·TTS ашиглах", cn_r2_g:"Анхны тэвдэлт бууруулах, Солонгос хэлтэй утга холбох, олон хэлний өвөрмөц байдлыг хадгалах",
+    cn_r3_k:"Хичээлийн дэмжлэг", cn_r3_v:"Бага сургуулийн суурь → Дунд сургуулийн бүх хичээл → Ахлах дүн·шалгалт·мэргэжлийн суурь", cn_r3_g:"Сургуулиас гарах эрсдэлийг бууруулах, хичээлд оролцоог нэмэгдүүлэх",
+    cn_r4_k:"Карьер·Өсөлт", cn_r4_v:"Сонирхол·давуу тал судлах, зөвлөх, компани·их сургууль·мэргэжлийн байгууллагаар туршлага авах, портфолио·ярилцлага", cn_r4_g:"Боловсрол·ажлын сонголтыг өргөжүүлэх, өөрийгөө илэрхийлэх чадварыг дэмжих",
+    sec_class:"90 минутын стандарт хичээлийн бүтэц",
+    ct1_t:"10 мин", ct1_s:"Сэтгэл хөдлөлийн нээлт", ct1_a:"Мэндчилгээ·сэтгэл хөдлөл шалгах·өнөөдрийн жижиг зорилго",
+    ct2_t:"25 мин", ct2_s:"Хувийн үндсэн сургалт", ct2_a:"AI зөвлөмж + багшийн дасгалжуулалт + унших·бичих·сонсох",
+    ct3_t:"10 мин", ct3_s:"Хөгжилтэй хувийн давтан", ct3_a:"Карт·TTS·тест·богино тоглоом",
+    ct4_t:"10 мин", ct4_s:"Завсарлага·Шилжилт", ct4_a:"Хөдөлгөөн·ус уух·харилцан үйлчлэл",
+    ct5_t:"25 мин", ct5_s:"Battle сургалт", ct5_a:"Тэгш·шударга ганцаарчилсан/багийн Battle",
+    ct6_t:"10 мин", ct6_s:"Өсөлт шалгах", ct6_a:"Алдаа нөхөх·магтаал·гэрийн даалгаврын зааварчилгаа",
+    sec_enroll:"Бүртгүүлэх процесс",
+    st1_title:"Зөвлөгөө авах хүсэлт", st1_text:"QR·утас·имэйл эсвэл түнш байгууллагаар дамжуулан үндсэн мэдээлэл, хүссэн цагаа илгээнэ үү",
+    st2_title:"Сурагч·Эцэг эхийн зөвлөгөөлөлт", st2_text:"Сургуулийн амьдрал·хэлний орчин·одоогийн бэрхшээл·боловсролын зорилгыг тодруулна",
+    st3_title:"Анхны оношлогоо", st3_text:"Дарамтгүй богино үйл ажиллагаагаар бодит эхлэлийн цэгийг тодорхойлно",
+    st4_title:"Хувийн боловсролын төлөвлөгөө", st4_text:"Зөвлөмж болох түвшин·хичээлийн хэлбэр·хүлээгдэж буй хугацаа·гэрийн холболтын мэдээлэл",
+    st5_title:"Бүртгэлийн баталгаажуулалт", st5_text:"Хуваарь·төлбөр·дэмжлэг·хувийн мэдээлэл·AI ашиглах зөвшөөрлийг баталгаажуулсны дараа эхэлнэ",
+    sec_effect:"Хүлээгдэж буй үр дүн",
+    ef1_title:"Сурагчид", ef1_text:"Суурь мэдлэг сэргээх, хэлний тэнцвэртэй өсөлт, өөрийгөө үнэлэх чадвар болон карьерын чадамж дэмжих",
+    ef2_title:"Эцэг эхчүүд", ef2_text:"Өсөлтийн үйл явцыг ойлгох, боловсрол·элсэлтийн мэдээлэлд хандах, тэвдэлтийг бууруулах",
+    ef3_title:"Сургууль·Нийгэм", ef3_text:"Сургуулиас орхилтоос урьдчилан сэргийлэх, хамтын ажиллагааг өргөжүүлэх, нутгийн нөөцтэй холбох",
+    pdf1_title:"Цагаачлалын гаралтай залуучуудад зориулсан цогц боловсролын хөтөлбөрийн танилцуулга", pdf1_desc:"Доор танилцуулгыг шууд харах боломжтой. (Гүйлгэх·томруулах боломжтой)",
+    pdf2_title:"Kkomdamgil + Edu1top + Battle сургалт — Дэлгэрэнгүй танилцуулга (240 хуудас)", pdf2_desc:"Доор дэлгэрэнгүй PDF-ийг шууд харах боломжтой. (Гүйлгэх·томруулах боломжтой)",
+    footer_sub:"AI суурилсан бүрэн сургалтын платформ | IEC Academy зохион байгуулна",
+    footer_tag:"Нэг ч хүүхдийг орхихгүй боловсролыг зорьж байна."
+  },
+
+  uz: {
+    nav1:"📹 Dastur videosi", nav2:"📄 Dastur taqdimoti", nav3:"📋 Batafsil PDF",
+    hero_badge:"Muhojir kelib chiqishli o'quvchilar uchun AI asosidagi to'liq o'quv platformasi",
+    hero_sub:"Muhojir kelib chiqishli yoshlar uchun integratsiyalashgan ta'lim dasturi",
+    promise_title:"Asosiy va'damiz",
+    promise_text:"Biz har bir o'quvchining til va madaniy kelib chiqishi hamda hozirgi o'quv darajasini hurmat qilamiz. Kichik muvaffaqiyatlarni takrorlab, birgalikda <strong>o'z-o'zini hurmat qilish · asosiy o'quv qobiliyati · kasbiy kompetentsiyalar</strong>ni rivojlantiramiz — uzoq muddatli o'sish dasturi.",
+    sec_overview:"Dastur haqida umumiy ma'lumot", th_cat:"Kategoriya", th_content:"Tafsilotlar",
+    ov_r1_k:"Tashkilotchi · Maqsadli guruh", ov_r1_v:"IEC Academy tomonidan tashkil etilgan / Muhojir kelib chiqishli oilalardan boshlang'ich, o'rta va yuqori sinf o'quvchilari",
+    ov_r2_k:"Ta'lim maqsadlari", ov_r2_v:"Asosiy bilimlarni tiklash, Koreys·Ingliz·ona tili integratsiyasi, fanlarga moslashish, kasbiy rejalashtirish, o'z-o'zini hurmat qilishni tiklash",
+    ov_r3_k:"Jadval", ov_r3_v:"Haftada 2 marta × 90 daqiqa, 4 haftalik tsiklda oyiga 12 soat / Qisqa muddatli intensivdan 12 yillik o'sish boshqaruvigacha",
+    ov_r4_k:"O'quv joyi", ov_r4_v:"Mintaqaviy markazlar·maktablar·hamkor muassasalar (yuzma-yuz) + Edu1top onlayn ta'lim + Uy bilan bog'lanish",
+    ov_r5_k:"O'qitish usuli", ov_r5_v:"AI shaxsiy ta'lim + O'yin uslubidagi Battle takrorlash + Kkomdamgil mentoring·ota-ona kouching",
+    sec_video:"Dastur taqdimot videosi",
+    video_fallback:"Brauzeringiz video ijroni qo'llab-quvvatlamaydi.",
+    sec_philosophy:"Ta'lim falsafasi",
+    philosophy_text:"Kelib chiqish mamlakati yoki sinf emas, balki <strong>haqiqiy o'quv darajasidan</strong> boshlaymiz; tengdoshlar orasidagi reyting emas, balki <strong>kechagi o'zimiz bilan solishtirib o'sishni</strong> o'lchaymiz. Ona tili va madaniy kelib chiqish kamchilik emas, <strong>o'quv resursi sifatida hurmat</strong> qilinadi.",
+    sec_programs:"Uchta asosiy dastur",
+    prog1_title:"Edu1top AI", prog1_text:"Aniq o'quv tashxisi, shaxsiy o'quv dasturi, STT·TTS·talaffuz baholash·OCR·savol yaratish, avtomatik to'ldirish·o'sish tahlili — hozirgi darajaga mos ta'lim va ob'ektiv o'sish hisobotini taqdim etadi.",
+    prog2_title:"Battle Learning", prog2_text:"Teng Battle·Adolatli Battle, yakka·jamoaviy, reytinig·kombo·topshiriqlar·NPC, o'yin uslubidagi takroriy takrorlash — darajadan qat'iy nazar hammasi ishtirok etadi, zavqli o'rganish odatini shakllantiradi.",
+    prog3_title:"Kkomdamgil", prog3_text:"Kasbiy·o'sish mentoring, Zoom orqali ota-ona kouching, muhojir kelib chiqishli kattalar·universitetlar·kompaniyalar bilan bog'lanish — o'z-o'zini hurmat·munosabatlar·kasbiy ma'lumotni oshiradi va jamiyatga integratsiyaga tayyorlaydi.",
+    sec_cycle:"AI asosidagi to'liq o'quv sikli",
+    cycle_text:"① Boshlang'ich tashxis → ② Shaxsiy yo'l yaratish → ③ Bosqichma-bosqich o'rganish → ④ Battle·qiziqarli takrorlash → ⑤ Xato sabablarini tahlil qilish → ⑥ Quyi bosqich to'ldirish → ⑦ Qayta urinish muvaffaqiyatini tasdiqlash → ⑧ O'sish hisoboti<br><strong style='color:#1d4ed8;'>Faqat oldinga emas, to'liq egallaguncha yetishmayotgan oldingi tushunchalarga qaytib to'ldiruvchi tuzilma.</strong>",
+    sec_roadmap:"Boshlang'ich maktabdan yuqori maktabgacha 12 yillik o'sish xaritasi",
+    rm1_title:"1~2-sinf", rm1_text:"Moslashish·o'z-o'zini hurmat<br>Koreys alifbosi·kundalik Koreys<br>Asosiy Ingliz·matematika",
+    rm2_title:"3~4-sinf", rm2_text:"Fan lug'ati<br>Fonetika·so'zlar<br>Mustaqil o'rganish odatlari",
+    rm3_title:"5~6-sinf", rm3_text:"O'qish·fan asoslari<br>Jumla namunalari·grammatika<br>Kasb qiziqishlarini o'rganish",
+    rm4_title:"7~9-sinf", rm4_text:"Baholar·o'quv strategiyalari<br>Koreys·Ingliz fanlar uchun<br>Kasbni o'rganish·mentoring",
+    rm5_title:"10~11-sinf", rm5_text:"Baholar·kirish imtihoni asosi<br>Ta'lim·kasbiy yo'l dizayni<br>Kompaniya·universitet bilan bog'lanish",
+    rm6_title:"12-sinf", rm6_text:"Imtihon·ish uchun Ingliz<br>Suhbat·o'zini tanitish<br>Universitet·ish",
+    sec_lang:"Language Master STEP 0~12", th_section:"Bosqich", th_step:"Qadam", th_core:"Asosiy o'rganish",
+    ls_r1_k:"Asos", ls_r1_v:"Keng qamrovli tashxis → Koreys alifbosi·asosiy savodxonlik → Fonetika → Asosiy lug'at",
+    ls_r2_k:"Jumlalar·O'qish", ls_r2_v:"Jumla namunalari → Asosiy grammatika → Boshlang'ich o'qish → Darslik matni",
+    ls_r3_k:"Baholar·Kirish", ls_r3_v:"O'rta maktab baholari → Yuqori maktab baholari → Imtihon asosiy lug'ati·turlar bo'yicha o'qish",
+    ls_r4_k:"Jamiyatga integratsiya", ls_r4_v:"Ish uchun Ingliz·o'zini tanitish → AI haqiqiy suhbat·talaffuz bo'yicha fikr-mulohaza",
+    sec_connect:"Koreys·Ona tili·Fanlar·Kasbiy integratsiya", th_area:"Soha", th_edu:"Ta'lim mazmuni", th_goal:"Maqsad",
+    cn_r1_k:"Koreys tilini rivojlantirish", cn_r1_v:"Asosiy lug'at·kundalik suhbat·fanlar uchun Koreys·o'qish·esse·taqdimot", cn_r1_g:"Darsni tushunish, muloqot, baholash·universitet·ish qobiliyati",
+    cn_r2_k:"Ona tili ko'prigi", cn_r2_v:"Xitoy·Vyetnam·Rus tillarini ustun ko'rish; AI tarjima·STT·TTS foydalanish", cn_r2_g:"Boshlang'ich tashvishni kamaytirish, Koreys tili bilan ma'no bog'lash, ko'p tilli identitetni saqlash",
+    cn_r3_k:"Fan qo'llab-quvvatlash", cn_r3_v:"Boshlang'ich maktab asoslari → O'rta maktab barcha fanlari → Yuqori maktab baholari·imtihon·kasb asoslari", cn_r3_g:"Maktabni tark etish xavfini kamaytirish, dars ishtirokini kengaytirish",
+    cn_r4_k:"Kasbiy·O'sish", cn_r4_v:"Qiziqish·kuchli tomonlarni o'rganish, mentoring, kompaniya·universitet·kasb muassasalarida tajriba, portfolio·suhbat", cn_r4_g:"Ta'lim·ish tanlovini kengaytirish va o'z-o'zini ifodalash qobiliyatini oshirish",
+    sec_class:"90 daqiqalik standart dars tuzilmasi",
+    ct1_t:"10 daq", ct1_s:"Hissiy ochilish", ct1_a:"Salomlashish·his-tuyg'ularni tekshirish·bugungi kichik maqsad",
+    ct2_t:"25 daq", ct2_s:"Shaxsiy asosiy o'rganish", ct2_a:"AI tavsiyasi + o'qituvchi kouching + o'qish·yozish·tinglash",
+    ct3_t:"10 daq", ct3_s:"Qiziqarli shaxsiy takrorlash", ct3_a:"Kartochkalar·TTS·test·qisqa o'yin",
+    ct4_t:"10 daq", ct4_s:"Dam olish·O'tish", ct4_a:"Harakat·suv ichish·o'zaro muloqot",
+    ct5_t:"25 daq", ct5_s:"Battle Learning", ct5_a:"Teng·adolatli yakka/jamoaviy Battle",
+    ct6_t:"10 daq", ct6_s:"O'sishni tekshirish", ct6_a:"Xatolarni to'ldirish·maqtov·uy vazifasi ko'rsatmasi",
+    sec_enroll:"Ro'yxatga olish jarayoni",
+    st1_title:"Maslahat so'rovi", st1_text:"QR·telefon·elektron pochta yoki hamkor muassasa orqali asosiy ma'lumot va istalgan vaqtni yuboring",
+    st2_title:"O'quvchi·Ota-ona maslahati", st2_text:"Maktab hayoti·til muhiti·hozirgi qiyinchiliklar·ta'lim maqsadlarini ko'rib chiqish",
+    st3_title:"Boshlang'ich baholash", st3_text:"Qisqa, kuchsiz faoliyatlar orqali haqiqiy boshlang'ich nuqtani aniqlash",
+    st4_title:"Shaxsiy ta'lim rejasi", st4_text:"Tavsiya etilgan daraja·dars formati·kutilayotgan davomiylik·uy bilan bog'lanish haqida yo'riqnoma",
+    st5_title:"Ro'yxatga olishni tasdiqlash", st5_text:"Jadval·to'lov·qo'llab-quvvatlash·shaxsiy ma'lumot·AI foydalanishga rozilik berilgandan keyin boshlash",
+    sec_effect:"Kutilayotgan natijalar",
+    ef1_title:"O'quvchilar", ef1_text:"Asosiy bilimlarni tiklash, muvozanatli til o'sishi, o'z-o'zini hurmat va kasbiy kompetentsiyani oshirish",
+    ef2_title:"Ota-onalar", ef2_text:"O'sish jarayonini tushunish, ta'lim·universitet ma'lumotiga kirish, tashvishni kamaytirish",
+    ef3_title:"Maktab·Jamiyat", ef3_text:"Maktabni tark etishning oldini olish, hamkorlikni kengaytirish, mahalliy resurslarga bog'lanish",
+    pdf1_title:"Muhojir kelib chiqishli yoshlar uchun integratsiyalashgan ta'lim dasturi taqdimoti", pdf1_desc:"Quyida taqdimotni to'g'ridan-to'g'ri ko'rishingiz mumkin. (Aylantirish·kattalashtirish mavjud)",
+    pdf2_title:"Kkomdamgil + Edu1top + Battle Learning — Batafsil taqdimot (240 bet)", pdf2_desc:"Quyida batafsil PDF'ni to'g'ridan-to'g'ri ko'rishingiz mumkin. (Aylantirish·kattalashtirish mavjud)",
+    footer_sub:"AI asosidagi to'liq o'quv platformasi | IEC Academy tomonidan tashkil etilgan",
+    footer_tag:"Biror bolani orqada qoldirmaydigan ta'limga intilamiz."
+  },
+
+  kk: {
+    nav1:"📹 Бағдарлама бейнесі", nav2:"📄 Бағдарлама таныстырылымы", nav3:"📋 Толық PDF",
+    hero_badge:"Мигрант шыққан оқушыларға арналған ЖИ негізіндегі толық оқу платформасы",
+    hero_sub:"Мигрант шыққан жастарға арналған кешенді білім беру бағдарламасы",
+    promise_title:"Негізгі уәде",
+    promise_text:"Әрбір оқушының тілдік және мәдени шығу тегін, қазіргі оқу деңгейін құрметтейміз. Шағын жетістіктерді қайталай отырып, бірлесіп <strong>өзін-өзі бағалау · негізгі оқу қабілеті · кәсіби құзыреттілік</strong> дамытатын ұзақ мерзімді өсу бағдарламасы.",
+    sec_overview:"Бағдарлама шолуы", th_cat:"Санат", th_content:"Мазмұны",
+    ov_r1_k:"Ұйымдастырушы · Мақсатты топ", ov_r1_v:"IEC Academy ұйымдастырады / Мигрант шыққан отбасылардың бастауыш, орта, жоғары сынып оқушылары",
+    ov_r2_k:"Білім беру мақсаттары", ov_r2_v:"Негізгі білімді қалпына келтіру, Корей·Ағылшын·ана тілін біріктіру, пәндерге бейімделу, мансап жоспарлау, өзін-өзі бағалауды қалпына келтіру",
+    ov_r3_k:"Кесте", ov_r3_v:"Аптасына 2 рет × 90 минут, 4 апталық циклда айына 12 сағат / Қысқа мерзімді қарқынды сабақтан 12 жылдық өсу басқаруына дейін",
+    ov_r4_k:"Оқу орны", ov_r4_v:"Аймақтық орталықтар·мектептер·серіктес мекемелер (жекеше) + Edu1top онлайн оқыту + Үймен байланыс",
+    ov_r5_k:"Оқыту әдісі", ov_r5_v:"ЖИ жекелендірілген оқыту + Ойын түріндегі Battle қайталау + Kkomdamgil тәлімгерлік·ата-ана коучинг",
+    sec_video:"Бағдарлама таныстырылым бейнесі",
+    video_fallback:"Браузеріңіз бейне ойнатуды қолдамайды.",
+    sec_philosophy:"Білім беру философиясы",
+    philosophy_text:"Шыққан мемлекет немесе сынып емес, <strong>нақты оқу деңгейінен</strong> бастаймыз; құрдастар арасындағы рейтинг емес, <strong>кешегі өзіммен салыстырып өсуді</strong> өлшейміз. Ана тілі мен мәдени шығу тегі кемшілік емес, <strong>оқу ресурсы ретінде құрметтеледі</strong>.",
+    sec_programs:"Үш негізгі бағдарлама",
+    prog1_title:"Edu1top AI", prog1_text:"Дәл оқу диагностикасы, жеке оқу бағдарламасы, STT·TTS·айтылым бағалау·OCR·тапсырма жасау, автоматты толықтыру·өсу талдауы — қазіргі деңгейге сай оқытуды және объективті өсу есебін ұсынады.",
+    prog2_title:"Battle оқыту", prog2_text:"Тең Battle·Әділ Battle, жеке·командалық, рейтинг·комбо·тапсырмалар·NPC, ойын түріндегі қайталамалы қайталау — деңгейіне қарамастан барлығы қатысады, қызықты оқу дағдысын қалыптастырады.",
+    prog3_title:"Kkomdamgil", prog3_text:"Мансаптық·өсу тәлімгерлігі, Zoom арқылы ата-ана коучингі, мигрант шыққан үлкендер·университеттер·компаниялармен байланыс — өзін-өзі бағалау·қарым-қатынас·мансаптық ақпаратты жақсартады және қоғамға кірігуге дайындайды.",
+    sec_cycle:"ЖИ негізіндегі толық оқу циклі",
+    cycle_text:"① Бастапқы диагностика → ② Жеке жол жасау → ③ Сатылы оқыту → ④ Battle·қызықты қайталау → ⑤ Қате себептерін талдау → ⑥ Төменгі деңгейді толықтыру → ⑦ Қайта әрекет жетістігін растау → ⑧ Өсу есебі<br><strong style='color:#1d4ed8;'>Тек алға жылжып қана қоймай, толық меңгергенше жетіспейтін алдыңғы ұғымдарға оралып толықтыратын құрылым.</strong>",
+    sec_roadmap:"Бастауыш мектептен жоғары мектепке дейін 12 жылдық өсу картасы",
+    rm1_title:"1~2-сынып", rm1_text:"Бейімделу·өзін-өзі бағалау<br>Корей әліпбиі·күнделікті Корей<br>Негізгі Ағылшын·математика",
+    rm2_title:"3~4-сынып", rm2_text:"Пән сөздік қоры<br>Фоника·сөздер<br>Өздігінен оқу дағдылары",
+    rm3_title:"5~6-сынып", rm3_text:"Оқу·пән негіздері<br>Сөйлем үлгілері·грамматика<br>Мансап қызығушылықтарын зерттеу",
+    rm4_title:"7~9-сынып", rm4_text:"Баға·оқу стратегиялары<br>Корей·Ағылшын пәндер үшін<br>Мансапты зерттеу·тәлімгерлік",
+    rm5_title:"10~11-сынып", rm5_text:"Баға·жоғары оқу орнына түсу негізі<br>Білім·мансап жолын жобалау<br>Компания·университетпен байланыс",
+    rm6_title:"12-сынып", rm6_text:"Емтихан·жұмыс үшін Ағылшын<br>Сұхбат·өзін таныстыру<br>Университет·жұмыс",
+    sec_lang:"Language Master STEP 0~12", th_section:"Кезең", th_step:"Қадам", th_core:"Негізгі оқыту",
+    ls_r1_k:"Негіз", ls_r1_v:"Кешенді диагностика → Корей әліпбиі·негізгі сауаттылық → Фоника → Негізгі сөздік қор",
+    ls_r2_k:"Сөйлемдер·Оқу", ls_r2_v:"Сөйлем үлгілері → Негізгі грамматика → Бастауыш оқу → Оқулық мазмұны",
+    ls_r3_k:"Баға·Түсу", ls_r3_v:"Орта мектеп бағалары → Жоғары мектеп бағалары → Емтихан негізгі сөздік қоры·түрлер бойынша оқу",
+    ls_r4_k:"Қоғамға кірігу", ls_r4_v:"Жұмыс үшін Ағылшын·өзін таныстыру → ЖИ нақты сұхбат·айтылым кері байланысы",
+    sec_connect:"Корей·Ана тілі·Пән·Мансап интеграциясы", th_area:"Сала", th_edu:"Білім мазмұны", th_goal:"Мақсат",
+    cn_r1_k:"Корей тілін жетілдіру", cn_r1_v:"Негізгі сөздік қор·күнделікті сөйлесу·пән Корей·оқу·эссе·презентация", cn_r1_g:"Сабақты түсіну, қарым-қатынас, бағалау·университет·жұмыс қабілеті",
+    cn_r2_k:"Ана тілі көпірі", cn_r2_v:"Қытай·Вьетнам·Орыс тілдерін артықшылық беру; ЖИ аудармасы·STT·TTS пайдалану", cn_r2_g:"Бастапқы алаңдаушылықты азайту, Корей тілімен мағына байланыстыру, көп тілді бірегейлікті сақтау",
+    cn_r3_k:"Пән қолдауы", cn_r3_v:"Бастауыш мектеп негіздері → Орта мектептің барлық пәндері → Жоғары мектеп бағалары·емтихан·кәсіп негіздері", cn_r3_g:"Мектепті тастап кету қаупін азайту, сабаққа қатысуды кеңейту",
+    cn_r4_k:"Мансап·Өсу", cn_r4_v:"Қызығушылық·күшті жақтарды зерттеу, тәлімгерлік, компания·университет·кәсіптік мекемелерде тәжірибе, портфолио·сұхбат", cn_r4_g:"Білім·жұмыс таңдауын кеңейту және өзін-өзі білдіру қабілетін арттыру",
+    sec_class:"90 минуттық стандартты сабақ құрылымы",
+    ct1_t:"10 мин", ct1_s:"Эмоциялық ашылу", ct1_a:"Сәлемдесу·сезімдерді тексеру·бүгінгі шағын мақсат",
+    ct2_t:"25 мин", ct2_s:"Жеке негізгі оқыту", ct2_a:"ЖИ ұсынысы + мұғалім коучингі + оқу·жазу·тыңдау",
+    ct3_t:"10 мин", ct3_s:"Қызықты жеке қайталау", ct3_a:"Карточкалар·TTS·тест·қысқа ойын",
+    ct4_t:"10 мин", ct4_s:"Демалыс·Өту", ct4_a:"Қозғалыс·су ішу·өзара әрекет",
+    ct5_t:"25 мин", ct5_s:"Battle оқыту", ct5_a:"Тең·әділ жеке/командалық Battle",
+    ct6_t:"10 мин", ct6_s:"Өсуді тексеру", ct6_a:"Қателерді толықтыру·мақтау·үй тапсырмасы нұсқаулығы",
+    sec_enroll:"Тіркелу процесі",
+    st1_title:"Кеңес сұрау", st1_text:"QR·телефон·электрондық пошта немесе серіктес мекеме арқылы негізгі ақпарат пен қалаған уақытты жіберіңіз",
+    st2_title:"Оқушы·Ата-ана кеңесі", st2_text:"Мектеп өмірі·тіл ортасы·қазіргі қиындықтар·білім мақсаттарын қарастыру",
+    st3_title:"Бастапқы бағалау", st3_text:"Қысқа, жеңіл іс-шаралар арқылы нақты бастапқы нүктені анықтау",
+    st4_title:"Жеке білім жоспары", st4_text:"Ұсынылатын деңгей·сабақ форматы·күтілетін ұзақтық·үймен байланыс туралы нұсқаулық",
+    st5_title:"Тіркелуді растау", st5_text:"Кесте·төлем·қолдау·жеке ақпарат·ЖИ пайдалануға келісімнен кейін бастау",
+    sec_effect:"Күтілетін нәтижелер",
+    ef1_title:"Оқушылар", ef1_text:"Негізгі білімді қалпына келтіру, теңгерімді тіл өсуі, өзін-өзі бағалау мен кәсіби құзыреттілікті арттыру",
+    ef2_title:"Ата-аналар", ef2_text:"Өсу процесін түсіну, білім·университет ақпаратына қол жеткізу, алаңдаушылықты азайту",
+    ef3_title:"Мектеп·Қоғам", ef3_text:"Мектепті тастап кетудің алдын алу, ынтымақтастықты кеңейту, жергілікті ресурстармен байланыс",
+    pdf1_title:"Мигрант шыққан жастарға арналған кешенді білім беру бағдарламасының таныстырылымы", pdf1_desc:"Төменде таныстырылымды тікелей қарауға болады. (Айналдыру·ұлғайту қолжетімді)",
+    pdf2_title:"Kkomdamgil + Edu1top + Battle оқыту — Толық таныстырылым (240 бет)", pdf2_desc:"Төменде толық PDF-ті тікелей қарауға болады. (Айналдыру·ұлғайту қолжетімді)",
+    footer_sub:"ЖИ негізіндегі толық оқу платформасы | IEC Academy ұйымдастырады",
+    footer_tag:"Бірде-бір баланы артта қалдырмайтын білімге ұмтыламыз."
+  },
+
+  ky: {
+    nav1:"📹 Программанын видеосу", nav2:"📄 Программанын презентациясы", nav3:"📋 Толук PDF",
+    hero_badge:"Мигранттык чыгышы бар окуучулар үчүн ЖИ негизиндеги толук окуу платформасы",
+    hero_sub:"Мигранттык чыгышы бар жаштар үчүн интеграцияланган билим берүү программасы",
+    promise_title:"Негизги убада",
+    promise_text:"Ар бир окуучунун тилдик жана маданий чыгышын, учурдагы окуу деңгейин урматтайбыз. Кичинекей жетишкендиктерди кайталап, биргеликте <strong>өзүн-өзү баалоо · негизги окуу жөндөмдүүлүгү · кесиптик компетенциялар</strong> өнүктүрүүчү узак мөөнөттүү өсүү программасы.",
+    sec_overview:"Программанын кыскача мазмуну", th_cat:"Категория", th_content:"Мазмуну",
+    ov_r1_k:"Уюштуруучу · Максаттуу топ", ov_r1_v:"IEC Academy уюштурат / Мигранттык чыгышы бар үй-бүлөлөрдүн башталгыч, орто, жогорку класс окуучулары",
+    ov_r2_k:"Билим берүү максаттары", ov_r2_v:"Негизги билимди калыбына келтирүү, Корей·Англис·эне тилин интеграциялоо, предметтерге адаптация, кесип пландоо, өзүн-өзү баалоону калыбына келтирүү",
+    ov_r3_k:"Жадыбал", ov_r3_v:"Жумасына 2 жолу × 90 мүнөт, 4 жумалык циклде айына 12 саат / Кыска мөөнөттүү интенсивден 12 жылдык өсүү башкаруусуна чейин",
+    ov_r4_k:"Окуу жери", ov_r4_v:"Аймактык борборлор·мектептер·өнөктөш мекемелер (жеке жолугушуу) + Edu1top онлайн окуу + Үй менен байланыш",
+    ov_r5_k:"Окутуу ыкмасы", ov_r5_v:"ЖИ жекелештирилген окуу + Оюн түрүндөгү Battle кайталоо + Kkomdamgil насаатчылык·ата-эне коучинг",
+    sec_video:"Программанын таанытуу видеосу",
+    video_fallback:"Браузериңиз видео ойнотууну колдобойт.",
+    sec_philosophy:"Билим берүү философиясы",
+    philosophy_text:"Чыккан өлкө же класс эмес, <strong>чыныгы окуу деңгейинен</strong> баштайбыз; курдаштар арасындагы рейтинг эмес, <strong>кечөөкү өзүм менен салыштырып өсүүнү</strong> өлчөйбүз. Эне тили жана маданий чыгыш кемчилик эмес, <strong>окуу ресурсу катары урматталат</strong>.",
+    sec_programs:"Үч негизги программа",
+    prog1_title:"Edu1top AI", prog1_text:"Так окуу диагностикасы, жеке окуу программасы, STT·TTS·айтылыш баалоо·OCR·тапшырма жаратуу, автоматтык толуктоо·өсүү талдоо — учурдагы деңгейге ылайык окутуу жана объективдүү өсүү отчетун сунуштайт.",
+    prog2_title:"Battle окуу", prog2_text:"Тең Battle·Адилет Battle, жеке·командалык, рейтинг·комбо·тапшырмалар·NPC, оюн түрүндөгү кайталамалуу кайталоо — деңгейине карабастан баары катышат, кызыктуу окуу адатын калыптандырат.",
+    prog3_title:"Kkomdamgil", prog3_text:"Кесиптик·өсүү насаатчылыгы, Zoom аркылуу ата-эне коучинги, мигранттык чыгышы бар улуулар·университеттер·компаниялар менен байланыш — өзүн-өзү баалоо·мамиле·кесиптик маалыматты жакшыртат жана коомго интеграцияга даярдайт.",
+    sec_cycle:"ЖИ негизиндеги толук окуу циклы",
+    cycle_text:"① Баштапкы диагностика → ② Жеке жол жаратуу → ③ Баскычтама окуу → ④ Battle·кызыктуу кайталоо → ⑤ Ката себептерин талдоо → ⑥ Төмөнкү баскычты толуктоо → ⑦ Кайра аракет жетишкендигин ырастоо → ⑧ Өсүү отчету<br><strong style='color:#1d4ed8;'>Алдыга гана эмес, толук өздөштүргөнгө чейин жетишпеген алдыңкы түшүнүктөргө кайтып толуктоочу түзүм.</strong>",
+    sec_roadmap:"Башталгыч мектептен жогорку мектепке чейин 12 жылдык өсүү картасы",
+    rm1_title:"1~2-класс", rm1_text:"Адаптация·өзүн-өзү баалоо<br>Корей алфавити·күнүмдүк Корей<br>Негизги Англис·математика",
+    rm2_title:"3~4-класс", rm2_text:"Предмет сөз байлыгы<br>Фоника·сөздөр<br>Өз алдынча окуу адаттары",
+    rm3_title:"5~6-класс", rm3_text:"Окуу·предмет негиздери<br>Сүйлөм үлгүлөрү·грамматика<br>Кесип кызыгууларын изилдөө",
+    rm4_title:"7~9-класс", rm4_text:"Баа·окуу стратегиялары<br>Корей·Англис предметтер үчүн<br>Кесипти изилдөө·насаатчылык",
+    rm5_title:"10~11-класс", rm5_text:"Баа·жогорку окуу жайына кирүү негизи<br>Билим·кесип жолун долбоорлоо<br>Компания·университет менен байланыш",
+    rm6_title:"12-класс", rm6_text:"Экзамен·иш үчүн Англис<br>Маектешүү·өзүн тааныштыруу<br>Университет·иш",
+    sec_lang:"Language Master STEP 0~12", th_section:"Этап", th_step:"Кадам", th_core:"Негизги окуу",
+    ls_r1_k:"Негиз", ls_r1_v:"Комплекстүү диагностика → Корей алфавити·негизги сабаттуулук → Фоника → Негизги сөз байлыгы",
+    ls_r2_k:"Сүйлөмдөр·Окуу", ls_r2_v:"Сүйлөм үлгүлөрү → Негизги грамматика → Башталгыч окуу → Окуу китебинин мазмуну",
+    ls_r3_k:"Баа·Кириш", ls_r3_v:"Орто мектептин бааллары → Жогорку мектептин бааллары → Экзамен негизги сөз байлыгы·түрлөр боюнча окуу",
+    ls_r4_k:"Коомго интеграция", ls_r4_v:"Иш үчүн Англис·өзүн тааныштыруу → ЖИ чыныгы маектешүү·айтылыш пикири",
+    sec_connect:"Корей·Эне тили·Предмет·Кесип интеграциясы", th_area:"Тармак", th_edu:"Билим мазмуну", th_goal:"Максат",
+    cn_r1_k:"Корей тилин өркүндөтүү", cn_r1_v:"Негизги сөз байлыгы·күнүмдүк сүйлөшүү·предмет Корей·окуу·эссе·презентация", cn_r1_g:"Сабакты түшүнүү, баарлашуу, баалоо·университет·иш жөндөмдүүлүгү",
+    cn_r2_k:"Эне тили көпүрөсү", cn_r2_v:"Кытай·Вьетнам·Орус тилдерине артыкчылык берүү; ЖИ котормосу·STT·TTS колдонуу", cn_r2_g:"Баштапкы тынчсызданууну азайтуу, Корей тили менен маани байланыштыруу, көп тилдүү өздүктү сактоо",
+    cn_r3_k:"Предмет колдоосу", cn_r3_v:"Башталгыч мектеп негиздери → Орто мектептин бардык предметтери → Жогорку мектеп бааллары·экзамен·кесип негиздери", cn_r3_g:"Мектепти таштап кетүү тобокелдигин азайтуу, сабакка катышууну кеңейтүү",
+    cn_r4_k:"Кесип·Өсүү", cn_r4_v:"Кызыгуу·күчтүү жактарды изилдөө, насаатчылык, компания·университет·кесиптик мекемелерде тажрыйба, портфолио·маектешүү", cn_r4_g:"Билим·иш тандоосун кеңейтүү жана өзүн-өзү билдирүү жөндөмдүүлүгүн арттыруу",
+    sec_class:"90 мүнөттүк стандарттык сабак түзүмү",
+    ct1_t:"10 мүн", ct1_s:"Эмоционалдык ачылуу", ct1_a:"Салам берүү·сезимдерди текшерүү·бүгүнкү кичинекей максат",
+    ct2_t:"25 мүн", ct2_s:"Жеке негизги окуу", ct2_a:"ЖИ сунушу + мугалим коучинги + окуу·жазуу·угуу",
+    ct3_t:"10 мүн", ct3_s:"Кызыктуу жеке кайталоо", ct3_a:"Карточкалар·TTS·тест·кыска оюн",
+    ct4_t:"10 мүн", ct4_s:"Эс алуу·Өтүү", ct4_a:"Кыймыл·суу ичүү·өз ара аракет",
+    ct5_t:"25 мүн", ct5_s:"Battle окуу", ct5_a:"Тең·адилет жеке/командалык Battle",
+    ct6_t:"10 мүн", ct6_s:"Өсүүнү текшерүү", ct6_a:"Каталарды толуктоо·мактоо·үй тапшырмасы нускоосу",
+    sec_enroll:"Катталуу процесси",
+    st1_title:"Кеңеш суроо", st1_text:"QR·телефон·электрондук почта же өнөктөш мекеме аркылуу негизги маалымат менен каалаган убакытты жибериңиз",
+    st2_title:"Окуучу·Ата-эне кеңеши", st2_text:"Мектеп жашоосу·тил чөйрөсү·учурдагы кыйынчылыктар·билим максаттарын карап чыгуу",
+    st3_title:"Баштапкы баалоо", st3_text:"Кыска, жеңил иш-чаралар аркылуу чыныгы баштапкы чекитти аныктоо",
+    st4_title:"Жеке билим пландоосу", st4_text:"Сунушталган деңгей·сабак форматы·күтүлгөн узактыгы·үй байланышы боюнча нускоо",
+    st5_title:"Катталууну ырастоо", st5_text:"Жадыбал·төлөм·колдоо·жеке маалымат·ЖИ колдонуусуна макулдашуудан кийин баштоо",
+    sec_effect:"Күтүлгөн натыйжалар",
+    ef1_title:"Окуучулар", ef1_text:"Негизги билимди калыбына келтирүү, тең салмактуу тил өсүшү, өзүн-өзү баалоо жана кесиптик компетенцияны арттыруу",
+    ef2_title:"Ата-энелер", ef2_text:"Өсүү процессин түшүнүү, билим·университет маалыматына жетүү, тынчсызданууну азайтуу",
+    ef3_title:"Мектеп·Коом", ef3_text:"Мектепти таштап кетүүнүн алдын алуу, кызматташтыкты кеңейтүү, жергиликтүү ресурстар менен байланыш",
+    pdf1_title:"Мигранттык чыгышы бар жаштар үчүн интеграцияланган билим берүү программасынын презентациясы", pdf1_desc:"Төмөндө презентацияны түздөн-түз карап чыгууга болот. (Жылдыруу·чоңойтуу жеткиликтүү)",
+    pdf2_title:"Kkomdamgil + Edu1top + Battle окуу — Толук презентация (240 бет)", pdf2_desc:"Төмөндө толук PDF-ти түздөн-түз карап чыгууга болот. (Жылдыруу·чоңойтуу жеткиликтүү)",
+    footer_sub:"ЖИ негизиндеги толук окуу платформасы | IEC Academy уюштурат",
+    footer_tag:"Бир да баланы артта калтырбаган билимге умтулабыз."
+  },
+
+  ar: {
+    nav1:"📹 فيديو البرنامج", nav2:"📄 كتيب البرنامج", nav3:"📋 ملف PDF التفصيلي",
+    hero_badge:"منصة التعلم الكامل المبنية على الذكاء الاصطناعي للطلاب ذوي خلفية المهاجرين",
+    hero_sub:"برنامج التعليم المتكامل للشباب ذوي خلفية المهاجرين",
+    promise_title:"وعدنا الأساسي",
+    promise_text:"نحترم الخلفية اللغوية والثقافية لكل طالب ومستواه التعليمي الحالي. من خلال تراكم النجاحات الصغيرة المتكررة، نطور معاً <strong>احترام الذات · المهارات الأكاديمية الأساسية · الكفاءات المهنية</strong> — برنامج نمو طويل الأمد.",
+    sec_overview:"نظرة عامة على البرنامج", th_cat:"الفئة", th_content:"التفاصيل",
+    ov_r1_k:"المنظم · الفئة المستهدفة", ov_r1_v:"تنظيم أكاديمية IEC / طلاب الابتدائية والإعدادية والثانوية من العائلات ذات خلفية المهاجرين",
+    ov_r2_k:"الأهداف التعليمية", ov_r2_v:"استعادة المهارات الأساسية، دمج اللغة الكورية·الإنجليزية·لغة الأم، التكيف مع المواد، التخطيط المهني، استعادة احترام الذات",
+    ov_r3_k:"الجدول الزمني", ov_r3_v:"مرتين في الأسبوع × 90 دقيقة، 12 ساعة شهرياً (دورة 4 أسابيع) / من مكثف قصير المدى إلى إدارة النمو لمدة 12 عاماً",
+    ov_r4_k:"مكان التعلم", ov_r4_v:"المراكز الإقليمية·المدارس·المؤسسات الشريكة (وجهاً لوجه) + التعلم الإلكتروني Edu1top + الاتصال المنزلي",
+    ov_r5_k:"طريقة التدريس", ov_r5_v:"التعلم الشخصي بالذكاء الاصطناعي + مراجعة ألعاب Battle + إرشاد Kkomdamgil·تدريب أولياء الأمور",
+    sec_video:"فيديو تعريفي بالبرنامج",
+    video_fallback:"متصفحك لا يدعم تشغيل الفيديو.",
+    sec_philosophy:"الفلسفة التعليمية",
+    philosophy_text:"نبدأ من <strong>مستوى التعلم الفعلي</strong> للطالب، لا من بلد الأصل أو الصف الدراسي؛ نقيس <strong>النمو مقارنةً بنفسه أمس</strong>، لا الترتيب بين الأقران. لغة الأم والخلفية الثقافية تُعامَل كـ<strong>مورد تعليمي لا كنقص</strong>.",
+    sec_programs:"ثلاثة برامج أساسية",
+    prog1_title:"Edu1top AI", prog1_text:"تشخيص دقيق للتعلم، منهج دراسي شخصي، STT·TTS·تقييم النطق·OCR·توليد الأسئلة، تكميل تلقائي·تحليل النمو — يوفر التعلم المناسب للمستوى الحالي وتقارير نمو موضوعية.",
+    prog2_title:"Battle Learning (التعلم التنافسي)", prog2_text:"Battle متكافئ·Battle عادل، فردي·فرق، ترتيب·كومبو·مهام·NPC، مراجعة متكررة بأسلوب الألعاب — يشارك الجميع بغض النظر عن المستوى، مما يُرسّخ عادات التعلم الممتعة.",
+    prog3_title:"Kkomdamgil (درب الأحلام)", prog3_text:"إرشاد مهني·نمو شخصي، تدريب أولياء الأمور عبر Zoom، الاتصال بالخريجين·الجامعات·الشركات ذات خلفية المهاجرين — يعزز احترام الذات·العلاقات·المعلومات المهنية ويُعدّ للاندماج الاجتماعي.",
+    sec_cycle:"دورة التعلم الكامل المبنية على الذكاء الاصطناعي",
+    cycle_text:"① التشخيص الأولي → ② إنشاء المسار الشخصي → ③ التعلم المتدرج → ④ Battle·مراجعة ممتعة → ⑤ تحليل أسباب الأخطاء → ⑥ تكميل المفاهيم الأساسية → ⑦ تأكيد إنجاز إعادة المحاولة → ⑧ تقرير النمو<br><strong style='color:#1d4ed8;'>ليس فقط المضي قُدُماً، بل العودة لسد فجوات المفاهيم المتطلبة حتى الإتقان التام.</strong>",
+    sec_roadmap:"خارطة النمو لـ12 عاماً من الابتدائية حتى الثانوية",
+    rm1_title:"الصف 1~2", rm1_text:"التكيف·احترام الذات<br>الأبجدية الكورية·الكورية اليومية<br>الإنجليزية·الرياضيات الأساسية",
+    rm2_title:"الصف 3~4", rm2_text:"مفردات المواد<br>Phonics·الكلمات الأساسية<br>عادات التعلم الذاتي",
+    rm3_title:"الصف 5~6", rm3_text:"القراءة·أساسيات المواد<br>أنماط الجمل·القواعد<br>استكشاف اهتمامات المهنة",
+    rm4_title:"الإعدادي 1~3", rm4_text:"الدرجات·استراتيجيات الدراسة<br>الكورية·الإنجليزية للمواد<br>استكشاف المهنة·الإرشاد",
+    rm5_title:"الثانوي 1~2", rm5_text:"الدرجات·أساس الامتحانات<br>تصميم مسار الدراسة·المهنة<br>التواصل مع الشركات·الجامعات",
+    rm6_title:"الثانوي 3", rm6_text:"الامتحانات·الإنجليزية للعمل<br>المقابلة·التعريف بالنفس<br>الجامعة·العمل",
+    sec_lang:"Language Master STEP 0~12", th_section:"المرحلة", th_step:"الخطوة", th_core:"التعلم الأساسي",
+    ls_r1_k:"الأساس", ls_r1_v:"تشخيص شامل → الأبجدية الكورية·محو الأمية الأساسية → Phonics → المفردات الأساسية",
+    ls_r2_k:"الجمل·القراءة", ls_r2_v:"أنماط الجمل → القواعد الأساسية → القراءة الأولية → محتوى الكتاب المدرسي",
+    ls_r3_k:"الدرجات·القبول", ls_r3_v:"درجات الإعدادية → درجات الثانوية → مفردات الامتحان الأساسية·القراءة حسب النوع",
+    ls_r4_k:"الاندماج الاجتماعي", ls_r4_v:"الإنجليزية للعمل·التعريف بالنفس → مقابلة ذكاء اصطناعي حقيقية·تغذية راجعة للنطق",
+    sec_connect:"دمج الكورية·لغة الأم·المواد·المهنة", th_area:"المجال", th_edu:"المحتوى التعليمي", th_goal:"الهدف",
+    cn_r1_k:"تطوير اللغة الكورية", cn_r1_v:"المفردات الأساسية·المحادثة اليومية·الكورية للمواد·القراءة·الإنشاء·العرض", cn_r1_g:"فهم الدروس، التواصل، قدرات التقييم·الجامعة·العمل",
+    cn_r2_k:"جسر لغة الأم", cn_r2_v:"الأولوية للصينية·الفيتنامية·الروسية؛ استخدام الترجمة الذكية·STT·TTS", cn_r2_g:"تقليل القلق الأولي، ربط المعنى بالكورية، الحفاظ على الهوية متعددة اللغات",
+    cn_r3_k:"دعم المواد", cn_r3_v:"أساسيات الابتدائية → جميع مواد الإعدادية → درجات الثانوية·الامتحانات·أساسيات المهنة", cn_r3_g:"تقليل خطر التسرب، توسيع المشاركة في الفصل",
+    cn_r4_k:"المهنة·النمو", cn_r4_v:"استكشاف الاهتمامات·نقاط القوة، الإرشاد، تجربة الشركات·الجامعات·المؤسسات المهنية، البورتفوليو·المقابلة", cn_r4_g:"توسيع خيارات الدراسة·العمل وتعزيز قدرة التعبير عن الذات",
+    sec_class:"هيكل الدرس المعياري 90 دقيقة",
+    ct1_t:"10 دقائق", ct1_s:"الافتتاح العاطفي", ct1_a:"التحية·فحص المشاعر·الهدف الصغير لليوم",
+    ct2_t:"25 دقيقة", ct2_s:"التعلم الأساسي الشخصي", ct2_a:"توصية الذكاء الاصطناعي + تدريب المعلم + القراءة·الكتابة·الاستماع",
+    ct3_t:"10 دقائق", ct3_s:"المراجعة الشخصية الممتعة", ct3_a:"بطاقات·TTS·اختبار·لعبة قصيرة",
+    ct4_t:"10 دقائق", ct4_s:"الاستراحة·الانتقال", ct4_a:"الحركة·شرب الماء·التفاعل",
+    ct5_t:"25 دقيقة", ct5_s:"Battle Learning", ct5_a:"Battle فردي/جماعي متكافئ·عادل",
+    ct6_t:"10 دقائق", ct6_s:"التحقق من النمو", ct6_a:"تكميل الأخطاء·الثناء·إرشادات الواجب المنزلي",
+    sec_enroll:"إجراءات التسجيل",
+    st1_title:"طلب استشارة", st1_text:"أرسل المعلومات الأساسية والوقت المفضل عبر QR·الهاتف·البريد الإلكتروني أو المؤسسة الشريكة",
+    st2_title:"استشارة الطالب·ولي الأمر", st2_text:"مراجعة الحياة المدرسية·البيئة اللغوية·الصعوبات الحالية·الأهداف التعليمية",
+    st3_title:"التقييم الأولي", st3_text:"تحديد نقطة البداية الفعلية من خلال أنشطة قصيرة وغير مجهدة",
+    st4_title:"الخطة التعليمية الشخصية", st4_text:"إرشادات حول المستوى الموصى به·شكل الدرس·المدة المتوقعة·الاتصال المنزلي",
+    st5_title:"تأكيد التسجيل", st5_text:"البدء بعد الاتفاق على الجدول·الرسوم·الدعم·المعلومات الشخصية·استخدام الذكاء الاصطناعي",
+    sec_effect:"النتائج المتوقعة",
+    ef1_title:"الطلاب", ef1_text:"استعادة المهارات الأساسية، نمو لغوي متوازن، تعزيز احترام الذات والكفاءات المهنية",
+    ef2_title:"أولياء الأمور", ef2_text:"فهم مسيرة النمو، الوصول إلى معلومات التعليم·الجامعة، تقليل القلق",
+    ef3_title:"المدرسة·المجتمع", ef3_text:"الوقاية من التسرب، توسيع التعاون، الاتصال بالموارد المحلية",
+    pdf1_title:"كتيب برنامج التعليم المتكامل للشباب ذوي خلفية المهاجرين", pdf1_desc:"يمكنك عرض الكتيب مباشرة أدناه. (التمرير والتكبير متاح)",
+    pdf2_title:"Kkomdamgil + Edu1top + Battle Learning — التعريف التفصيلي (240 صفحة)", pdf2_desc:"يمكنك عرض ملف PDF التفصيلي مباشرة أدناه. (التمرير والتكبير متاح)",
+    footer_sub:"منصة التعلم الكامل المبنية على الذكاء الاصطناعي | تنظيم أكاديمية IEC",
+    footer_tag:"نسعى إلى تعليم لا يترك أي طفل خلفه."
+  },
+
+  hi: {
+    nav1:"📹 प्रोग्राम वीडियो", nav2:"📄 प्रोग्राम ब्रोशर", nav3:"📋 विस्तृत PDF",
+    hero_badge:"प्रवासी पृष्ठभूमि वाले छात्रों के लिए AI-आधारित पूर्ण शिक्षण प्लेटफ़ॉर्म",
+    hero_sub:"प्रवासी पृष्ठभूमि वाले युवाओं के लिए एकीकृत शिक्षा कार्यक्रम",
+    promise_title:"हमारा मूल वादा",
+    promise_text:"हम प्रत्येक छात्र की भाषाई और सांस्कृतिक पृष्ठभूमि तथा उनके वर्तमान सीखने के स्तर का सम्मान करते हैं। छोटी-छोटी सफलताओं को दोहराकर, हम साथ मिलकर <strong>आत्म-सम्मान · मूल शैक्षणिक क्षमता · करियर दक्षता</strong> विकसित करते हैं — एक दीर्घकालिक विकास कार्यक्रम।",
+    sec_overview:"कार्यक्रम का अवलोकन", th_cat:"श्रेणी", th_content:"विवरण",
+    ov_r1_k:"आयोजक · लक्ष्य समूह", ov_r1_v:"IEC Academy द्वारा आयोजित / प्रवासी पृष्ठभूमि वाले परिवारों के प्राथमिक, मध्य और उच्च विद्यालय के छात्र",
+    ov_r2_k:"शिक्षा के उद्देश्य", ov_r2_v:"मूल ज्ञान की पुनर्प्राप्ति, कोरियाई·अंग्रेजी·मातृभाषा का एकीकरण, विषयों में अनुकूलन, करियर योजना, आत्म-सम्मान की पुनर्प्राप्ति",
+    ov_r3_k:"समय-सारणी", ov_r3_v:"सप्ताह में 2 बार × 90 मिनट, 4-सप्ताह के चक्र में प्रति माह 12 घंटे / लघु-अवधि गहन से लेकर 12 वर्षीय विकास प्रबंधन तक",
+    ov_r4_k:"शिक्षा स्थल", ov_r4_v:"क्षेत्रीय केंद्र·स्कूल·साझेदार संस्थान (व्यक्तिगत) + Edu1top ऑनलाइन शिक्षा + घर से संपर्क",
+    ov_r5_k:"शिक्षण विधि", ov_r5_v:"AI व्यक्तिगत शिक्षा + गेम-शैली Battle पुनरावृत्ति + Kkomdamgil मार्गदर्शन·अभिभावक कोचिंग",
+    sec_video:"प्रोग्राम परिचय वीडियो",
+    video_fallback:"आपका ब्राउज़र वीडियो चलाने का समर्थन नहीं करता।",
+    sec_philosophy:"शैक्षिक दर्शन",
+    philosophy_text:"मूल देश या कक्षा नहीं, बल्कि <strong>वास्तविक शिक्षण स्तर से</strong> शुरू करते हैं; साथियों के बीच रैंकिंग नहीं, बल्कि <strong>कल के स्वयं की तुलना में विकास</strong> मापते हैं। मातृभाषा और सांस्कृतिक पृष्ठभूमि को कमी नहीं, <strong>शिक्षण संसाधन के रूप में सम्मान</strong> दिया जाता है।",
+    sec_programs:"तीन मुख्य कार्यक्रम",
+    prog1_title:"Edu1top AI", prog1_text:"सटीक शिक्षण निदान, व्यक्तिगत पाठ्यक्रम, STT·TTS·उच्चारण मूल्यांकन·OCR·प्रश्न निर्माण, स्वचालित पूरक·विकास विश्लेषण — वर्तमान स्तर के अनुरूप शिक्षा और वस्तुनिष्ठ विकास रिपोर्ट प्रदान करता है।",
+    prog2_title:"Battle Learning (प्रतिस्पर्धी शिक्षा)", prog2_text:"समान Battle·उचित Battle, व्यक्तिगत·टीम, रैंकिंग·कॉम्बो·मिशन·NPC, गेम-शैली दोहराव — स्तर की परवाह किए बिना सभी भाग लेते हैं, आनंददायक सीखने की आदतें बनाते हैं।",
+    prog3_title:"Kkomdamgil (सपनों का रास्ता)", prog3_text:"करियर·विकास मार्गदर्शन, Zoom पर अभिभावक कोचिंग, प्रवासी पृष्ठभूमि वाले वरिष्ठ·विश्वविद्यालय·कंपनियों से जुड़ाव — आत्म-सम्मान·संबंध·करियर जानकारी में सुधार और सामाजिक एकीकरण की तैयारी।",
+    sec_cycle:"AI-आधारित पूर्ण शिक्षण चक्र",
+    cycle_text:"① प्रारंभिक निदान → ② व्यक्तिगत पथ निर्माण → ③ चरणबद्ध शिक्षा → ④ Battle·मजेदार पुनरावृत्ति → ⑤ त्रुटि कारण विश्लेषण → ⑥ निम्न स्तर पूरक → ⑦ पुनः प्रयास उपलब्धि पुष्टि → ⑧ विकास रिपोर्ट<br><strong style='color:#1d4ed8;'>केवल आगे बढ़ना नहीं, बल्कि पूर्ण निपुणता प्राप्त होने तक अनुपस्थित पूर्वापेक्षित अवधारणाओं को वापस जाकर भरना।</strong>",
+    sec_roadmap:"प्राथमिक से उच्च विद्यालय तक 12 वर्षीय विकास रोडमैप",
+    rm1_title:"कक्षा 1~2", rm1_text:"अनुकूलन·आत्म-सम्मान<br>कोरियाई वर्णमाला·दैनिक कोरियाई<br>मूल अंग्रेजी·गणित",
+    rm2_title:"कक्षा 3~4", rm2_text:"विषय शब्दावली<br>Phonics·शब्द<br>स्व-निर्देशित सीखने की आदतें",
+    rm3_title:"कक्षा 5~6", rm3_text:"पढ़ना·विषय मूल बातें<br>वाक्य पैटर्न·व्याकरण<br>करियर रुचि अन्वेषण",
+    rm4_title:"मध्य 1~3", rm4_text:"ग्रेड·अध्ययन रणनीतियां<br>कोरियाई·अंग्रेजी विषयों के लिए<br>करियर अन्वेषण·मार्गदर्शन",
+    rm5_title:"उच्च 1~2", rm5_text:"ग्रेड·प्रवेश परीक्षा आधार<br>शिक्षा·करियर पथ डिज़ाइन<br>कंपनी·विश्वविद्यालय संपर्क",
+    rm6_title:"उच्च 3", rm6_text:"परीक्षा·कार्य अंग्रेजी<br>साक्षात्कार·आत्म-परिचय<br>विश्वविद्यालय·नौकरी",
+    sec_lang:"Language Master STEP 0~12", th_section:"चरण", th_step:"कदम", th_core:"मुख्य शिक्षा",
+    ls_r1_k:"आधार", ls_r1_v:"व्यापक निदान → कोरियाई वर्णमाला·मूल साक्षरता → Phonics → मूल शब्दावली",
+    ls_r2_k:"वाक्य·पठन", ls_r2_v:"वाक्य पैटर्न → मूल व्याकरण → प्रारंभिक पठन → पाठ्यपुस्तक सामग्री",
+    ls_r3_k:"ग्रेड·प्रवेश", ls_r3_v:"मध्य विद्यालय ग्रेड → उच्च विद्यालय ग्रेड → परीक्षा मुख्य शब्दावली·प्रकार-आधारित पठन",
+    ls_r4_k:"सामाजिक एकीकरण", ls_r4_v:"कार्य अंग्रेजी·आत्म-परिचय → AI वास्तविक साक्षात्कार·उच्चारण प्रतिक्रिया",
+    sec_connect:"कोरियाई·मातृभाषा·विषय·करियर एकीकरण", th_area:"क्षेत्र", th_edu:"शैक्षिक सामग्री", th_goal:"लक्ष्य",
+    cn_r1_k:"कोरियाई भाषा उन्नत", cn_r1_v:"मूल शब्दावली·दैनिक वार्तालाप·विषय कोरियाई·पठन·निबंध·प्रस्तुति", cn_r1_g:"कक्षा समझ, संचार, मूल्यांकन·विश्वविद्यालय·नौकरी क्षमता",
+    cn_r2_k:"मातृभाषा सेतु", cn_r2_v:"चीनी·वियतनामी·रूसी को प्राथमिकता; AI अनुवाद·STT·TTS उपयोग", cn_r2_g:"प्रारंभिक चिंता कम करना, कोरियाई के साथ अर्थ जोड़ना, बहुभाषी पहचान बनाए रखना",
+    cn_r3_k:"विषय सहायता", cn_r3_v:"प्राथमिक मूल बातें → मध्य विद्यालय के सभी विषय → उच्च विद्यालय ग्रेड·परीक्षा·व्यावसायिक मूल बातें", cn_r3_g:"स्कूल छोड़ने का जोखिम कम करना, कक्षा भागीदारी का विस्तार",
+    cn_r4_k:"करियर·विकास", cn_r4_v:"रुचि·शक्तियों की खोज, मार्गदर्शन, कंपनी·विश्वविद्यालय·व्यावसायिक संस्थानों में अनुभव, पोर्टफोलियो·साक्षात्कार", cn_r4_g:"शिक्षा·नौकरी विकल्पों का विस्तार और आत्म-अभिव्यक्ति क्षमता को बढ़ाना",
+    sec_class:"90 मिनट की मानक कक्षा संरचना",
+    ct1_t:"10 मिनट", ct1_s:"भावनात्मक शुरुआत", ct1_a:"अभिवादन·भावना जांच·आज का छोटा लक्ष्य",
+    ct2_t:"25 मिनट", ct2_s:"व्यक्तिगत मुख्य शिक्षा", ct2_a:"AI अनुशंसा + शिक्षक कोचिंग + पढ़ना·लिखना·सुनना",
+    ct3_t:"10 मिनट", ct3_s:"मजेदार व्यक्तिगत पुनरावृत्ति", ct3_a:"कार्ड·TTS·प्रश्नोत्तरी·छोटा खेल",
+    ct4_t:"10 मिनट", ct4_s:"विराम·संक्रमण", ct4_a:"हलचल·पानी पीना·परस्पर क्रिया",
+    ct5_t:"25 मिनट", ct5_s:"Battle Learning", ct5_a:"समान·उचित व्यक्तिगत/टीम Battle",
+    ct6_t:"10 मिनट", ct6_s:"विकास जांच", ct6_a:"त्रुटि पूरक·प्रशंसा·गृहकार्य मार्गदर्शन",
+    sec_enroll:"पंजीकरण प्रक्रिया",
+    st1_title:"परामर्श अनुरोध", st1_text:"QR·फ़ोन·ईमेल या साझेदार संस्थान के माध्यम से मूल जानकारी और पसंदीदा समय भेजें",
+    st2_title:"छात्र·अभिभावक परामर्श", st2_text:"स्कूल जीवन·भाषा वातावरण·वर्तमान कठिनाइयों·शैक्षिक लक्ष्यों की समीक्षा",
+    st3_title:"प्रारंभिक मूल्यांकन", st3_text:"छोटी, हल्की गतिविधियों के माध्यम से वास्तविक प्रारंभिक बिंदु निर्धारित करें",
+    st4_title:"व्यक्तिगत शिक्षा योजना", st4_text:"अनुशंसित स्तर·कक्षा प्रारूप·अपेक्षित अवधि·घर से संपर्क पर मार्गदर्शन",
+    st5_title:"पंजीकरण पुष्टि", st5_text:"समय-सारणी·शुल्क·सहायता·व्यक्तिगत जानकारी·AI उपयोग सहमति के बाद शुरू करें",
+    sec_effect:"अपेक्षित परिणाम",
+    ef1_title:"छात्र", ef1_text:"मूल ज्ञान की पुनर्प्राप्ति, संतुलित भाषाई विकास, आत्म-सम्मान और करियर क्षमता में वृद्धि",
+    ef2_title:"अभिभावक", ef2_text:"विकास प्रक्रिया की समझ, शिक्षा·विश्वविद्यालय जानकारी तक पहुंच, चिंता में कमी",
+    ef3_title:"विद्यालय·समुदाय", ef3_text:"स्कूल छोड़ने की रोकथाम, सहयोग का विस्तार, स्थानीय संसाधनों से जुड़ाव",
+    pdf1_title:"प्रवासी पृष्ठभूमि वाले युवाओं के लिए एकीकृत शिक्षा कार्यक्रम ब्रोशर", pdf1_desc:"आप नीचे सीधे ब्रोशर देख सकते हैं। (स्क्रॉल और ज़ूम उपलब्ध)",
+    pdf2_title:"Kkomdamgil + Edu1top + Battle Learning — विस्तृत परिचय (240 पृष्ठ)", pdf2_desc:"आप नीचे सीधे विस्तृत PDF देख सकते हैं। (स्क्रॉल और ज़ूम उपलब्ध)",
+    footer_sub:"AI-आधारित पूर्ण शिक्षण प्लेटफ़ॉर्म | IEC Academy द्वारा आयोजित",
+    footer_tag:"हम ऐसी शिक्षा के लिए प्रयासरत हैं जो किसी भी बच्चे को पीछे न छोड़े।"
+  },
+
+  bn: {
+    nav1:"📹 প্রোগ্রামের ভিডিও", nav2:"📄 প্রোগ্রামের বিবরণিকা", nav3:"📋 বিস্তারিত PDF",
+    hero_badge:"অভিবাসী পটভূমির শিক্ষার্থীদের জন্য AI-ভিত্তিক সম্পূর্ণ শিক্ষা প্ল্যাটফর্ম",
+    hero_sub:"অভিবাসী পটভূমির যুবকদের জন্য সমন্বিত শিক্ষা কার্যক্রম",
+    promise_title:"আমাদের মূল প্রতিশ্রুতি",
+    promise_text:"আমরা প্রতিটি শিক্ষার্থীর ভাষাগত ও সাংস্কৃতিক পটভূমি এবং তাদের বর্তমান শিক্ষার স্তরকে সম্মান করি। ছোট ছোট সাফল্য বারবার অর্জন করে আমরা একসাথে <strong>আত্মসম্মান · মৌলিক শিক্ষাগত দক্ষতা · কর্মজীবন সক্ষমতা</strong> গড়ে তুলি — একটি দীর্ঘমেয়াদী প্রবৃদ্ধি কার্যক্রম।",
+    sec_overview:"কার্যক্রমের সংক্ষিপ্ত বিবরণ", th_cat:"বিভাগ", th_content:"বিবরণ",
+    ov_r1_k:"আয়োজক · লক্ষ্য দল", ov_r1_v:"IEC Academy আয়োজিত / অভিবাসী পটভূমির পরিবারের প্রাথমিক, মাধ্যমিক ও উচ্চ মাধ্যমিক শিক্ষার্থী",
+    ov_r2_k:"শিক্ষার লক্ষ্য", ov_r2_v:"মৌলিক জ্ঞান পুনরুদ্ধার, কোরিয়ান·ইংরেজি·মাতৃভাষার সংযোগ, বিষয় অভিযোজন, কর্মজীবন পরিকল্পনা, আত্মসম্মান পুনরুদ্ধার",
+    ov_r3_k:"সময়সূচি", ov_r3_v:"সপ্তাহে ২ বার × ৯০ মিনিট, ৪-সপ্তাহের চক্রে মাসে ১২ ঘণ্টা / স্বল্পমেয়াদী নিবিড় থেকে ১২ বছরের প্রবৃদ্ধি ব্যবস্থাপনা পর্যন্ত",
+    ov_r4_k:"শিক্ষার স্থান", ov_r4_v:"আঞ্চলিক কেন্দ্র·স্কুল·অংশীদার প্রতিষ্ঠান (ব্যক্তিগত) + Edu1top অনলাইন শিক্ষা + গৃহ সংযোগ",
+    ov_r5_k:"শিক্ষণ পদ্ধতি", ov_r5_v:"AI ব্যক্তিগত শিক্ষা + গেম-শৈলী Battle পুনরালোচনা + Kkomdamgil পরামর্শদাতা·অভিভাবক কোচিং",
+    sec_video:"প্রোগ্রাম পরিচিতি ভিডিও",
+    video_fallback:"আপনার ব্রাউজার ভিডিও চালানো সমর্থন করে না।",
+    sec_philosophy:"শিক্ষাগত দর্শন",
+    philosophy_text:"মূল দেশ বা শ্রেণি নয়, <strong>প্রকৃত শিক্ষার স্তর থেকে</strong> শুরু করি; সমকক্ষদের মধ্যে র‍্যাংকিং নয়, <strong>গতকালের নিজের সাথে তুলনায় প্রবৃদ্ধি</strong> পরিমাপ করি। মাতৃভাষা ও সাংস্কৃতিক পটভূমিকে ঘাটতি নয়, <strong>শিক্ষার সম্পদ হিসেবে সম্মান</strong> করা হয়।",
+    sec_programs:"তিনটি মূল কার্যক্রম",
+    prog1_title:"Edu1top AI", prog1_text:"নির্ভুল শিক্ষা নির্ণয়, ব্যক্তিগত পাঠ্যক্রম, STT·TTS·উচ্চারণ মূল্যায়ন·OCR·প্রশ্ন তৈরি, স্বয়ংক্রিয় পরিপূরক·প্রবৃদ্ধি বিশ্লেষণ — বর্তমান স্তরের উপযুক্ত শিক্ষা এবং বস্তুনিষ্ঠ প্রবৃদ্ধি প্রতিবেদন প্রদান করে।",
+    prog2_title:"Battle Learning (প্রতিযোগিতামূলক শিক্ষা)", prog2_text:"সমান Battle·ন্যায্য Battle, ব্যক্তিগত·দলীয়, র‍্যাংকিং·কম্বো·মিশন·NPC, গেম-শৈলী পুনরাবৃত্তি — স্তর নির্বিশেষে সকলে অংশগ্রহণ করে, আনন্দদায়ক শিক্ষার অভ্যাস তৈরি করে।",
+    prog3_title:"Kkomdamgil (স্বপ্নের পথ)", prog3_text:"কর্মজীবন·প্রবৃদ্ধি পরামর্শদাতা, Zoom-এ অভিভাবক কোচিং, অভিবাসী পটভূমির সিনিয়র·বিশ্ববিদ্যালয়·কোম্পানির সাথে সংযোগ — আত্মসম্মান·সম্পর্ক·কর্মজীবন তথ্য উন্নত করে এবং সামাজিক একীভূতকরণের জন্য প্রস্তুত করে।",
+    sec_cycle:"AI-ভিত্তিক সম্পূর্ণ শিক্ষা চক্র",
+    cycle_text:"① প্রাথমিক নির্ণয় → ② ব্যক্তিগত পথ তৈরি → ③ ধাপে ধাপে শিক্ষা → ④ Battle·আনন্দদায়ক পুনরালোচনা → ⑤ ত্রুটির কারণ বিশ্লেষণ → ⑥ নিম্ন স্তর পরিপূরক → ⑦ পুনরায় চেষ্টার অর্জন নিশ্চিতকরণ → ⑧ প্রবৃদ্ধি প্রতিবেদন<br><strong style='color:#1d4ed8;'>শুধু এগিয়ে যাওয়া নয়, পরিপূর্ণ দক্ষতা অর্জন না হওয়া পর্যন্ত অনুপস্থিত পূর্বশর্ত ধারণাগুলো ফিরে গিয়ে পূরণ করার কাঠামো।</strong>",
+    sec_roadmap:"প্রাথমিক থেকে উচ্চ মাধ্যমিক পর্যন্ত ১২ বছরের প্রবৃদ্ধি রোডম্যাপ",
+    rm1_title:"শ্রেণি ১~২", rm1_text:"অভিযোজন·আত্মসম্মান<br>কোরিয়ান বর্ণমালা·দৈনন্দিন কোরিয়ান<br>মৌলিক ইংরেজি·গণিত",
+    rm2_title:"শ্রেণি ৩~৪", rm2_text:"বিষয়ের শব্দভাণ্ডার<br>Phonics·শব্দ<br>স্ব-নির্দেশিত শিক্ষার অভ্যাস",
+    rm3_title:"শ্রেণি ৫~৬", rm3_text:"পাঠ·বিষয়ের মূল বিষয়<br>বাক্যের ধরন·ব্যাকরণ<br>কর্মজীবন আগ্রহ অন্বেষণ",
+    rm4_title:"মাধ্যমিক ১~৩", rm4_text:"গ্রেড·অধ্যয়নের কৌশল<br>কোরিয়ান·ইংরেজি বিষয়ের জন্য<br>কর্মজীবন অন্বেষণ·পরামর্শ",
+    rm5_title:"উচ্চ ১~২", rm5_text:"গ্রেড·ভর্তি পরীক্ষার ভিত্তি<br>শিক্ষা·কর্মজীবন পথ নকশা<br>কোম্পানি·বিশ্ববিদ্যালয় সংযোগ",
+    rm6_title:"উচ্চ ৩", rm6_text:"পরীক্ষা·কর্মক্ষেত্রের ইংরেজি<br>সাক্ষাৎকার·আত্মপরিচয়<br>বিশ্ববিদ্যালয়·চাকরি",
+    sec_lang:"Language Master STEP 0~12", th_section:"পর্যায়", th_step:"ধাপ", th_core:"মূল শিক্ষা",
+    ls_r1_k:"ভিত্তি", ls_r1_v:"ব্যাপক নির্ণয় → কোরিয়ান বর্ণমালা·মৌলিক সাক্ষরতা → Phonics → মূল শব্দভাণ্ডার",
+    ls_r2_k:"বাক্য·পাঠ", ls_r2_v:"বাক্যের ধরন → মৌলিক ব্যাকরণ → প্রাথমিক পাঠ → পাঠ্যপুস্তকের বিষয়বস্তু",
+    ls_r3_k:"গ্রেড·ভর্তি", ls_r3_v:"মাধ্যমিক গ্রেড → উচ্চ মাধ্যমিক গ্রেড → পরীক্ষার মূল শব্দভাণ্ডার·ধরন ভিত্তিক পাঠ",
+    ls_r4_k:"সামাজিক একীভূতকরণ", ls_r4_v:"কর্মক্ষেত্রের ইংরেজি·আত্মপরিচয় → AI বাস্তব সাক্ষাৎকার·উচ্চারণ প্রতিক্রিয়া",
+    sec_connect:"কোরিয়ান·মাতৃভাষা·বিষয়·কর্মজীবন একীভূতকরণ", th_area:"ক্ষেত্র", th_edu:"শিক্ষামূলক বিষয়বস্তু", th_goal:"লক্ষ্য",
+    cn_r1_k:"কোরিয়ান ভাষার উন্নতি", cn_r1_v:"মূল শব্দভাণ্ডার·দৈনন্দিন কথোপকথন·বিষয়ের কোরিয়ান·পাঠ·রচনা·উপস্থাপনা", cn_r1_g:"শ্রেণি বোঝা, যোগাযোগ, মূল্যায়ন·বিশ্ববিদ্যালয়·চাকরির দক্ষতা",
+    cn_r2_k:"মাতৃভাষার সেতু", cn_r2_v:"চীনা·ভিয়েতনামি·রাশিয়ানকে অগ্রাধিকার; AI অনুবাদ·STT·TTS ব্যবহার", cn_r2_g:"প্রাথমিক উদ্বেগ কমানো, কোরিয়ানের সাথে অর্থ সংযোগ, বহুভাষিক পরিচয় বজায় রাখা",
+    cn_r3_k:"বিষয় সহায়তা", cn_r3_v:"প্রাথমিক মৌলিক বিষয় → মাধ্যমিকের সকল বিষয় → উচ্চ মাধ্যমিক গ্রেড·পরীক্ষা·বৃত্তিমূলক মৌলিক বিষয়", cn_r3_g:"স্কুল ত্যাগের ঝুঁকি কমানো, শ্রেণি অংশগ্রহণ বৃদ্ধি",
+    cn_r4_k:"কর্মজীবন·প্রবৃদ্ধি", cn_r4_v:"আগ্রহ·শক্তি অন্বেষণ, পরামর্শ, কোম্পানি·বিশ্ববিদ্যালয়·বৃত্তিমূলক প্রতিষ্ঠানে অভিজ্ঞতা, পোর্টফোলিও·সাক্ষাৎকার", cn_r4_g:"শিক্ষা·চাকরির বিকল্প প্রসারিত করা এবং আত্মপ্রকাশের ক্ষমতা বৃদ্ধি",
+    sec_class:"৯০ মিনিটের আদর্শ শ্রেণি কাঠামো",
+    ct1_t:"১০ মিনিট", ct1_s:"আবেগিক উদ্বোধন", ct1_a:"শুভেচ্ছা·অনুভূতি পরীক্ষা·আজকের ছোট লক্ষ্য",
+    ct2_t:"২৫ মিনিট", ct2_s:"ব্যক্তিগত মূল শিক্ষা", ct2_a:"AI সুপারিশ + শিক্ষক কোচিং + পাঠ·লেখা·শ্রবণ",
+    ct3_t:"১০ মিনিট", ct3_s:"আনন্দদায়ক ব্যক্তিগত পুনরালোচনা", ct3_a:"কার্ড·TTS·কুইজ·ছোট খেলা",
+    ct4_t:"১০ মিনিট", ct4_s:"বিরতি·পরিবর্তন", ct4_a:"নড়াচড়া·পানি পান·পারস্পরিক ক্রিয়া",
+    ct5_t:"২৫ মিনিট", ct5_s:"Battle Learning", ct5_a:"সমান·ন্যায্য ব্যক্তিগত/দলীয় Battle",
+    ct6_t:"১০ মিনিট", ct6_s:"প্রবৃদ্ধি যাচাই", ct6_a:"ত্রুটি পরিপূরক·প্রশংসা·গৃহকার্যের নির্দেশনা",
+    sec_enroll:"নিবন্ধন প্রক্রিয়া",
+    st1_title:"পরামর্শ অনুরোধ", st1_text:"QR·ফোন·ইমেইল বা অংশীদার প্রতিষ্ঠানের মাধ্যমে মূল তথ্য ও পছন্দের সময় পাঠান",
+    st2_title:"শিক্ষার্থী·অভিভাবক পরামর্শ", st2_text:"স্কুল জীবন·ভাষার পরিবেশ·বর্তমান কষ্ট·শিক্ষার লক্ষ্য পর্যালোচনা",
+    st3_title:"প্রাথমিক মূল্যায়ন", st3_text:"ছোট, হালকা কার্যক্রমের মাধ্যমে প্রকৃত সূচনাবিন্দু নির্ধারণ",
+    st4_title:"ব্যক্তিগত শিক্ষা পরিকল্পনা", st4_text:"প্রস্তাবিত স্তর·শ্রেণি বিন্যাস·প্রত্যাশিত মেয়াদ·গৃহ সংযোগ সম্পর্কে নির্দেশনা",
+    st5_title:"নিবন্ধন নিশ্চিতকরণ", st5_text:"সময়সূচি·ফি·সহায়তা·ব্যক্তিগত তথ্য·AI ব্যবহারে সম্মতির পর শুরু",
+    sec_effect:"প্রত্যাশিত ফলাফল",
+    ef1_title:"শিক্ষার্থী", ef1_text:"মৌলিক জ্ঞান পুনরুদ্ধার, ভারসাম্যপূর্ণ ভাষাগত প্রবৃদ্ধি, আত্মসম্মান ও কর্মজীবন সক্ষমতা বৃদ্ধি",
+    ef2_title:"অভিভাবক", ef2_text:"প্রবৃদ্ধি প্রক্রিয়া বোঝা, শিক্ষা·বিশ্ববিদ্যালয় তথ্যে প্রবেশাধিকার, উদ্বেগ হ্রাস",
+    ef3_title:"বিদ্যালয়·সম্প্রদায়", ef3_text:"স্কুল ত্যাগ প্রতিরোধ, সহযোগিতার প্রসার, স্থানীয় সম্পদের সাথে সংযোগ",
+    pdf1_title:"অভিবাসী পটভূমির যুবকদের জন্য সমন্বিত শিক্ষা কার্যক্রমের বিবরণিকা", pdf1_desc:"আপনি নিচে সরাসরি বিবরণিকা দেখতে পারবেন। (স্ক্রোল ও জুম উপলব্ধ)",
+    pdf2_title:"Kkomdamgil + Edu1top + Battle Learning — বিস্তারিত পরিচিতি (২৪০ পৃষ্ঠা)", pdf2_desc:"আপনি নিচে সরাসরি বিস্তারিত PDF দেখতে পারবেন। (স্ক্রোল ও জুম উপলব্ধ)",
+    footer_sub:"AI-ভিত্তিক সম্পূর্ণ শিক্ষা প্ল্যাটফর্ম | IEC Academy আয়োজিত",
+    footer_tag:"আমরা এমন শিক্ষার জন্য প্রচেষ্টা করি যা কোনো শিশুকে পিছনে ফেলে না।"
+  },
+
+  ne: {
+    nav1:"📹 कार्यक्रम भिडियो", nav2:"📄 कार्यक्रम विवरणिका", nav3:"📋 विस्तृत PDF",
+    hero_badge:"अप्रवासी पृष्ठभूमिका विद्यार्थीहरूका लागि AI-आधारित पूर्ण शिक्षण प्लेटफर्म",
+    hero_sub:"अप्रवासी पृष्ठभूमिका युवाहरूका लागि एकीकृत शिक्षा कार्यक्रम",
+    promise_title:"हाम्रो मूल प्रतिज्ञा",
+    promise_text:"हामी प्रत्येक विद्यार्थीको भाषिक र सांस्कृतिक पृष्ठभूमि तथा उनीहरूको वर्तमान सिकाइ स्तरको सम्मान गर्छौं। साना सफलताहरू बारम्बार प्राप्त गरेर, हामी सँगै <strong>आत्मसम्मान · आधारभूत शैक्षिक क्षमता · करियर दक्षता</strong> विकास गर्ने दीर्घकालीन वृद्धि कार्यक्रम।",
+    sec_overview:"कार्यक्रम अवलोकन", th_cat:"श्रेणी", th_content:"विवरण",
+    ov_r1_k:"आयोजक · लक्षित समूह", ov_r1_v:"IEC Academy आयोजित / अप्रवासी पृष्ठभूमिका परिवारका प्राथमिक, माध्यमिक र उच्च माध्यमिक विद्यार्थीहरू",
+    ov_r2_k:"शिक्षाका उद्देश्यहरू", ov_r2_v:"आधारभूत ज्ञान पुनःप्राप्ति, कोरियन·अंग्रेजी·मातृभाषा एकीकरण, विषय अनुकूलन, करियर योजना, आत्मसम्मान पुनःप्राप्ति",
+    ov_r3_k:"तालिका", ov_r3_v:"हप्तामा २ पटक × ९० मिनेट, ४-हप्ताको चक्रमा महिनामा १२ घन्टा / अल्पकालीन गहन देखि १२ वर्षीय वृद्धि व्यवस्थापनसम्म",
+    ov_r4_k:"शिक्षण स्थान", ov_r4_v:"क्षेत्रीय केन्द्रहरू·विद्यालयहरू·साझेदार संस्थाहरू (व्यक्तिगत) + Edu1top अनलाइन शिक्षा + घर सम्पर्क",
+    ov_r5_k:"शिक्षण विधि", ov_r5_v:"AI व्यक्तिगत शिक्षा + खेल-शैलीको Battle पुनरावृत्ति + Kkomdamgil मार्गदर्शन·अभिभावक कोचिङ",
+    sec_video:"कार्यक्रम परिचय भिडियो", video_fallback:"तपाईंको ब्राउजरले भिडियो चलाउन समर्थन गर्दैन।",
+    sec_philosophy:"शैक्षिक दर्शन",
+    philosophy_text:"मूल देश वा कक्षा होइन, <strong>वास्तविक सिकाइ स्तरबाट</strong> सुरु गर्छौं; साथीहरूबीचको रैंकिङ होइन, <strong>हिजोको आफैँसँग तुलनामा वृद्धि</strong> मापन गर्छौं। मातृभाषा र सांस्कृतिक पृष्ठभूमिलाई <strong>शिक्षण स्रोतको रूपमा सम्मान</strong> गरिन्छ।",
+    sec_programs:"तीन मुख्य कार्यक्रमहरू",
+    prog1_title:"Edu1top AI", prog1_text:"सटीक सिकाइ निदान, व्यक्तिगत पाठ्यक्रम, STT·TTS·उच्चारण मूल्यांकन·OCR·प्रश्न सिर्जना, स्वचालित पूरक·वृद्धि विश्लेषण।",
+    prog2_title:"Battle Learning", prog2_text:"समान Battle·उचित Battle, व्यक्तिगत·टोली, रैंकिङ·कम्बो·मिसन·NPC, खेल-शैलीको दोहोरिने अभ्यास — सबैले भाग लिन्छन्, रमाइलो सिकाइ बानी बनाउँछ।",
+    prog3_title:"Kkomdamgil", prog3_text:"करियर·वृद्धि मार्गदर्शन, Zoom मार्फत अभिभावक कोचिङ, वरिष्ठहरू·विश्वविद्यालयहरू·कम्पनीहरूसँग सम्पर्क।",
+    sec_cycle:"AI-आधारित पूर्ण सिकाइ चक्र",
+    cycle_text:"① प्रारम्भिक निदान → ② व्यक्तिगत मार्ग → ③ चरणबद्ध सिकाइ → ④ Battle·पुनरावृत्ति → ⑤ त्रुटि विश्लेषण → ⑥ पूरक → ⑦ पुष्टि → ⑧ वृद्धि प्रतिवेदन<br><strong style='color:#1d4ed8;'>केवल अगाडि नभई पूर्ण दक्षता नभएसम्म फिर्ता गएर पूरा गर्ने संरचना।</strong>",
+    sec_roadmap:"प्राथमिकदेखि उच्च माध्यमिकसम्म १२ वर्षीय वृद्धि रोडम्याप",
+    rm1_title:"कक्षा १~२", rm1_text:"अनुकूलन·आत्मसम्मान<br>कोरियन वर्णमाला·दैनिक कोरियन<br>आधारभूत अंग्रेजी·गणित",
+    rm2_title:"कक्षा ३~४", rm2_text:"विषयको शब्दभण्डार<br>Phonics·शब्दहरू<br>स्व-निर्देशित सिकाइ",
+    rm3_title:"कक्षा ५~६", rm3_text:"पठन·विषय आधारभूत<br>वाक्य ढाँचाहरू·व्याकरण<br>करियर रुचि अन्वेषण",
+    rm4_title:"माध्यमिक १~३", rm4_text:"ग्रेड·अध्ययन रणनीतिहरू<br>कोरियन·अंग्रेजी विषयका लागि<br>करियर अन्वेषण·मार्गदर्शन",
+    rm5_title:"उच्च १~२", rm5_text:"ग्रेड·प्रवेश परीक्षा<br>शिक्षा·करियर मार्ग डिजाइन<br>कम्पनी·विश्वविद्यालय सम्पर्क",
+    rm6_title:"उच्च ३", rm6_text:"परीक्षा·कार्य अंग्रेजी<br>अन्तर्वार्ता·आत्म-परिचय<br>विश्वविद्यालय·रोजगारी",
+    sec_lang:"Language Master STEP 0~12", th_section:"चरण", th_step:"कदम", th_core:"मुख्य सिकाइ",
+    ls_r1_k:"आधार", ls_r1_v:"व्यापक निदान → कोरियन वर्णमाला·साक्षरता → Phonics → आधारभूत शब्दभण्डार",
+    ls_r2_k:"वाक्य·पठन", ls_r2_v:"वाक्य ढाँचाहरू → व्याकरण → प्रारम्भिक पठन → पाठ्यपुस्तक",
+    ls_r3_k:"ग्रेड·प्रवेश", ls_r3_v:"माध्यमिक ग्रेड → उच्च माध्यमिक ग्रेड → परीक्षा शब्दभण्डार·प्रकारमा पठन",
+    ls_r4_k:"सामाजिक एकीकरण", ls_r4_v:"कार्य अंग्रेजी·आत्म-परिचय → AI अन्तर्वार्ता·उच्चारण प्रतिक्रिया",
+    sec_connect:"कोरियन·मातृभाषा·विषय·करियर एकीकरण", th_area:"क्षेत्र", th_edu:"शैक्षिक सामग्री", th_goal:"उद्देश्य",
+    cn_r1_k:"कोरियन भाषा उन्नति", cn_r1_v:"शब्दभण्डार·कुराकानी·विषय कोरियन·पठन·निबन्ध·प्रस्तुति", cn_r1_g:"कक्षा बुझाइ, सञ्चार, विश्वविद्यालय·रोजगारी क्षमता",
+    cn_r2_k:"मातृभाषा पुल", cn_r2_v:"चिनियाँ·भियतनामी·रसियनलाई प्राथमिकता; AI अनुवाद·STT·TTS", cn_r2_g:"प्रारम्भिक चिन्ता कम, कोरियनसँग अर्थ जोड्ने, बहुभाषिक पहिचान कायम",
+    cn_r3_k:"विषय सहायता", cn_r3_v:"प्राथमिक → माध्यमिक सबै विषय → उच्च ग्रेड·परीक्षा·व्यावसायिक आधार", cn_r3_g:"विद्यालय छोड्ने जोखिम कम, कक्षा सहभागिता विस्तार",
+    cn_r4_k:"करियर·वृद्धि", cn_r4_v:"रुचि·शक्ति अन्वेषण, मार्गदर्शन, अनुभव, पोर्टफोलियो·अन्तर्वार्ता", cn_r4_g:"शिक्षा·रोजगारी विकल्प विस्तार र आत्म-अभिव्यक्ति क्षमता बढाउने",
+    sec_class:"९० मिनेटको मानक कक्षा संरचना",
+    ct1_t:"१० मिनेट", ct1_s:"भावनात्मक सुरुवात", ct1_a:"अभिवादन·भावना जाँच·आजको साना लक्ष्य",
+    ct2_t:"२५ मिनेट", ct2_s:"व्यक्तिगत मुख्य सिकाइ", ct2_a:"AI सिफारिस + शिक्षक कोचिङ + पठन·लेखन·श्रवण",
+    ct3_t:"१० मिनेट", ct3_s:"रमाइलो पुनरावृत्ति", ct3_a:"कार्ड·TTS·क्विज·छोटो खेल",
+    ct4_t:"१० मिनेट", ct4_s:"विराम·संक्रमण", ct4_a:"चलनचल्ती·पानी पिउने·अन्तर्क्रिया",
+    ct5_t:"२५ मिनेट", ct5_s:"Battle Learning", ct5_a:"समान·उचित व्यक्तिगत/टोली Battle",
+    ct6_t:"१० मिनेट", ct6_s:"वृद्धि जाँच", ct6_a:"त्रुटि पूरक·प्रशंसा·गृहकार्य मार्गदर्शन",
+    sec_enroll:"दर्ता प्रक्रिया",
+    st1_title:"परामर्श अनुरोध", st1_text:"QR·फोन·इमेल वा साझेदार संस्था मार्फत आधारभूत जानकारी र मनपर्ने समय पठाउनुहोस्",
+    st2_title:"विद्यार्थी·अभिभावक परामर्श", st2_text:"विद्यालय जीवन·भाषा वातावरण·कठिनाइहरू·शैक्षिक लक्ष्यहरू समीक्षा",
+    st3_title:"प्रारम्भिक मूल्यांकन", st3_text:"छोटा, हल्का गतिविधिहरू मार्फत वास्तविक प्रारम्भबिन्दु निर्धारण",
+    st4_title:"व्यक्तिगत शिक्षा योजना", st4_text:"सिफारिस गरिएको स्तर·कक्षा ढाँचा·अपेक्षित अवधि·घर सम्पर्कमा मार्गदर्शन",
+    st5_title:"दर्ता पुष्टि", st5_text:"तालिका·शुल्क·सहायता·व्यक्तिगत जानकारी·AI प्रयोगमा सहमतिपछि सुरु",
+    sec_effect:"अपेक्षित नतिजाहरू",
+    ef1_title:"विद्यार्थीहरू", ef1_text:"आधारभूत ज्ञान पुनःप्राप्ति, सन्तुलित भाषिक वृद्धि, आत्मसम्मान र करियर क्षमता वृद्धि",
+    ef2_title:"अभिभावकहरू", ef2_text:"वृद्धि प्रक्रिया बुझाइ, शिक्षा·विश्वविद्यालय जानकारीमा पहुँच, चिन्ता कम",
+    ef3_title:"विद्यालय·समुदाय", ef3_text:"विद्यालय छोड्ने रोकथाम, सहकार्य विस्तार, स्थानीय स्रोतहरूसँग सम्पर्क",
+    pdf1_title:"अप्रवासी पृष्ठभूमिका युवाहरूका लागि एकीकृत शिक्षा कार्यक्रम विवरणिका", pdf1_desc:"तपाईं तल सिधै विवरणिका हेर्न सक्नुहुन्छ। (स्क्रोल र जुम उपलब्ध)",
+    pdf2_title:"Kkomdamgil + Edu1top + Battle Learning — विस्तृत परिचय (२४० पृष्ठ)", pdf2_desc:"तपाईं तल सिधै विस्तृत PDF हेर्न सक्नुहुन्छ। (स्क्रोल र जुम उपलब्ध)",
+    footer_sub:"AI-आधारित पूर्ण शिक्षण प्लेटफर्म | IEC Academy आयोजित",
+    footer_tag:"हामी यस्तो शिक्षाका लागि प्रयासरत छौं जसले कुनै पनि बच्चालाई पछाडि छोड्दैन।"
+  },
+
+  my: {
+    nav1:"📹 အစီအစဉ် ဗီဒီယို", nav2:"📄 အစီအစဉ် လမ်းညွှန်", nav3:"📋 အသေးစိတ် PDF",
+    hero_badge:"ရွှေ့ပြောင်းနောက်ခံရှိသည့် ကျောင်းသားများအတွက် AI-အခြေပြု ပြည့်စုံသော သင်ယူမှုပလပ်ဖောင်း",
+    hero_sub:"ရွှေ့ပြောင်းနောက်ခံရှိသည့် လူငယ်များအတွက် ပေါင်းစပ်ပညာရေးအစီအစဉ်",
+    promise_title:"ကျွန်ုပ်တို့၏ အဓိကကတိ",
+    promise_text:"ကျောင်းသားတိုင်း၏ ဘာသာစကားနှင့် ယဉ်ကျေးမှုနောက်ခံ၊ လက်ရှိသင်ယူမှုအဆင့်ကို လေးစားသည်။ <strong>ကိုယ်တန်ဖိုးသိမှု · အဓိကပညာရေးစွမ်းရည် · အလုပ်အကိုင်ကျွမ်းကျင်မှု</strong> ကို အတူတကွ ဖွံ့ဖြိုးစေသော ရေရှည်တိုးတက်ရေးအစီအစဉ်။",
+    sec_overview:"အစီအစဉ်အကျဉ်းချုပ်", th_cat:"အမျိုးအစား", th_content:"အသေးစိတ်",
+    ov_r1_k:"စီစဉ်သူ · ပစ်မှတ်အုပ်စု", ov_r1_v:"IEC Academy စီစဉ် / ရွှေ့ပြောင်းနောက်ခံမိသားစုများမှ မူလတန်း၊ အလယ်တန်း၊ အထက်တန်းကျောင်းသားများ",
+    ov_r2_k:"ပညာရေးရည်မှန်းချက်များ", ov_r2_v:"အဓိကဗဟုသုတ ပြန်လည်ရရှိ၊ ကိုရီးယား·အင်္ဂလိပ်·မိခင်ဘာသာပေါင်းစပ်၊ ဘာသာရပ်လိုက်လျောညီထွေ၊ အသက်မွေးဝမ်းကြောင်းစီမံ၊ ကိုယ်တန်ဖိုးသိမှုပြန်လည်ရ",
+    ov_r3_k:"အချိန်ဇယား", ov_r3_v:"တစ်ပတ် ၂ ကြိမ် × ၉၀ မိနစ်၊ တစ်လ ၁၂ နာရီ / ရေတိုမှ ၁၂ နှစ်ကြာ တိုးတက်မှုစီမံခန့်ခွဲမှုအထိ",
+    ov_r4_k:"သင်ယူသောနေရာ", ov_r4_v:"ဒေသဆိုင်ရာဌာနများ·ကျောင်းများ·မိတ်ဖက်အဖွဲ့အစည်းများ + Edu1top အွန်လိုင်း + အိမ်ဆက်သွယ်မှု",
+    ov_r5_k:"သင်ကြားရေးနည်းလမ်း", ov_r5_v:"AI ကိုယ်ပိုင်သင်ကြားမှု + ဂိမ်းပုံစံ Battle + Kkomdamgil လမ်းညွှန်·မိဘကိုချ်င်း",
+    sec_video:"အစီအစဉ်မိတ်ဆက်ဗီဒီယို", video_fallback:"သင်၏ browser သည် ဗီဒီယိုဖွင့်ခြင်းကို ပံ့ပိုးမပေးပါ။",
+    sec_philosophy:"ပညာရေးဒဿနိကဗေဒ",
+    philosophy_text:"မူလနိုင်ငံ သို့မဟုတ် အတန်းမဟုတ်ဘဲ <strong>အမှန်တကယ်သင်ယူမှုအဆင့်မှ</strong> စတင်သည်; <strong>မနေ့က မိမိနှင့်နှိုင်းယှဉ်သောတိုးတက်မှု</strong>ကို တိုင်းတာသည်။ မိခင်ဘာသာစကားနှင့် ယဉ်ကျေးမှုနောက်ခံကို <strong>သင်ကြားရေးအရင်းအမြစ်အဖြစ် လေးစားသည်</strong>။",
+    sec_programs:"အဓိကအစီအစဉ် သုံးခု",
+    prog1_title:"Edu1top AI", prog1_text:"တိကျသောစစ်ဆေးခြင်း၊ ကိုယ်ပိုင်သင်ရိုးညွှန်းတမ်း၊ STT·TTS·အသံထွက်·OCR·မေးခွန်းဖန်တီး၊ အလိုအလျောက်ဖြည့်ဆည်းခြင်း·တိုးတက်မှုဆန်းစစ်ခြင်း။",
+    prog2_title:"Battle Learning", prog2_text:"ညီမျှ·တရားမျှသော Battle၊ တစ်ဦးချင်း·အဖွဲ့၊ ဂိမ်းပုံစံ — မည်သည့်အဆင့်မဆို အားလုံးပါဝင်ကြပြီး ပျော်ရွှင်စရာသင်ယူမှုအကျင့် ဖောင်းပွစေသည်။",
+    prog3_title:"Kkomdamgil", prog3_text:"အသက်မွေးဝမ်းကြောင်း·တိုးတက်မှုလမ်းညွှန်၊ Zoom မှတဆင့်မိဘကိုချ်င်း၊ ကြီးငယ်များ·တက္ကသိုလ်·ကုမ္ပဏီများနှင့်ဆက်သွယ်မှု။",
+    sec_cycle:"AI-အခြေပြု ပြည့်စုံသောသင်ယူမှုဆင့်",
+    cycle_text:"① အစစစ်ဆေး → ② ကိုယ်ပိုင်လမ်းကြောင်း → ③ အဆင့်လိုက်သင် → ④ Battle·ပြန်လည်လေ့ကျင့် → ⑤ အမှားဆန်းစစ် → ⑥ ဖြည့်ဆည်း → ⑦ အတည်ပြု → ⑧ တိုးတက်မှုအစီရင်ခံ<br><strong style='color:#1d4ed8;'>ရှေ့သာသွားရုံမဟုတ်ဘဲ ပြည့်ဝသောကျွမ်းကျင်မှုရသည်အထိ ပြန်သွားဖြည့်ဆည်းနိုင်သောဖွဲ့စည်းပုံ။</strong>",
+    sec_roadmap:"မူလတန်းမှ အထက်တန်းအထိ ၁၂ နှစ်ကြာတိုးတက်မှုမြေပုံ",
+    rm1_title:"တန်း ၁~၂", rm1_text:"လိုက်လျောညီထွေ·ကိုယ်တန်ဖိုးသိမှု<br>ကိုရီးယားအက္ခရာ·နေ့စဉ်ကိုရီးယား<br>အခြေခံအင်္ဂလိပ်·သင်္ချာ",
+    rm2_title:"တန်း ၃~၄", rm2_text:"ဘာသာရပ်ဝေါဟာရ<br>Phonics·စကားလုံးများ<br>ကိုယ်တိုင်သင်ယူမှုအကျင့်",
+    rm3_title:"တန်း ၅~၆", rm3_text:"ဖတ်ရှုခြင်း·ဘာသာရပ်အခြေခံ<br>ဝါကျပုံစံများ·သဒ္ဒာ<br>အသက်မွေးဝမ်းကြောင်းစိတ်ဝင်စားမှုရှာဖွေ",
+    rm4_title:"အလယ်တန်း ၁~၃", rm4_text:"အမှတ်·လေ့လာမှုဗျူဟာ<br>ဘာသာရပ်များအတွက်ကိုရီးယား·အင်္ဂလိပ်<br>အသက်မွေးဝမ်းကြောင်းရှာဖွေ·လမ်းညွှန်",
+    rm5_title:"အထက်တန်း ၁~၂", rm5_text:"အမှတ်·ဝင်ခွင့်ပြုအခြေ<br>ပညာရေး·အသက်မွေးဝမ်းကြောင်းလမ်းကြောင်းဒီဇိုင်း<br>ကုမ္ပဏီ·တက္ကသိုလ်ဆက်သွယ်မှု",
+    rm6_title:"အထက်တန်း ၃", rm6_text:"စာမေးပွဲ·အလုပ်အင်္ဂလိပ်<br>အင်တာဗျူး·မိမိမိတ်ဆက်<br>တက္ကသိုလ်·အလုပ်",
+    sec_lang:"Language Master STEP 0~12", th_section:"အဆင့်", th_step:"ခြေလှမ်း", th_core:"အဓိကသင်ကြားမှု",
+    ls_r1_k:"အခြေခံ", ls_r1_v:"ကျယ်ပြန့်သောစစ်ဆေးခြင်း → ကိုရီးယားအက္ခရာ·ဖတ်တတ်ရေးသားတတ်မှု → Phonics → အခြေခံဝေါဟာရ",
+    ls_r2_k:"ဝါကျများ·ဖတ်ရှုခြင်း", ls_r2_v:"ဝါကျပုံစံများ → အခြေခံသဒ္ဒာ → အဦးသင်ဖတ်ရှုခြင်း → သင်ရိုးညွှန်းတမ်းအကြောင်းအရာ",
+    ls_r3_k:"အမှတ်·ဝင်ခွင့်", ls_r3_v:"အလယ်တန်းအမှတ်များ → အထက်တန်းအမှတ်များ → စာမေးပွဲဝေါဟာရ·အမျိုးအစားအလိုက်ဖတ်",
+    ls_r4_k:"လူမှုပေါင်းစည်းမှု", ls_r4_v:"အလုပ်အင်္ဂလိပ်·မိမိမိတ်ဆက် → AI အင်တာဗျူး·အသံထွက်တုံ့ပြန်ချက်",
+    sec_connect:"ကိုရီးယား·မိခင်ဘာသာ·ဘာသာရပ်·အသက်မွေးဝမ်းကြောင်းပေါင်းစပ်မှု", th_area:"နယ်ပယ်", th_edu:"ပညာရေးအကြောင်းအရာ", th_goal:"ရည်မှန်းချက်",
+    cn_r1_k:"ကိုရီးယားဘာသာတိုးတက်ရေး", cn_r1_v:"အဓိကဝေါဟာရ·နေ့စဉ်စကားပြောဆိုခြင်း·ဘာသာရပ်ကိုရီးယား·ဖတ်ရှုခြင်း·စာစီစာကုံး·တင်ဆက်မှု", cn_r1_g:"သင်ခန်းစာနားလည်မှု၊ ဆက်သွယ်ရေး၊ တက္ကသိုလ်·အလုပ်စွမ်းရည်",
+    cn_r2_k:"မိခင်ဘာသာတံတား", cn_r2_v:"တရုတ်·ဗီယက်နမ်·ရုရှားဘာသာကို ဦးစားပေး; AI ဘာသာပြန်·STT·TTS", cn_r2_g:"အစပိုင်းစိုးရိမ်မှုလျှော့ချ၊ ကိုရီးယားနှင့်အဓိပ္ပာယ်ဆက်ချိတ်၊ ဘာသာစကားမျိုးစုံသောအထောက်အထားထိန်းသိမ်း",
+    cn_r3_k:"ဘာသာရပ်ပံ့ပိုးမှု", cn_r3_v:"မူလတန်းအခြေခံ → အလယ်တန်းဘာသာရပ်အားလုံး → အထက်တန်းအမှတ်·စာမေးပွဲ·အသက်မွေးဝမ်းကြောင်းအခြေခံ", cn_r3_g:"ကျောင်းထွက်မှုအန္တရာယ်လျှော့ချ၊ သင်ခန်းစာပါဝင်မှုချဲ့ထွင်",
+    cn_r4_k:"အသက်မွေးဝမ်းကြောင်း·တိုးတက်မှု", cn_r4_v:"စိတ်ဝင်စားမှု·အားသာချက်ရှာဖွေ၊ လမ်းညွှန်မှု၊ ကုမ္ပဏီ·တက္ကသိုလ်·ကျွမ်းကျင်ရေးအဖွဲ့အစည်းများတွင်အတွေ့အကြုံ၊ ပိုတ်ဖိုလီယို·အင်တာဗျူး", cn_r4_g:"ပညာရေး·အလုပ်ရွေးချယ်မှုချဲ့ထွင်ပြီး မိမိကိုယ်ကိုဖော်ပြနိုင်မှုမြှင့်တင်",
+    sec_class:"၉၀ မိနစ်မြေပြင်မံသင်ခန်းစာဖွဲ့စည်းပုံ",
+    ct1_t:"၁၀ မိနစ်", ct1_s:"စိတ်ခံစားချက်ဖွင့်လှစ်", ct1_a:"နှုတ်ဆက်·ခံစားချက်စစ်ဆေး·ယနေ့ရည်မှန်းချက်",
+    ct2_t:"၂၅ မိနစ်", ct2_s:"ကိုယ်ပိုင်အဓိကသင်ကြားမှု", ct2_a:"AI အကြံပေးချက် + ဆရာကိုချ်င်း + ဖတ်ရှုခြင်း·ရေးခြင်း·နားထောင်ခြင်း",
+    ct3_t:"၁၀ မိနစ်", ct3_s:"ပျော်ရွှင်စရာပြန်ဆုံးသုံးသပ်", ct3_a:"ကတ်များ·TTS·ဝေါဟာရစစ်·ဂိမ်းငယ်",
+    ct4_t:"၁၀ မိနစ်", ct4_s:"ခဏနားခြင်း·ကူးပြောင်းခြင်း", ct4_a:"ရွေ့ရှားမှု·ရေသောက်·အပြန်အလှန်ဆက်သွယ်မှု",
+    ct5_t:"၂၅ မိနစ်", ct5_s:"Battle Learning", ct5_a:"ညီမျှ·တရားမျှတသော တစ်ဦးချင်း/အဖွဲ့ Battle",
+    ct6_t:"၁၀ မိနစ်", ct6_s:"တိုးတက်မှုစစ်ဆေးခြင်း", ct6_a:"အမှားဖြည့်ဆည်း·ချီးကျူး·အိမ်စာလမ်းညွှန်",
+    sec_enroll:"မှတ်ပုံတင်ခြင်းလုပ်ငန်းစဉ်",
+    st1_title:"တိုင်ပင်ရန်တောင်းဆိုခြင်း", st1_text:"QR·ဖုန်း·အီးမေးလ် သို့မဟုတ် မိတ်ဖက်မှတဆင့် အဓိကအချက်အလက်နှင့် နှစ်သက်သောအချိန်ပေးပို့ပါ",
+    st2_title:"ကျောင်းသား·မိဘတိုင်ပင်ဆွေးနွေးခြင်း", st2_text:"ကျောင်းဘဝ·ဘာသာစကားပတ်ဝန်းကျင်·လက်ရှိအခက်အခဲ·ပညာရေးရည်မှန်းချက် သုံးသပ်",
+    st3_title:"ကနဦးစစ်ဆေးခြင်း", st3_text:"တိုတောင်းပြီးပေါ့ပါးသောလှုပ်ရှားမှုများမှတဆင့် အစစ်အမှန်စတင်မှတ်မိနေရာသတ်မှတ်",
+    st4_title:"ကိုယ်ပိုင်ပညာရေးအစီအစဉ်", st4_text:"အကြံပြုသောအဆင့်·သင်ခန်းစာပုံစံ·မျှော်မှန်းသောကာလ·အိမ်ဆက်သွယ်မှုဆိုင်ရာလမ်းညွှန်ချက်",
+    st5_title:"မှတ်ပုံတင်ခြင်းအတည်ပြုခြင်း", st5_text:"အချိန်ဇယား·ကြေး·ပံ့ပိုးမှု·ကိုယ်ရေးကိုယ်တာ·AI သဘောတူညီချက်နောက်ပိုင်းစတင်",
+    sec_effect:"မျှော်မှန်းသောရလဒ်များ",
+    ef1_title:"ကျောင်းသားများ", ef1_text:"အဓိကဗဟုသုတပြန်လည်ရရှိ၊ ညီညွတ်သောဘာသာစကားတိုးတက်မှု၊ ကိုယ်တန်ဖိုးသိမှုနှင့်အသက်မွေးဝမ်းကြောင်းကျွမ်းကျင်မှုမြှင့်တင်",
+    ef2_title:"မိဘများ", ef2_text:"တိုးတက်မှုလုပ်ငန်းစဉ်နားလည်မှု၊ ပညာရေး·တက္ကသိုလ်သတင်းအချက်အလက်ရရှိနိုင်မှု၊ စိုးရိမ်မှုလျှော့ချ",
+    ef3_title:"ကျောင်း·လူမှုအဖွဲ့အစည်း", ef3_text:"ကျောင်းထွက်မှုကာကွယ်၊ ပူးပေါင်းဆောင်ရွက်မှုချဲ့ထွင်၊ ဒေသဆိုင်ရာအရင်းအမြစ်များနှင့်ဆက်သွယ်မှု",
+    pdf1_title:"ရွှေ့ပြောင်းနောက်ခံရှိသည့်လူငယ်များအတွက် ပေါင်းစပ်ပညာရေးအစီအစဉ်လမ်းညွှန်", pdf1_desc:"အောက်တွင် လမ်းညွှန်ကိုတိုက်ရိုက်ကြည့်ရှုနိုင်သည်။ (ဆလိုက်နှင့်ဇူးနိုင်သည်)",
+    pdf2_title:"Kkomdamgil + Edu1top + Battle Learning — အသေးစိတ်မိတ်ဆက် (၂၄၀ မျက်နှာ)", pdf2_desc:"အောက်တွင် PDF ကိုတိုက်ရိုက်ကြည့်ရှုနိုင်သည်။ (ဆလိုက်နှင့်ဇူးနိုင်သည်)",
+    footer_sub:"AI-အခြေပြု ပြည့်စုံသောသင်ယူမှုပလပ်ဖောင်း | IEC Academy စီစဉ်",
+    footer_tag:"ကလေးတစ်ဦးမျှ နောက်မကျန်ခဲ့စေသောပညာရေးကို ကျွန်ုပ်တို့ ကြိုးစားဆောင်ရွက်သည်။"
+  },
+
+  km: {
+    nav1:"📹 វីដេអូកម្មវិធី", nav2:"📄 សៀវភៅណែនាំ", nav3:"📋 PDF លម្អិត",
+    hero_badge:"វេទិកាសិក្សាពេញលេញផ្អែកលើ AI សម្រាប់សិស្សដែលមានដើមកំណើតជនអន្តោប្រវេសន៍",
+    hero_sub:"កម្មវិធីអប់រំបូករួមសម្រាប់យុវវ័យដែលមានដើមកំណើតជនអន្តោប្រវេសន៍",
+    promise_title:"សន្យារបស់យើង",
+    promise_text:"យើងគោរពប្រវត្តិភាសា វប្បធម៌ និងកម្រិតសិក្សាបច្ចុប្បន្នរបស់សិស្សម្នាក់ៗ។ យើងអភិវឌ្ឍ <strong>ការគោរពខ្លួនឯង · សមត្ថភាពសិក្សាស្នូល · ជំនាញអាជីព</strong> រួមគ្នា — កម្មវិធីកំណើនរយៈពេលវែង។",
+    sec_overview:"ទិដ្ឋភាពទូទៅនៃកម្មវិធី", th_cat:"ប្រភេទ", th_content:"លម្អិត",
+    ov_r1_k:"អ្នករៀបចំ · ក្រុមគោលដៅ", ov_r1_v:"រៀបចំដោយ IEC Academy / សិស្សថ្នាក់បឋមសិក្សា មធ្យម និងវិទ្យាល័យ ពីគ្រួសារជនអន្តោប្រវេសន៍",
+    ov_r2_k:"គោលដៅអប់រំ", ov_r2_v:"ស្ដារចំណេះដឹងស្នូល ភាសាកូរ៉េ·អង់គ្លេស·ភាសាមេ ការសម្របខ្លួន ផែនការអាជីព ស្ដារការគោរពខ្លួនឯង",
+    ov_r3_k:"កាលវិភាគ", ov_r3_v:"២ ដង/សប្តាហ៍ × ៩០ នាទី ១២ ម៉ោង/ខែ / ពីការសិក្សាខ្លីៗ ដល់ការគ្រប់គ្រងកំណើន ១២ ឆ្នាំ",
+    ov_r4_k:"ទីកន្លែងសិក្សា", ov_r4_v:"មជ្ឈមណ្ឌល·សាលារៀន·ស្ថាប័នដៃគូ + Edu1top អនឡាញ + ការទំនាក់ទំនងផ្ទះ",
+    ov_r5_k:"វិធីសាស្ដ្របង្រៀន", ov_r5_v:"AI ផ្ទាល់ខ្លួន + Battle ហ្គេម + ការណែនាំ Kkomdamgil·ការបង្ហាត់ឪពុកម្ដាយ",
+    sec_video:"វីដេអូណែនាំកម្មវិធី", video_fallback:"កម្មវិធីរុករករបស់អ្នកមិនគាំទ្រការចាក់វីដេអូទេ។",
+    sec_philosophy:"ទស្សនវិជ្ជាអប់រំ",
+    philosophy_text:"យើងចាប់ផ្ដើមពី <strong>កម្រិតសិក្សាពិតប្រាកដ</strong> មិនមែនពីប្រទេសដើម ឬថ្នាក់រៀន; យើងវាស់ <strong>ការរីកចម្រើននៅពេលប្រៀបធៀបជាមួយខ្លួនឯងម្សិលមិញ</strong>។ ភាសាមេ និងប្រវត្តិវប្បធម៌ ត្រូវបានគោរពជា <strong>ធនធានសិក្សា</strong>។",
+    sec_programs:"កម្មវិធីចម្បង ៣",
+    prog1_title:"Edu1top AI", prog1_text:"ការធ្វើរោគវិនិច្ឆ័យការសិក្សា មុខវិជ្ជាផ្ទាល់ខ្លួន STT·TTS·OCR·ការបង្កើតសំណួរ ការបំពេញស្វ័យប្រវត្តិ·ការវិភាគកំណើន។",
+    prog2_title:"Battle Learning", prog2_text:"Battle ស្មើ·Battle យុត្តិធម៌ ផ្ទាល់ខ្លួន·ក្រុម ហ្គេម — អ្នករំលែកដោយមិនគិតពីកម្រិត ចិញ្ចឹមទម្លាប់សិក្សាចម្រើន។",
+    prog3_title:"Kkomdamgil", prog3_text:"ការណែនាំអាជីព·កំណើន ការបង្ហាត់ឪពុកម្ដាយតាម Zoom ការតភ្ជាប់ជាមួយជំនាន់ចាស់·សាកលវិទ្យាល័យ·ក្រុមហ៊ុន។",
+    sec_cycle:"វដ្ដការសិក្សាពេញលេញផ្អែកលើ AI",
+    cycle_text:"① ការធ្វើរោគវិនិច្ឆ័យដំបូង → ② ផ្លូវផ្ទាល់ខ្លួន → ③ ការសិក្សាជាជំហានៗ → ④ Battle·ការពិនិត្យ → ⑤ ការវិភាគកំហុស → ⑥ ការបំពេញបន្ថែម → ⑦ ការបញ្ជាក់ → ⑧ របាយការណ៍<br><strong style='color:#1d4ed8;'>មិនត្រឹមតែទៅមុខ ប៉ុន្ដែត្រឡប់ទៅបំពេញគំនិតជាមុន រហូតដល់ស្ទាត់ជំនាញ។</strong>",
+    sec_roadmap:"ផែនទីកំណើន ១២ ឆ្នាំ ពីបឋមសិក្សា ដល់វិទ្យាល័យ",
+    rm1_title:"ថ្នាក់ ១~២", rm1_text:"ការសម្របខ្លួន·ការគោរពខ្លួន<br>អក្ខរក្រមកូរ៉េ·ភាសាប្រចាំថ្ងៃ<br>អង់គ្លេស·គណិតវិទ្យាស្នូល",
+    rm2_title:"ថ្នាក់ ៣~៤", rm2_text:"វាក្យសព្ទ<br>Phonics·ពាក្យ<br>ទម្លាប់សិក្សាដោយខ្លួនឯង",
+    rm3_title:"ថ្នាក់ ៥~៦", rm3_text:"ការអាន·ស្នូលមុខវិជ្ជា<br>គំរូប្រយោគ·វេយ្យាករណ៍<br>ការស្វែងរកចំណាប់អារម្មណ៍អាជីព",
+    rm4_title:"មធ្យម ១~៣", rm4_text:"ពិន្ទុ·យុទ្ធសាស្ត្រ<br>ភាសាសម្រាប់មុខវិជ្ជា<br>ការស្វែងរកអាជីព·ការណែនាំ",
+    rm5_title:"វិទ្យាល័យ ១~២", rm5_text:"ពិន្ទុ·ការប្រឡងចូល<br>ការរចនាផ្លូវអប់រំ·អាជីព<br>ការតភ្ជាប់ក្រុមហ៊ុន·សាកលវិទ្យាល័យ",
+    rm6_title:"វិទ្យាល័យ ៣", rm6_text:"ការប្រឡង·អង់គ្លេសសម្រាប់ការងារ<br>ការសម្ភាសន៍·ការណែនាំខ្លួន<br>សាកលវិទ្យាល័យ·ការងារ",
+    sec_lang:"Language Master STEP 0~12", th_section:"ដំណាក់កាល", th_step:"ជំហាន", th_core:"ការសិក្សាស្នូល",
+    ls_r1_k:"មូលដ្ឋាន", ls_r1_v:"ការធ្វើរោគវិនិច្ឆ័យ → អក្ខរក្រម·ការអាន-សរសេរ → Phonics → វាក្យសព្ទស្នូល",
+    ls_r2_k:"ប្រយោគ·ការអាន", ls_r2_v:"គំរូប្រយោគ → វេយ្យាករណ៍ → ការអានដំបូង → ខ្លឹមសារសៀវភៅ",
+    ls_r3_k:"ពិន្ទុ·ការចូល", ls_r3_v:"ពិន្ទុមធ្យម → ពិន្ទុវិទ្យាល័យ → វាក្យសព្ទប្រឡង·ការអានតាមប្រភេទ",
+    ls_r4_k:"ការរួមបញ្ចូលសង្គម", ls_r4_v:"អង់គ្លេសសម្រាប់ការងារ·ការណែនាំខ្លួន → AI ការសម្ភាសន៍·មតិប្រតិកម្ម",
+    sec_connect:"ការបូករួមភាសា·មុខវិជ្ជា·អាជីព", th_area:"វិស័យ", th_edu:"ខ្លឹមសារ", th_goal:"គោលដៅ",
+    cn_r1_k:"ការអភិវឌ្ឍភាសាកូរ៉េ", cn_r1_v:"វាក្យសព្ទ·ការសន្ទនា·ការអាន·រចនាសម្ព័ន្ធ·ការបង្ហាញ", cn_r1_g:"ការយល់ដឹង ការទំនាក់ទំនង សមត្ថភាពការងារ",
+    cn_r2_k:"សពានភាសាមេ", cn_r2_v:"ចិន·វៀតណាម·រុស្ស៊ី ត្រូវបានផ្ដល់អាទិភាព; AI·STT·TTS", cn_r2_g:"កាត់បន្ថយការព្រួយ ភ្ជាប់ន័យ រក្សាអត្តសញ្ញាណ",
+    cn_r3_k:"ការគាំទ្រមុខវិជ្ជា", cn_r3_v:"ស្នូលបឋម → មុខវិជ្ជាមធ្យម → ពិន្ទុ·ប្រឡង·អាជីវវិជ្ជា", cn_r3_g:"កាត់បន្ថយហានិភ័យ ពង្រីកការចូលរួម",
+    cn_r4_k:"អាជីព·កំណើន", cn_r4_v:"ស្វែងរកចំណាប់អារម្មណ៍ ការណែនាំ បទពិសោធ ផតហ្វូលីយ៉ូ·ការសម្ភាសន៍", cn_r4_g:"ពង្រីកជម្រើស និងជំរុញការបញ្ចេញខ្លួន",
+    sec_class:"រចនាសម្ព័ន្ធថ្នាក់ ៩០ នាទី",
+    ct1_t:"១០ នាទី", ct1_s:"ការបើកចិត្ត", ct1_a:"ការស្វាគមន៍·ពិនិត្យអារម្មណ៍·គោលដៅតូចថ្ងៃនេះ",
+    ct2_t:"២៥ នាទី", ct2_s:"ការសិក្សាស្នូលផ្ទាល់ខ្លួន", ct2_a:"AI + ការបង្ហាត់គ្រូ + ការអាន·ការសរសេរ·ការស្ដាប់",
+    ct3_t:"១០ នាទី", ct3_s:"ការពិនិត្យដ៏សប្បាយ", ct3_a:"កាតៈ·TTS·ការប្រឡង·ហ្គេមតូច",
+    ct4_t:"១០ នាទី", ct4_s:"ការសម្រាក·ការផ្លាស់ប្ដូរ", ct4_a:"ចលនា·ផឹកទឹក·អន្តរកម្ម",
+    ct5_t:"២៥ នាទី", ct5_s:"Battle Learning", ct5_a:"Battle ផ្ទាល់ខ្លួន/ក្រុម ស្មើ·យុត្តិធម៌",
+    ct6_t:"១០ នាទី", ct6_s:"ការពិនិត្យកំណើន", ct6_a:"ការបំពេញបន្ថែម·ការសរសើរ·ការណែនាំការងារផ្ទះ",
+    sec_enroll:"ដំណើរការចុះឈ្មោះ",
+    st1_title:"ស្នើការប្រឹក្សា", st1_text:"ផ្ញើព័ត៌មាន និងពេលវេលា តាម QR·ទូរស័ព្ទ·អ៊ីម៉ែល ឬស្ថាប័នដៃគូ",
+    st2_title:"ការប្រឹក្សាសិស្ស·ឪពុកម្ដាយ", st2_text:"ពិនិត្យជីវិតសាលា·ការលំបាក·គោលដៅអប់រំ",
+    st3_title:"ការវាយតម្លៃដំបូង", st3_text:"ការកំណត់ចំណុចចាប់ផ្ដើម តាមរយៈសកម្មភាពខ្លី",
+    st4_title:"ផែនការអប់រំផ្ទាល់ខ្លួន", st4_text:"ការណែនាំអំពីកម្រិត·ទម្រង់·រយៈពេល·ការទំនាក់ទំនងផ្ទះ",
+    st5_title:"ការបញ្ជាក់ចុះឈ្មោះ", st5_text:"ចាប់ផ្ដើមបន្ទាប់ពីការយល់ព្រម — កាលវិភាគ·ថ្លៃ·ព័ត៌មានផ្ទាល់ខ្លួន·AI",
+    sec_effect:"លទ្ធផលរំពឹងទុក",
+    ef1_title:"សិស្ស", ef1_text:"ស្ដារចំណេះដឹង ការរីកចម្រើនភាសា ការគោរពខ្លួនឯង និងជំនាញអាជីព",
+    ef2_title:"ឪពុកម្ដាយ", ef2_text:"ការយល់ដឹងអំពីដំណើរការ ព័ត៌មានអប់រំ·សាកលវិទ្យាល័យ ការកាត់បន្ថយការព្រួយ",
+    ef3_title:"សាលារៀន·សហគមន៍", ef3_text:"ការការពារការបោះបង់ ការពង្រីកការសហការ ការតភ្ជាប់ជាមួយធនធានមូលដ្ឋាន",
+    pdf1_title:"សៀវភៅណែនាំកម្មវិធីអប់រំសម្រាប់យុវវ័យជនអន្តោប្រវេសន៍", pdf1_desc:"អ្នកអាចមើលដោយផ្ទាល់ខាងក្រោម។ (រមូរ និងពង្រីកអាចធ្វើបាន)",
+    pdf2_title:"Kkomdamgil + Edu1top + Battle Learning — លម្អិត (២៤០ ទំព័រ)", pdf2_desc:"អ្នកអាចមើល PDF ដោយផ្ទាល់ខាងក្រោម។ (រមូរ និងពង្រីកអាចធ្វើបាន)",
+    footer_sub:"វេទិកាសិក្សាពេញលេញផ្អែកលើ AI | រៀបចំដោយ IEC Academy",
+    footer_tag:"យើងខិតខំអប់រំដែលមិនទុកកុមារណាម្នាក់ឱ្យនៅក្រោយ។"
+  },
+
+  lo: {
+    nav1:"📹 ວີດີໂອໂຄງການ", nav2:"📄 ໂບຣຊົວໂຄງການ", nav3:"📋 PDF ລາຍລະອຽດ",
+    hero_badge:"ແພລດຟອມການຮຽນຮູ້ຄົບຖ້ວນໂດຍ AI ສຳລັບນັກຮຽນທີ່ມີພື້ນຫຼັງຜູ້ອົບພະຍົບ",
+    hero_sub:"ໂຄງການການສຶກສາລວມສຳລັບໄວໜຸ່ມທີ່ມີພື້ນຫຼັງຜູ້ອົບພະຍົບ",
+    promise_title:"ຄຳໝັ້ນສັນຍາຫຼັກຂອງພວກເຮົາ",
+    promise_text:"ພວກເຮົາເຄົາລົບພື້ນຫຼັງດ້ານພາສາ ວັດທະນະທຳ ແລະ ລະດັບການຮຽນປັດຈຸບັນຂອງນັກຮຽນແຕ່ລະຄົນ. ໂດຍການສ້າງສົມຄວາມສຳເລັດນ້ອຍໆຊ້ຳແລ້ວຊ້ຳອີກ ພວກເຮົາພັດທະນາ <strong>ຄວາມນັບຖືຕົນເອງ · ທັກສະການຮຽນຮູ້ຫຼັກ · ຄວາມສາມາດດ້ານອາຊີບ</strong> ຮ່ວມກັນ — ໂຄງການຂະຫຍາຍຕົວໄລຍະຍາວ.",
+    sec_overview:"ພາບລວມໂຄງການ", th_cat:"ໝວດໝູ່", th_content:"ລາຍລະອຽດ",
+    ov_r1_k:"ຜູ້ຈັດ · ກຸ່ມເປົ້າໝາຍ", ov_r1_v:"ຈັດໂດຍ IEC Academy / ນັກຮຽນປະຖົມ ມັດທະຍົມ ແລະ ມັດທະຍົມປາຍ ຈາກຄອບຄົວຜູ້ອົບພະຍົບ",
+    ov_r2_k:"ເປົ້າໝາຍດ້ານການສຶກສາ", ov_r2_v:"ຟື້ນຟູຄວາມຮູ້ຫຼັກ ລວມພາສາເກົາຫຼີ·ອັງກິດ·ພາສາແມ່ ການປັບຕົວກັບວິຊາ ການວາງແຜນອາຊີບ ຟື້ນຟູຄວາມນັບຖືຕົນເອງ",
+    ov_r3_k:"ຕາຕະລາງ", ov_r3_v:"2 ຄັ້ງ/ອາທິດ × 90 ນາທີ 12 ຊົ່ວໂມງ/ເດືອນ / ຈາກຮຽນໜັກໄລຍະສັ້ນ ຮອດການຈັດການຂະຫຍາຍຕົວ 12 ປີ",
+    ov_r4_k:"ສະຖານທີ່ຮຽນ", ov_r4_v:"ສູນພາກພື້ນ·ໂຮງຮຽນ·ສະຖາບັນຄູ່ຮ່ວມ + ຮຽນອອນລາຍ Edu1top + ການຕິດຕໍ່ທາງເຮືອນ",
+    ov_r5_k:"ວິທີການສອນ", ov_r5_v:"AI ສ່ວນຕົວ + ທົບທວນ Battle + ຄຳແນະນຳ Kkomdamgil·ການຝຶກສອນຜູ້ປົກຄອງ",
+    sec_video:"ວີດີໂອແນະນຳໂຄງການ", video_fallback:"ບຣາວເຊີຂອງທ່ານບໍ່ຮອງຮັບການຫຼິ້ນວີດີໂອ.",
+    sec_philosophy:"ປັດຊະຍາດ້ານການສຶກສາ",
+    philosophy_text:"ພວກເຮົາເລີ່ມຈາກ <strong>ລະດັບການຮຽນຮູ້ຕົວຈິງ</strong> ບໍ່ແມ່ນປະເທດຕົ້ນກຳເນີດ ຫຼື ຊັ້ນຮຽນ; ວັດ <strong>ການຂະຫຍາຍຕົວເມື່ອທຽບກັບຕົນເອງເມື່ອວານ</strong>. ພາສາແມ່ ແລະ ພູມຫຼັງວັດທະນະທຳ ໄດ້ຮັບການເຄົາລົບໃນຖານະ <strong>ຊັບພະຍາກອນດ້ານການຮຽນ</strong>.",
+    sec_programs:"ສາມໂຄງການຫຼັກ",
+    prog1_title:"Edu1top AI", prog1_text:"ການວິນິດໄສການຮຽນຮູ້ທີ່ແນ່ນອນ ຫຼັກສູດສ່ວນຕົວ STT·TTS·ການປະເມີນການອອກສຽງ·OCR·ສ້າງຄຳຖາມ ການເສີມໂດຍອັດຕະໂນມັດ·ການວິເຄາະການຂະຫຍາຍຕົວ.",
+    prog2_title:"Battle Learning", prog2_text:"Battle ສະເໝີ·Battle ຍຸດຕິທຳ ສ່ວນຕົວ·ທີມ ການຈັດອັນດັບ·combo·ໜ້າທີ່·NPC ທົບທວນຊ້ຳໃນຮູບແບບເກມ — ທຸກຄົນເຂົ້າຮ່ວມໂດຍບໍ່ຄຳນຶງລະດັບ.",
+    prog3_title:"Kkomdamgil", prog3_text:"ຄຳແນະນຳດ້ານອາຊີບ·ການຂະຫຍາຍຕົວ ການຝຶກສອນຜູ້ປົກຄອງຜ່ານ Zoom ການເຊື່ອມຕໍ່ກັບຜູ້ໃຫຍ່·ມະຫາວິທະຍາໄລ·ບໍລິສັດ.",
+    sec_cycle:"ວົງຈອນການຮຽນຮູ້ຄົບຖ້ວນໂດຍ AI",
+    cycle_text:"① ການວິນິດໄສເບື້ອງຕົ້ນ → ② ສ້າງເສັ້ນທາງສ່ວນຕົວ → ③ ການຮຽນຮູ້ເປັນຂັ້ນຕອນ → ④ Battle·ທົບທວນ → ⑤ ວິເຄາະສາເຫດຄວາມຜິດ → ⑥ ເສີມລະດັບຕ່ຳ → ⑦ ຢືນຢັນຜົນ → ⑧ ລາຍງານ<br><strong style='color:#1d4ed8;'>ບໍ່ແມ່ນພຽງແຕ່ເດີນໜ້າ ແຕ່ກັບຄືນໄປເຕີມຫລາຍແນວຄິດທີ່ຂາດໄປ ຈົນຊ່ຳຊານ.</strong>",
+    sec_roadmap:"ແຜນທີ່ການຂະຫຍາຍຕົວ 12 ປີ ຈາກປະຖົມ ຫາ ມັດທະຍົມປາຍ",
+    rm1_title:"ຊັ້ນ 1~2", rm1_text:"ການປັບຕົວ·ຄວາມນັບຖືຕົນເອງ<br>ອັກສອນເກົາຫຼີ·ພາສາເກົາຫຼີປະຈຳວັນ<br>ອັງກິດ·ຄະນິດສາດຫຼັກ",
+    rm2_title:"ຊັ້ນ 3~4", rm2_text:"ຄຳສັບວິຊາ<br>Phonics·ຄຳ<br>ນິໄສຮຽນດ້ວຍຕົນເອງ",
+    rm3_title:"ຊັ້ນ 5~6", rm3_text:"ການອ່ານ·ຫຼັກວິຊາ<br>ຮູບແບບປະໂຫຍກ·ໄວຍາກອນ<br>ຄົ້ນຫາຄວາມສົນໃຈດ້ານອາຊີບ",
+    rm4_title:"ມ.ຕົ້ນ 1~3", rm4_text:"ຄະແນນ·ຍຸດທະສາດການຮຽນ<br>ເກົາຫຼີ·ອັງກິດສຳລັບວິຊາ<br>ຄົ້ນຫາອາຊີບ·ຄຳແນະນຳ",
+    rm5_title:"ມ.ປາຍ 1~2", rm5_text:"ຄະແນນ·ພື້ນຖານການສອບ<br>ອອກແບບເສັ້ນທາງ·ອາຊີບ<br>ເຊື່ອມຕໍ່ບໍລິສັດ·ມະຫາວິທະຍາໄລ",
+    rm6_title:"ມ.ປາຍ 3", rm6_text:"ສອບ·ອັງກິດການເຮັດວຽກ<br>ສຳພາດ·ແນະນຳຕົນເອງ<br>ມະຫາວິທະຍາໄລ·ວຽກ",
+    sec_lang:"Language Master STEP 0~12", th_section:"ຂັ້ນຕອນ", th_step:"ຂັ້ນ", th_core:"ການຮຽນຫຼັກ",
+    ls_r1_k:"ພື້ນຖານ", ls_r1_v:"ການວິນິດໄສ → ອັກສອນ·ການຮູ້ໜັງສື → Phonics → ຄຳສັບຫຼັກ",
+    ls_r2_k:"ປະໂຫຍກ·ການອ່ານ", ls_r2_v:"ຮູບແບບປະໂຫຍກ → ໄວຍາກອນ → ການອ່ານເບື້ອງຕົ້ນ → ເນື້ອໃນຕຳລາ",
+    ls_r3_k:"ຄະແນນ·ການເຂົ້າ", ls_r3_v:"ຄະແນນ ມ.ຕົ້ນ → ຄະແນນ ມ.ປາຍ → ຄຳສັບສອບ·ການອ່ານຕາມປະເພດ",
+    ls_r4_k:"ການລວມສັງຄົມ", ls_r4_v:"ອັງກິດ·ແນະນຳຕົນເອງ → AI ສຳພາດ·ຄຳຄຶດຄຳເຫັນ",
+    sec_connect:"ການລວມເກົາຫຼີ·ພາສາແມ່·ວິຊາ·ອາຊີບ", th_area:"ຂອບເຂດ", th_edu:"ເນື້ອໃນ", th_goal:"ເປົ້າໝາຍ",
+    cn_r1_k:"ພັດທະນາພາສາເກົາຫຼີ", cn_r1_v:"ຄຳສັບ·ການສົນທະນາ·ວິຊາ·ການອ່ານ·ການຂຽນ·ການນຳສະເໜີ", cn_r1_g:"ເຂົ້າໃຈຫ້ອງຮຽນ ການສື່ສານ ຄວາມສາມາດ",
+    cn_r2_k:"ສ້ຽວພາສາແມ່", cn_r2_v:"ໃຫ້ຄວາມສຳຄັນຈີນ·ຫວຽດ·ລັດເຊຍ; AI·STT·TTS", cn_r2_g:"ຫຼຸດຄວາມກັງວົນ ເຊື່ອມຄວາມໝາຍ ຮັກສາຕົວຕົນ",
+    cn_r3_k:"ສະໜັບສະໜູນວິຊາ", cn_r3_v:"ປະຖົມ → ວິຊາ ມ.ຕົ້ນ → ຄະແນນ·ສອບ·ອາຊີວະ", cn_r3_g:"ຫຼຸດຄວາມສ່ຽງ ຂະຫຍາຍການເຂົ້າຮ່ວມ",
+    cn_r4_k:"ອາຊີບ·ການຂະຫຍາຍ", cn_r4_v:"ຄົ້ນຫາຄວາມສົນໃຈ ຄຳແນະນຳ ປະສົບການ ຜົນງານ·ສຳພາດ", cn_r4_g:"ຂະຫຍາຍທາງເລືອກ ແລະ ທັກສະການສະແດງຕົນ",
+    sec_class:"ໂຄງສ້າງຊັ້ນຮຽນ 90 ນາທີ",
+    ct1_t:"10 ນາທີ", ct1_s:"ເປີດດ້ານຈິດໃຈ", ct1_a:"ທັກທາຍ·ກວດຄວາມຮູ້ສຶກ·ເປົ້າໝາຍນ້ອຍ",
+    ct2_t:"25 ນາທີ", ct2_s:"ການຮຽນຮູ້ຫຼັກສ່ວນຕົວ", ct2_a:"AI + ການຝຶກສອນ + ອ່ານ·ຂຽນ·ຟັງ",
+    ct3_t:"10 ນາທີ", ct3_s:"ທົບທວນທ່ຽວໃຈ", ct3_a:"ບັດ·TTS·ທົດສອບ·ເກມນ້ອຍ",
+    ct4_t:"10 ນາທີ", ct4_s:"ພັກ·ການຫັນ", ct4_a:"ເຄື່ອນໄຫວ·ດື່ມນ້ຳ·ປະຕິສຳພັນ",
+    ct5_t:"25 ນາທີ", ct5_s:"Battle Learning", ct5_a:"Battle ສ່ວນຕົວ/ທີມ ສະເໝີ·ຍຸດຕິທຳ",
+    ct6_t:"10 ນາທີ", ct6_s:"ກວດສອບການຂະຫຍາຍ", ct6_a:"ເສີມຄວາມຜິດ·ຊົມເຊີຍ·ການເຮັດວຽກເຮືອນ",
+    sec_enroll:"ຂັ້ນຕອນລົງທະບຽນ",
+    st1_title:"ຂໍຄຳປຶກສາ", st1_text:"ສົ່ງຂໍ້ມູນພື້ນຖານ ແລະ ເວລາທີ່ຕ້ອງການ ຜ່ານ QR·ໂທລະສັບ·ອີເມວ ຫຼື ສະຖາບັນຄູ່ຮ່ວມ",
+    st2_title:"ຄຳປຶກສານັກຮຽນ·ຜູ້ປົກຄອງ", st2_text:"ທົບທວນຊີວິດໂຮງຮຽນ·ສະພາບແວດລ້ອມ·ຄວາມຫຍຸ້ງຍາກ·ເປົ້າໝາຍ",
+    st3_title:"ການປະເມີນເບື້ອງຕົ້ນ", st3_text:"ກຳນົດຈຸດເລີ່ມຕົ້ນຕົວຈິງ ຜ່ານກິດຈະກຳສັ້ນ",
+    st4_title:"ແຜນການສຶກສາສ່ວນຕົວ", st4_text:"ຄຳແນະນຳລະດັບ·ຮູບແບບ·ໄລຍະ·ການຕິດຕໍ່ທາງເຮືອນ",
+    st5_title:"ຢືນຢັນການລົງທະບຽນ", st5_text:"ເລີ່ມຫຼັງຈາກຕົກລົງ — ຕາຕະລາງ·ຄ່າ·ຂໍ້ມູນ·AI",
+    sec_effect:"ຜົນທີ່ຄາດຫວັງ",
+    ef1_title:"ນັກຮຽນ", ef1_text:"ຟື້ນຟູຄວາມຮູ້ ການຂະຫຍາຍຕົວດ້ານພາສາ ຄວາມນັບຖືຕົນເອງ ແລະ ທັກສະອາຊີບ",
+    ef2_title:"ຜູ້ປົກຄອງ", ef2_text:"ເຂົ້າໃຈຂະບວນການ ເຂົ້າເຖິງຂໍ້ມູນ ຫຼຸດຄວາມກັງວົນ",
+    ef3_title:"ໂຮງຮຽນ·ສັງຄົມ", ef3_text:"ປ້ອງກັນການລາອອກ ຂະຫຍາຍການຮ່ວມມື ເຊື່ອມຕໍ່ຊັບພະຍາກອນທ້ອງຖິ່ນ",
+    pdf1_title:"ໂບຣຊົວໂຄງການສຶກສາລວມສຳລັບໄວໜຸ່ມຜູ້ອົບພະຍົບ", pdf1_desc:"ທ່ານສາມາດເບິ່ງໂດຍກົງຂ້າງລຸ່ມ. (ເລື່ອນ ແລະ ຂະຫຍາຍໄດ້)",
+    pdf2_title:"Kkomdamgil + Edu1top + Battle Learning — ລາຍລະອຽດ (240 ໜ້າ)", pdf2_desc:"ທ່ານສາມາດເບິ່ງ PDF ໂດຍກົງຂ້າງລຸ່ມ. (ເລື່ອນ ແລະ ຂະຫຍາຍໄດ້)",
+    footer_sub:"ແພລດຟອມການຮຽນຮູ້ AI | ຈັດໂດຍ IEC Academy",
+    footer_tag:"ພວກເຮົາມຸ່ງໝັ້ນສ້າງການສຶກສາທີ່ບໍ່ທີ້ຕົ້ວໃດໄວ້ຂ້າງຫຼັງ."
+  },
+
+  es: {
+    nav1:"📹 Video del programa", nav2:"📄 Folleto del programa", nav3:"📋 PDF detallado",
+    hero_badge:"Plataforma de aprendizaje completa basada en IA para estudiantes con antecedentes de inmigrantes",
+    hero_sub:"Programa educativo integrado para jóvenes con antecedentes de inmigrantes",
+    promise_title:"Nuestra promesa fundamental",
+    promise_text:"Respetamos los antecedentes lingüísticos y culturales de cada estudiante y su nivel de aprendizaje actual. Acumulando pequeños éxitos repetidamente, desarrollamos juntos <strong>autoestima · habilidades académicas fundamentales · competencias profesionales</strong> — un programa de crecimiento a largo plazo.",
+    sec_overview:"Resumen del programa", th_cat:"Categoría", th_content:"Detalles",
+    ov_r1_k:"Organizador · Grupo objetivo", ov_r1_v:"Organizado por IEC Academy / Estudiantes de primaria, secundaria y bachillerato de familias con antecedentes de inmigrantes",
+    ov_r2_k:"Objetivos educativos", ov_r2_v:"Recuperar conocimientos básicos, integrar coreano·inglés·lengua materna, adaptación a materias, planificación profesional, recuperar autoestima",
+    ov_r3_k:"Horario", ov_r3_v:"2 veces/semana × 90 min, 12 h/mes (ciclo de 4 semanas) / Desde intensivo corto hasta gestión de crecimiento a 12 años",
+    ov_r4_k:"Lugar de aprendizaje", ov_r4_v:"Centros regionales·colegios·instituciones asociadas + Aprendizaje online Edu1top + Contacto domiciliario",
+    ov_r5_k:"Método de enseñanza", ov_r5_v:"Aprendizaje personalizado con IA + Repaso Battle estilo juego + Tutoría Kkomdamgil·coaching de padres",
+    sec_video:"Video de presentación del programa", video_fallback:"Tu navegador no soporta la reproducción de video.",
+    sec_philosophy:"Filosofía educativa",
+    philosophy_text:"Empezamos desde el <strong>nivel de aprendizaje real</strong>, no del país de origen ni del curso; medimos el <strong>crecimiento comparado con uno mismo ayer</strong>, no el ranking entre compañeros. La lengua materna y los antecedentes culturales se respetan como <strong>recursos educativos, no como carencias</strong>.",
+    sec_programs:"Tres programas principales",
+    prog1_title:"Edu1top AI", prog1_text:"Diagnóstico preciso del aprendizaje, currículo personalizado, STT·TTS·evaluación de pronunciación·OCR·generación de preguntas, complemento automático·análisis de crecimiento.",
+    prog2_title:"Battle Learning", prog2_text:"Battle igualitario·Battle justo, individual·equipo, ranking·combo·misiones·NPC, repaso repetitivo estilo juego — todos participan sin importar el nivel, fomentando hábitos de aprendizaje divertidos.",
+    prog3_title:"Kkomdamgil", prog3_text:"Tutoría profesional·crecimiento, coaching de padres vía Zoom, conexión con seniors·universidades·empresas de origen inmigrante.",
+    sec_cycle:"Ciclo de aprendizaje completo basado en IA",
+    cycle_text:"① Diagnóstico inicial → ② Creación de ruta personalizada → ③ Aprendizaje por etapas → ④ Battle·repaso divertido → ⑤ Análisis de causas de errores → ⑥ Refuerzo de nivel bajo → ⑦ Confirmación de logro → ⑧ Informe de crecimiento<br><strong style='color:#1d4ed8;'>No solo avanzar, sino volver a rellenar los conceptos previos ausentes hasta dominarlos completamente.</strong>",
+    sec_roadmap:"Hoja de ruta de crecimiento de 12 años, de primaria a bachillerato",
+    rm1_title:"Curso 1~2", rm1_text:"Adaptación·autoestima<br>Alfabeto coreano·coreano diario<br>Inglés·matemáticas básicas",
+    rm2_title:"Curso 3~4", rm2_text:"Vocabulario de materias<br>Fonética·palabras<br>Hábitos de aprendizaje autónomo",
+    rm3_title:"Curso 5~6", rm3_text:"Lectura·fundamentos de materias<br>Patrones de frases·gramática<br>Exploración de intereses profesionales",
+    rm4_title:"Secundaria 1~3", rm4_text:"Notas·estrategias de estudio<br>Coreano·inglés para materias<br>Exploración de carrera·tutoría",
+    rm5_title:"Bachillerato 1~2", rm5_text:"Notas·base para exámenes de acceso<br>Diseño de trayectoria educativa·profesional<br>Contacto con empresas·universidades",
+    rm6_title:"Bachillerato 3", rm6_text:"Exámenes·inglés laboral<br>Entrevista·autopresentación<br>Universidad·empleo",
+    sec_lang:"Language Master STEP 0~12", th_section:"Etapa", th_step:"Paso", th_core:"Aprendizaje principal",
+    ls_r1_k:"Base", ls_r1_v:"Diagnóstico completo → Alfabeto coreano·alfabetización básica → Fonética → Vocabulario básico",
+    ls_r2_k:"Frases·Lectura", ls_r2_v:"Patrones de frases → Gramática básica → Lectura inicial → Contenido del libro de texto",
+    ls_r3_k:"Notas·Acceso", ls_r3_v:"Notas de secundaria → Notas de bachillerato → Vocabulario clave de examen·lectura por tipo",
+    ls_r4_k:"Integración social", ls_r4_v:"Inglés laboral·autopresentación → Entrevista real con IA·retroalimentación de pronunciación",
+    sec_connect:"Integración coreano·lengua materna·materias·carrera", th_area:"Área", th_edu:"Contenido educativo", th_goal:"Objetivo",
+    cn_r1_k:"Mejora del coreano", cn_r1_v:"Vocabulario·conversación diaria·coreano para materias·lectura·redacción·presentación", cn_r1_g:"Comprensión de clase, comunicación, capacidad para evaluaciones·universidad·empleo",
+    cn_r2_k:"Puente de lengua materna", cn_r2_v:"Prioridad al chino·vietnamita·ruso; traducción IA·STT·TTS", cn_r2_g:"Reducir ansiedad inicial, conectar significados con el coreano, mantener identidad multilingüe",
+    cn_r3_k:"Apoyo en materias", cn_r3_v:"Fundamentos de primaria → Todas las materias de secundaria → Notas de bachillerato·exámenes·bases profesionales", cn_r3_g:"Reducir riesgo de abandono, ampliar participación en clase",
+    cn_r4_k:"Carrera·Crecimiento", cn_r4_v:"Explorar intereses·fortalezas, tutoría, experiencia en empresas·universidades, portafolio·entrevista", cn_r4_g:"Ampliar opciones educativas·laborales y fortalecer la capacidad de autoexpresión",
+    sec_class:"Estructura de clase estándar de 90 minutos",
+    ct1_t:"10 min", ct1_s:"Apertura emocional", ct1_a:"Saludo·revisión de estado·meta pequeña del día",
+    ct2_t:"25 min", ct2_s:"Aprendizaje principal personalizado", ct2_a:"Recomendación IA + coaching del profesor + lectura·escritura·escucha",
+    ct3_t:"10 min", ct3_s:"Repaso personal divertido", ct3_a:"Tarjetas·TTS·quiz·juego corto",
+    ct4_t:"10 min", ct4_s:"Descanso·Transición", ct4_a:"Movimiento·agua·interacción",
+    ct5_t:"25 min", ct5_s:"Battle Learning", ct5_a:"Battle individual/equipo igualitario·justo",
+    ct6_t:"10 min", ct6_s:"Verificación del crecimiento", ct6_a:"Refuerzo de errores·elogios·guía de tarea",
+    sec_enroll:"Proceso de inscripción",
+    st1_title:"Solicitar consulta", st1_text:"Envía información básica y horario preferido por QR·teléfono·email o institución asociada",
+    st2_title:"Consulta alumno·padres", st2_text:"Revisión de vida escolar·entorno lingüístico·dificultades actuales·objetivos educativos",
+    st3_title:"Evaluación inicial", st3_text:"Determinar el punto de partida real mediante actividades cortas y ligeras",
+    st4_title:"Plan educativo personalizado", st4_text:"Orientación sobre nivel recomendado·formato·duración esperada·contacto domiciliario",
+    st5_title:"Confirmar inscripción", st5_text:"Inicio tras acuerdo sobre horario·tarifa·soporte·datos personales·uso de IA",
+    sec_effect:"Resultados esperados",
+    ef1_title:"Estudiantes", ef1_text:"Recuperar conocimientos básicos, crecimiento lingüístico equilibrado, mejorar autoestima y competencias profesionales",
+    ef2_title:"Padres", ef2_text:"Entender el proceso de crecimiento, acceso a información educativa·universitaria, reducir ansiedad",
+    ef3_title:"Colegio·Comunidad", ef3_text:"Prevenir el abandono escolar, ampliar la colaboración, conectar con recursos locales",
+    pdf1_title:"Folleto del programa educativo integrado para jóvenes con antecedentes de inmigrantes", pdf1_desc:"Puedes ver el folleto directamente abajo. (Desplazamiento y zoom disponibles)",
+    pdf2_title:"Kkomdamgil + Edu1top + Battle Learning — Presentación detallada (240 páginas)", pdf2_desc:"Puedes ver el PDF detallado directamente abajo. (Desplazamiento y zoom disponibles)",
+    footer_sub:"Plataforma de aprendizaje completa con IA | Organizado por IEC Academy",
+    footer_tag:"Trabajamos por una educación que no deje a ningún niño atrás."
+  },
+
+  pt: {
+    nav1:"📹 Vídeo do programa", nav2:"📄 Brochura do programa", nav3:"📋 PDF detalhado",
+    hero_badge:"Plataforma de aprendizagem completa baseada em IA para estudantes com background de imigrantes",
+    hero_sub:"Programa educacional integrado para jovens com background de imigrantes",
+    promise_title:"Nossa promessa fundamental",
+    promise_text:"Respeitamos o histórico linguístico e cultural de cada estudante e seu nível atual de aprendizagem. Acumulando pequenos sucessos repetidamente, desenvolvemos juntos <strong>autoestima · habilidades acadêmicas fundamentais · competências profissionais</strong> — um programa de crescimento de longo prazo.",
+    sec_overview:"Visão geral do programa", th_cat:"Categoria", th_content:"Detalhes",
+    ov_r1_k:"Organizador · Grupo-alvo", ov_r1_v:"Organizado pela IEC Academy / Estudantes do ensino fundamental, médio e pré-vestibular de famílias com background de imigrantes",
+    ov_r2_k:"Objetivos educacionais", ov_r2_v:"Recuperar conhecimentos básicos, integrar coreano·inglês·língua materna, adaptação às matérias, planejamento de carreira, recuperar autoestima",
+    ov_r3_k:"Horário", ov_r3_v:"2 vezes/semana × 90 min, 12 h/mês (ciclo de 4 semanas) / De intensivo curto a gestão de crescimento por 12 anos",
+    ov_r4_k:"Local de aprendizagem", ov_r4_v:"Centros regionais·escolas·instituições parceiras + Aprendizagem online Edu1top + Contato domiciliar",
+    ov_r5_k:"Método de ensino", ov_r5_v:"Aprendizagem personalizada com IA + Revisão estilo Battle + Tutoria Kkomdamgil·coaching de pais",
+    sec_video:"Vídeo de apresentação do programa", video_fallback:"Seu navegador não suporta reprodução de vídeo.",
+    sec_philosophy:"Filosofia educacional",
+    philosophy_text:"Começamos pelo <strong>nível real de aprendizagem</strong>, não pelo país de origem ou série; medimos o <strong>crescimento comparado a si mesmo ontem</strong>, não a classificação entre colegas. A língua materna e o histórico cultural são respeitados como <strong>recursos educacionais, não como deficiências</strong>.",
+    sec_programs:"Três programas principais",
+    prog1_title:"Edu1top AI", prog1_text:"Diagnóstico preciso de aprendizagem, currículo personalizado, STT·TTS·avaliação de pronúncia·OCR·geração de questões, complementação automática·análise de crescimento.",
+    prog2_title:"Battle Learning", prog2_text:"Battle igualitário·Battle justo, individual·equipe, ranking·combo·missões·NPC, revisão repetitiva estilo jogo — todos participam independente do nível, criando hábitos de aprendizagem divertidos.",
+    prog3_title:"Kkomdamgil", prog3_text:"Tutoria profissional·crescimento, coaching de pais via Zoom, conexão com sêniors·universidades·empresas de background imigrante.",
+    sec_cycle:"Ciclo de aprendizagem completo baseado em IA",
+    cycle_text:"① Diagnóstico inicial → ② Criação de rota personalizada → ③ Aprendizagem por etapas → ④ Battle·revisão divertida → ⑤ Análise de causas de erros → ⑥ Reforço de nível baixo → ⑦ Confirmação de conquista → ⑧ Relatório de crescimento<br><strong style='color:#1d4ed8;'>Não apenas avançar, mas voltar para preencher conceitos anteriores ausentes até dominar completamente.</strong>",
+    sec_roadmap:"Mapa de crescimento de 12 anos, do ensino fundamental ao médio",
+    rm1_title:"1º~2º ano", rm1_text:"Adaptação·autoestima<br>Alfabeto coreano·coreano do dia a dia<br>Inglês·matemática básica",
+    rm2_title:"3º~4º ano", rm2_text:"Vocabulário de matérias<br>Fonética·palavras<br>Hábitos de aprendizagem autônoma",
+    rm3_title:"5º~6º ano", rm3_text:"Leitura·fundamentos de matérias<br>Padrões de frases·gramática<br>Exploração de interesses profissionais",
+    rm4_title:"Médio 1~3", rm4_text:"Notas·estratégias de estudo<br>Coreano·inglês para matérias<br>Exploração de carreira·tutoria",
+    rm5_title:"Pré-vestibular 1~2", rm5_text:"Notas·base para vestibular<br>Design de trajetória educacional·profissional<br>Contato com empresas·universidades",
+    rm6_title:"Pré-vestibular 3", rm6_text:"Provas·inglês profissional<br>Entrevista·autoapresentação<br>Universidade·emprego",
+    sec_lang:"Language Master STEP 0~12", th_section:"Etapa", th_step:"Passo", th_core:"Aprendizagem principal",
+    ls_r1_k:"Base", ls_r1_v:"Diagnóstico completo → Alfabeto coreano·alfabetização básica → Fonética → Vocabulário básico",
+    ls_r2_k:"Frases·Leitura", ls_r2_v:"Padrões de frases → Gramática básica → Leitura inicial → Conteúdo do livro didático",
+    ls_r3_k:"Notas·Acesso", ls_r3_v:"Notas do ensino médio → Notas do pré-vestibular → Vocabulário-chave de provas·leitura por tipo",
+    ls_r4_k:"Integração social", ls_r4_v:"Inglês profissional·autoapresentação → Entrevista real com IA·feedback de pronúncia",
+    sec_connect:"Integração coreano·língua materna·matérias·carreira", th_area:"Área", th_edu:"Conteúdo educacional", th_goal:"Objetivo",
+    cn_r1_k:"Desenvolvimento do coreano", cn_r1_v:"Vocabulário·conversação diária·coreano para matérias·leitura·redação·apresentação", cn_r1_g:"Compreensão de aula, comunicação, capacidade para provas·universidade·emprego",
+    cn_r2_k:"Ponte da língua materna", cn_r2_v:"Prioridade ao chinês·vietnamita·russo; tradução IA·STT·TTS", cn_r2_g:"Reduzir ansiedade inicial, conectar significados com o coreano, manter identidade multilíngue",
+    cn_r3_k:"Apoio em matérias", cn_r3_v:"Fundamentos do primário → Todas as matérias do médio → Notas·provas·bases profissionais", cn_r3_g:"Reduzir risco de abandono, ampliar participação em aula",
+    cn_r4_k:"Carreira·Crescimento", cn_r4_v:"Explorar interesses·pontos fortes, tutoria, experiência em empresas·universidades, portfólio·entrevista", cn_r4_g:"Ampliar opções educacionais·profissionais e fortalecer a capacidade de autoexpressão",
+    sec_class:"Estrutura de aula padrão de 90 minutos",
+    ct1_t:"10 min", ct1_s:"Abertura emocional", ct1_a:"Saudação·verificação de estado·meta pequena do dia",
+    ct2_t:"25 min", ct2_s:"Aprendizagem principal personalizada", ct2_a:"Recomendação IA + coaching do professor + leitura·escrita·escuta",
+    ct3_t:"10 min", ct3_s:"Revisão pessoal divertida", ct3_a:"Cartões·TTS·quiz·jogo curto",
+    ct4_t:"10 min", ct4_s:"Descanso·Transição", ct4_a:"Movimento·água·interação",
+    ct5_t:"25 min", ct5_s:"Battle Learning", ct5_a:"Battle individual/equipe igualitário·justo",
+    ct6_t:"10 min", ct6_s:"Verificação do crescimento", ct6_a:"Reforço de erros·elogios·orientação de tarefa",
+    sec_enroll:"Processo de inscrição",
+    st1_title:"Solicitar consulta", st1_text:"Envie informações básicas e horário preferido por QR·telefone·e-mail ou instituição parceira",
+    st2_title:"Consulta aluno·pais", st2_text:"Revisão de vida escolar·ambiente linguístico·dificuldades atuais·objetivos educacionais",
+    st3_title:"Avaliação inicial", st3_text:"Determinar o ponto de partida real através de atividades curtas e leves",
+    st4_title:"Plano educacional personalizado", st4_text:"Orientação sobre nível recomendado·formato·duração esperada·contato domiciliar",
+    st5_title:"Confirmar inscrição", st5_text:"Início após acordo sobre horário·taxa·suporte·dados pessoais·uso de IA",
+    sec_effect:"Resultados esperados",
+    ef1_title:"Estudantes", ef1_text:"Recuperar conhecimentos básicos, crescimento linguístico equilibrado, melhorar autoestima e competências profissionais",
+    ef2_title:"Pais", ef2_text:"Entender o processo de crescimento, acesso a informações educacionais·universitárias, reduzir ansiedade",
+    ef3_title:"Escola·Comunidade", ef3_text:"Prevenir evasão escolar, ampliar colaboração, conectar com recursos locais",
+    pdf1_title:"Brochura do programa educacional integrado para jovens com background de imigrantes", pdf1_desc:"Você pode visualizar a brochura diretamente abaixo. (Rolagem e zoom disponíveis)",
+    pdf2_title:"Kkomdamgil + Edu1top + Battle Learning — Apresentação detalhada (240 páginas)", pdf2_desc:"Você pode visualizar o PDF detalhado diretamente abaixo. (Rolagem e zoom disponíveis)",
+    footer_sub:"Plataforma de aprendizagem completa com IA | Organizado pela IEC Academy",
+    footer_tag:"Trabalhamos por uma educação que não deixa nenhuma criança para trás."
+  },
+
+  fr: {
+    nav1:"📹 Vidéo du programme", nav2:"📄 Brochure du programme", nav3:"📋 PDF détaillé",
+    hero_badge:"Plateforme d'apprentissage complète basée sur l'IA pour les élèves issus de l'immigration",
+    hero_sub:"Programme éducatif intégré pour les jeunes issus de l'immigration",
+    promise_title:"Notre promesse fondamentale",
+    promise_text:"Nous respectons les antécédents linguistiques et culturels de chaque élève ainsi que son niveau d'apprentissage actuel. En accumulant de petites réussites répétées, nous développons ensemble <strong>l'estime de soi · les compétences académiques fondamentales · les aptitudes professionnelles</strong> — un programme de croissance à long terme.",
+    sec_overview:"Aperçu du programme", th_cat:"Catégorie", th_content:"Détails",
+    ov_r1_k:"Organisateur · Groupe cible", ov_r1_v:"Organisé par IEC Academy / Élèves du primaire, du collège et du lycée issus de familles immigrées",
+    ov_r2_k:"Objectifs éducatifs", ov_r2_v:"Récupérer les connaissances de base, intégrer coréen·anglais·langue maternelle, adaptation aux matières, planification de carrière, restaurer l'estime de soi",
+    ov_r3_k:"Calendrier", ov_r3_v:"2 fois/semaine × 90 min, 12 h/mois (cycle de 4 semaines) / De l'intensif court à la gestion de la croissance sur 12 ans",
+    ov_r4_k:"Lieu d'apprentissage", ov_r4_v:"Centres régionaux·écoles·institutions partenaires + Apprentissage en ligne Edu1top + Contact à domicile",
+    ov_r5_k:"Méthode d'enseignement", ov_r5_v:"Apprentissage personnalisé par IA + Révision style Battle + Tutorat Kkomdamgil·coaching des parents",
+    sec_video:"Vidéo de présentation du programme", video_fallback:"Votre navigateur ne prend pas en charge la lecture vidéo.",
+    sec_philosophy:"Philosophie éducative",
+    philosophy_text:"Nous partons du <strong>niveau d'apprentissage réel</strong>, pas du pays d'origine ni de la classe ; nous mesurons la <strong>progression par rapport à soi-même hier</strong>, pas le classement entre pairs. La langue maternelle et les antécédents culturels sont respectés comme des <strong>ressources éducatives, non comme des lacunes</strong>.",
+    sec_programs:"Trois programmes principaux",
+    prog1_title:"Edu1top AI", prog1_text:"Diagnostic précis de l'apprentissage, programme personnalisé, STT·TTS·évaluation de la prononciation·OCR·génération de questions, complétion automatique·analyse de la progression.",
+    prog2_title:"Battle Learning", prog2_text:"Battle équitable·Battle juste, individuel·équipe, classement·combo·missions·NPC, révision répétitive style jeu — tous participent quel que soit le niveau, cultivant de bonnes habitudes d'apprentissage.",
+    prog3_title:"Kkomdamgil", prog3_text:"Tutorat professionnel·croissance, coaching des parents via Zoom, connexion avec des aînés·universités·entreprises issus de l'immigration.",
+    sec_cycle:"Cycle d'apprentissage complet basé sur l'IA",
+    cycle_text:"① Diagnostic initial → ② Création d'un parcours personnalisé → ③ Apprentissage par étapes → ④ Battle·révision amusante → ⑤ Analyse des causes d'erreurs → ⑥ Renforcement du niveau bas → ⑦ Confirmation de la réussite → ⑧ Rapport de progression<br><strong style='color:#1d4ed8;'>Pas seulement avancer, mais revenir combler les concepts préalables manquants jusqu'à la maîtrise complète.</strong>",
+    sec_roadmap:"Feuille de route de croissance sur 12 ans, du primaire au lycée",
+    rm1_title:"CE1~CE2", rm1_text:"Adaptation·estime de soi<br>Alphabet coréen·coréen quotidien<br>Anglais·mathématiques de base",
+    rm2_title:"CM1~CM2", rm2_text:"Vocabulaire des matières<br>Phonétique·mots<br>Habitudes d'apprentissage autonome",
+    rm3_title:"6e~5e", rm3_text:"Lecture·bases des matières<br>Structures de phrases·grammaire<br>Exploration des intérêts professionnels",
+    rm4_title:"4e~3e", rm4_text:"Notes·stratégies d'étude<br>Coréen·anglais pour les matières<br>Exploration de carrière·tutorat",
+    rm5_title:"2nde~1ère", rm5_text:"Notes·base pour le bac<br>Conception du parcours éducatif·professionnel<br>Contact avec entreprises·universités",
+    rm6_title:"Terminale", rm6_text:"Examens·anglais professionnel<br>Entretien·présentation de soi<br>Université·emploi",
+    sec_lang:"Language Master STEP 0~12", th_section:"Étape", th_step:"Pas", th_core:"Apprentissage principal",
+    ls_r1_k:"Base", ls_r1_v:"Diagnostic complet → Alphabet coréen·alphabétisation de base → Phonétique → Vocabulaire de base",
+    ls_r2_k:"Phrases·Lecture", ls_r2_v:"Structures de phrases → Grammaire de base → Lecture initiale → Contenu du manuel",
+    ls_r3_k:"Notes·Accès", ls_r3_v:"Notes du collège → Notes du lycée → Vocabulaire clé d'examen·lecture par type",
+    ls_r4_k:"Intégration sociale", ls_r4_v:"Anglais professionnel·présentation de soi → Entretien réel IA·retour sur la prononciation",
+    sec_connect:"Intégration coréen·langue maternelle·matières·carrière", th_area:"Domaine", th_edu:"Contenu éducatif", th_goal:"Objectif",
+    cn_r1_k:"Développement du coréen", cn_r1_v:"Vocabulaire·conversation quotidienne·coréen pour les matières·lecture·rédaction·présentation", cn_r1_g:"Compréhension en classe, communication, capacité pour les évaluations·université·emploi",
+    cn_r2_k:"Pont langue maternelle", cn_r2_v:"Priorité au chinois·vietnamien·russe ; traduction IA·STT·TTS", cn_r2_g:"Réduire l'anxiété initiale, relier les sens au coréen, préserver l'identité multilingue",
+    cn_r3_k:"Soutien aux matières", cn_r3_v:"Bases du primaire → Toutes les matières du collège → Notes·examens·bases professionnelles", cn_r3_g:"Réduire le risque de décrochage, élargir la participation en classe",
+    cn_r4_k:"Carrière·Croissance", cn_r4_v:"Explorer intérêts·points forts, tutorat, expérience en entreprises·universités, portfolio·entretien", cn_r4_g:"Élargir les choix éducatifs·professionnels et renforcer la capacité d'expression de soi",
+    sec_class:"Structure de cours standard de 90 minutes",
+    ct1_t:"10 min", ct1_s:"Ouverture émotionnelle", ct1_a:"Salutation·vérification de l'état·petit objectif du jour",
+    ct2_t:"25 min", ct2_s:"Apprentissage principal personnalisé", ct2_a:"Recommandation IA + coaching de l'enseignant + lecture·écriture·écoute",
+    ct3_t:"10 min", ct3_s:"Révision personnelle amusante", ct3_a:"Cartes·TTS·quiz·jeu court",
+    ct4_t:"10 min", ct4_s:"Pause·Transition", ct4_a:"Mouvement·eau·interaction",
+    ct5_t:"25 min", ct5_s:"Battle Learning", ct5_a:"Battle individuel/équipe équitable·juste",
+    ct6_t:"10 min", ct6_s:"Vérification de la progression", ct6_a:"Renforcement des erreurs·félicitations·guide des devoirs",
+    sec_enroll:"Processus d'inscription",
+    st1_title:"Demander une consultation", st1_text:"Envoyez vos informations de base et vos disponibilités par QR·téléphone·e-mail ou institution partenaire",
+    st2_title:"Consultation élève·parents", st2_text:"Examen de la vie scolaire·environnement linguistique·difficultés actuelles·objectifs éducatifs",
+    st3_title:"Évaluation initiale", st3_text:"Déterminer le vrai point de départ grâce à des activités courtes et légères",
+    st4_title:"Plan éducatif personnalisé", st4_text:"Conseils sur le niveau recommandé·format·durée prévue·contact à domicile",
+    st5_title:"Confirmer l'inscription", st5_text:"Début après accord sur horaire·tarif·soutien·données personnelles·utilisation de l'IA",
+    sec_effect:"Résultats attendus",
+    ef1_title:"Élèves", ef1_text:"Récupérer les connaissances de base, croissance linguistique équilibrée, améliorer l'estime de soi et les compétences professionnelles",
+    ef2_title:"Parents", ef2_text:"Comprendre le processus de croissance, accéder aux informations éducatives·universitaires, réduire l'anxiété",
+    ef3_title:"École·Communauté", ef3_text:"Prévenir le décrochage scolaire, élargir la collaboration, se connecter aux ressources locales",
+    pdf1_title:"Brochure du programme éducatif intégré pour jeunes issus de l'immigration", pdf1_desc:"Vous pouvez voir la brochure directement ci-dessous. (Défilement et zoom disponibles)",
+    pdf2_title:"Kkomdamgil + Edu1top + Battle Learning — Présentation détaillée (240 pages)", pdf2_desc:"Vous pouvez voir le PDF détaillé directement ci-dessous. (Défilement et zoom disponibles)",
+    footer_sub:"Plateforme d'apprentissage complète avec IA | Organisé par IEC Academy",
+    footer_tag:"Nous œuvrons pour une éducation qui ne laisse aucun enfant de côté."
+  }
+};
+
+function changeLanguage(lang) {
+  const dict = T[lang];
+  if (!dict) return;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (dict[key] !== undefined) el.innerHTML = dict[key];
+  });
+  document.documentElement.lang = lang;
+  document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+}
+
+// 네비 부드러운 스크롤
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+</script>
+</body>
+</html>
