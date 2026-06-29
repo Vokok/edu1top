@@ -148,6 +148,14 @@
         </div>
       </div>
 
+      <!-- 일별 방문 그래프 -->
+      <div class="stats-section" style="margin-top:16px">
+        <div class="stats-section-header">
+          <h3>📅 일별 관리자 페이지 접속 현황 (최근 14일)</h3>
+        </div>
+        <div class="stats-section-body" id="visitChartWrap" style="min-height:60px"></div>
+      </div>
+
       <!-- 최근 활동 -->
       <div class="stats-section" style="margin-top:16px">
         <div class="stats-section-header">
@@ -252,6 +260,27 @@
 <script src="quiz-data.js"></script>
 <script>
 'use strict';
+
+/* ══════════════════════════════════════
+   0. 방문 카운터 (로그인 여부 무관, 페이지 열릴 때 기록)
+   ══════════════════════════════════════ */
+(function recordVisit() {
+  const today = new Date().toISOString().slice(0, 10);
+  let log = {};
+  try { log = JSON.parse(localStorage.getItem('admin_visit_log') || '{}'); } catch {}
+  log.total = (log.total || 0) + 1;
+  if (!log.dates) log.dates = {};
+  log.dates[today] = (log.dates[today] || 0) + 1;
+  // 최근 60일만 보관
+  const kept = {};
+  Object.keys(log.dates).sort().slice(-60).forEach(d => { kept[d] = log.dates[d]; });
+  log.dates = kept;
+  localStorage.setItem('admin_visit_log', JSON.stringify(log));
+})();
+
+function getVisitLog() {
+  try { return JSON.parse(localStorage.getItem('admin_visit_log') || '{}'); } catch { return {}; }
+}
 
 /* ══════════════════════════════════════
    1. 인증
@@ -386,14 +415,43 @@ function renderOverview() {
   const totalScore = allRecords.reduce((s,r) => s+r.score, 0);
   const totalMax   = allRecords.reduce((s,r) => s+r.maxScore, 0);
 
+  /* 방문 통계 */
+  const vLog      = getVisitLog();
+  const todayStr  = new Date().toISOString().slice(0, 10);
+  const todayHits = (vLog.dates && vLog.dates[todayStr]) || 0;
+  const totalHits = vLog.total || 0;
+
   /* KPI */
   document.getElementById('kpiRow').innerHTML = `
+    <div class="stats-kpi-card" style="border-left-color:#8b5cf6">
+      <div class="kpi-l">오늘 접속</div>
+      <div class="kpi-v" style="color:#8b5cf6">${todayHits}</div>
+      <div class="kpi-u">총 ${totalHits}회 방문</div>
+    </div>
     <div class="stats-kpi-card"><div class="kpi-l">총 참여자</div><div class="kpi-v">${userCount}</div><div class="kpi-u">명</div></div>
     <div class="stats-kpi-card"><div class="kpi-l">총 퀴즈 참여</div><div class="kpi-v">${totalSess}</div><div class="kpi-u">회</div></div>
     <div class="stats-kpi-card ${pctClass(accuracy)}"><div class="kpi-l">평균 정답률</div><div class="kpi-v" style="color:${pctColor(accuracy)}">${accuracy}%</div></div>
     <div class="stats-kpi-card success"><div class="kpi-l">통과율</div><div class="kpi-v" style="color:var(--qz-success)">${passRate}%</div><div class="kpi-u">${passCount}/${totalSess}</div></div>
     <div class="stats-kpi-card"><div class="kpi-l">총 획득 점수</div><div class="kpi-v" style="color:var(--qz-primary)">${totalScore}</div><div class="kpi-u">/ ${totalMax}점</div></div>
   `;
+
+  /* 일별 방문 그래프 (최근 14일) */
+  const visitDates = Object.keys(vLog.dates || {}).sort().slice(-14);
+  const maxHits    = Math.max(...visitDates.map(d => vLog.dates[d]), 1);
+  document.getElementById('visitChartWrap').innerHTML = visitDates.length ? `
+    <div style="display:flex;align-items:flex-end;gap:6px;height:80px;padding-top:8px">
+      ${visitDates.map(d => {
+        const cnt = vLog.dates[d];
+        const pct = Math.round((cnt / maxHits) * 100);
+        const isToday = d === todayStr;
+        return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0">
+          <span style="font-size:.65rem;font-weight:700;color:${isToday?'#8b5cf6':'var(--qz-muted)'}">${cnt}</span>
+          <div style="width:100%;height:${pct}%;min-height:4px;border-radius:3px 3px 0 0;
+            background:${isToday?'#8b5cf6':'#c4b5fd'};transition:height .6s ease"></div>
+          <span style="font-size:.6rem;color:var(--qz-muted);white-space:nowrap">${d.slice(5)}</span>
+        </div>`;
+      }).join('')}
+    </div>` : '<p style="color:var(--qz-muted);font-size:.85rem;text-align:center;padding:20px">방문 기록 없음</p>';
 
   /* 섹션별 막대 */
   const sectAcc = Array(6).fill(null).map(() => ({c:0,t:0}));

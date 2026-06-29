@@ -80,6 +80,26 @@
   footer { background: var(--primary-dark); color: #94a3b8; text-align: center; padding: 28px 24px; font-size: 0.85rem; }
   footer strong { color: #fff; }
   @media (max-width: 600px) { .nav-bar { flex-wrap: wrap; } .nav-bar a { font-size: 0.8rem; padding: 8px 12px; } .ct-stage { min-width: 90px; } }
+
+  /* 학습 모드 토글 버튼 */
+  .lm-btn {
+    margin-left: auto;
+    padding: 7px 18px;
+    border: 2px solid #f59e0b;
+    border-radius: 8px;
+    background: transparent;
+    color: #f59e0b;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.22s;
+    font-family: inherit;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .lm-btn:hover { background: rgba(245,158,11,0.18); }
+  .lm-btn.active { background: #f59e0b; color: #1e293b; box-shadow: 0 0 0 3px rgba(245,158,11,0.35); }
+  .lm-btn.active:hover { background: #d97706; color: #fff; }
 </style>
 <link rel="stylesheet" href="quiz.css">
 </head>
@@ -160,7 +180,12 @@
   <div class="section-inner">
     <h2 class="section-title" style="color:#fff; border-bottom-color:#f59e0b;">
       <span class="icon">📹</span><span style="color:#f59e0b;" data-i18n="sec_video">프로그램 소개 영상</span>
+      <button id="learningModeBtn" class="lm-btn" onclick="toggleLearningMode()" title="누르면 퀴즈와 함께하는 학습 모드로 재생됩니다">동영상 학습</button>
     </h2>
+    <p style="color:#94a3b8;font-size:0.8rem;margin-bottom:14px;margin-top:-12px;">
+      ▶ 그냥 재생하면 <strong style="color:#e2e8f0">일반 시청</strong> &nbsp;|&nbsp;
+      <strong style="color:#f59e0b">동영상 학습</strong> 버튼을 누르면 퀴즈가 포함된 학습 모드로 재생됩니다
+    </p>
     <div class="video-wrap">
       <div id="ytPlayer"></div>
     </div>
@@ -1829,6 +1854,26 @@ changeLanguage = function(lang) {
   _origChangeLang(lang);
   if (window.QE) window.QE.setLang(lang);
 };
+
+// ── 동영상 학습 버튼 토글 ──
+function toggleLearningMode() {
+  const btn = document.getElementById('learningModeBtn');
+  const isOn = btn && btn.classList.contains('active');
+
+  if (isOn) {
+    // 학습 모드 OFF → 일반 시청
+    btn.classList.remove('active');
+    btn.textContent = '동영상 학습';
+    if (window.QE) window.QE.deactivateLearningMode();
+  } else {
+    // 학습 모드 ON
+    if (btn) {
+      btn.classList.add('active');
+      btn.textContent = '✅ 학습 중';
+    }
+    if (window.QE) window.QE.activateLearningMode();
+  }
+}
 </script>
 
 <!-- ══════════════════════════════════════════════
